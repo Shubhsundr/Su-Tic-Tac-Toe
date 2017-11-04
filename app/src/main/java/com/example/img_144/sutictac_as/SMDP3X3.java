@@ -86,6 +86,10 @@ public class SMDP3X3 extends AppCompatActivity {
                 }
             }
         }
+        if (myuser.size()+opponent.size()==9) {
+            Intent main = new Intent(this, MainActivity.class);
+            startActivity(main);
+        }
     }
 
     private static void getSubsets(List<Integer> superSet, int k, int idx, Set<Integer> current, List<Set<Integer>> solution) {
