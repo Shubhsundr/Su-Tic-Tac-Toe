@@ -20,13 +20,18 @@ public class SMDP3X3 extends AppCompatActivity {
     Button b[] = new Button[9];
     Boolean turn;
     int i;
-    Integer[] my = {0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 3, 6, 1, 4, 7, 2, 5, 8, 0, 4, 8, 2, 4, 6};
-    List<Integer> win = Arrays.asList(my);
+    Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
+    List<Set<Integer>> win = new ArrayList<Set<Integer>>();
     List<Integer> myuser = new ArrayList<Integer>();
     List<Integer> opponent = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        for (int j = 0; j < 8; j++) {
+            Set<Integer> abs = new HashSet<Integer>();
+            abs.addAll(Arrays.asList(my[j]));
+            win.add(abs);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.smdp3_x3);
 
@@ -74,9 +79,7 @@ public class SMDP3X3 extends AppCompatActivity {
         if (x.size() > 0) {
             for (int i = 0; i < x.size(); i++) {
                 for (int j = 0; j < 8; j++) {
-                    Set<Integer> abs = new HashSet<Integer>();
-                    abs.addAll(Arrays.asList(new Integer[]{win.get(3 * j), win.get(3 * j + 1), win.get(3 * j + 2)}));
-                    if (abs.equals(x.get(i))) {
+                    if ((win.get(j)).equals(x.get(i))) {
                         Intent main = new Intent(this, MainActivity.class);
                         startActivity(main);
                     }
