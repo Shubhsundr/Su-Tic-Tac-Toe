@@ -13,11 +13,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        b=(Button) findViewById(R.id.Game0);
 
     }
     public void SMDP3X3( View v) {
         Intent i=new Intent(this,SMDP3X3.class);
+        startActivity(i);
+    }
+    public void SMSP3X3( View v) {
+        Intent i=new Intent(this,SMSP3X3.class);
         startActivity(i);
     }
 }
