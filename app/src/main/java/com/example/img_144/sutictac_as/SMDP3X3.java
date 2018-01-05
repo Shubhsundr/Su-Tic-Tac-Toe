@@ -82,6 +82,7 @@ public class SMDP3X3 extends AppCompatActivity {
                     if ((win.get(j)).equals(x.get(i))) {
                         Intent main = new Intent(this, MainActivity.class);
                         startActivity(main);
+                        return;
                     }
                 }
             }
@@ -89,6 +90,7 @@ public class SMDP3X3 extends AppCompatActivity {
         if (myuser.size()+opponent.size()==9) {
             Intent main = new Intent(this, MainActivity.class);
             startActivity(main);
+            return;
         }
     }
 

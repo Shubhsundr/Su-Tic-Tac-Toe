@@ -17,7 +17,22 @@
             </intent-filter>
         </activity>
         <activity android:name=".SMDP3X3" />
-        <activity android:name=".SMSP3X3"></activity>
+        <activity android:name=".SMSP3X3" />
+        <activity android:name=".DMDP3X3" />
+
+
+        <activity android:name=".SMDP9X9" />
+        <activity android:name=".JWiFi" />
+        <activity android:name=".HWiFi"></activity>
     </application>
+
+    <uses-sdk android:minSdkVersion="14" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-feature android:name="android.hardware.wifi" />
 
 </manifest>
