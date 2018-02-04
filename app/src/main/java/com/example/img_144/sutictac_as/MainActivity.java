@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity implements ViewStub.OnClickL
             case R.id.SMSP3X3:
                 startActivity(new Intent(this,SMSP3X3.class));
                 break;
-            /*case R.id.JWIFI:
+            /**case R.id.JWIFI:
                 startActivity(new Intent(this,JWiFi.class));
-                break;*/
+                break;**/
             case R.id.HWIFI:
                 startActivity(new Intent(this,HWiFi.class));
                 break;
