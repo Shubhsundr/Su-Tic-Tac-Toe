@@ -18,11 +18,8 @@
         </activity>
         <activity android:name=".SMDP3X3" />
         <activity android:name=".SMSP3X3" />
-        <activity android:name=".DMDP3X3" />
 
 
-        <activity android:name=".SMDP9X9" />
-        <activity android:name=".JWiFi" />
         <activity android:name=".HWiFi"></activity>
     </application>
 
