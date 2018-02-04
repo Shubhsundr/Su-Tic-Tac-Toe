@@ -1,30 +1,44 @@
 package com.example.img_144.sutictac_as;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.Button;
 
+import java.util.jar.Attributes;
 
-public class MainActivity extends AppCompatActivity {
-    Button b;
+
+public class MainActivity extends AppCompatActivity implements ViewStub.OnClickListener{
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
-    }
-    public void SMDP3X3( View v) {
-        Intent i=new Intent(this,SMDP3X3.class);
-        startActivity(i);
-    }
-    public void SMSP3X3( View v) {
-        Intent i=new Intent(this,SMSP3X3.class);
-        startActivity(i);
-    }
-    public void JWiFi( View v) {
-        Intent i=new Intent(this,JWiFi.class);
-        startActivity(i);
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.SMDP3X3:
+                Log.d("new","0");
+                startActivity(new Intent(this,SMDP3X3.class));
+                break;
+            case R.id.SMSP3X3:
+                Log.d("new","1");
+                startActivity(new Intent(this,SMSP3X3.class));
+                break;
+            case R.id.JWIFI:
+                Log.d("new","2");
+                startActivity(new Intent(this,JWiFi.class));
+                break;
+            case R.id.HWIFI:
+                Log.d("new","3");
+                startActivity(new Intent(this,HWiFi.class));
+                break;
+        }
     }
 }
