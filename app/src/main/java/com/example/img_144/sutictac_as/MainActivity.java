@@ -24,19 +24,15 @@ public class MainActivity extends AppCompatActivity implements ViewStub.OnClickL
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.SMDP3X3:
-                Log.d("new","0");
                 startActivity(new Intent(this,SMDP3X3.class));
                 break;
             case R.id.SMSP3X3:
-                Log.d("new","1");
                 startActivity(new Intent(this,SMSP3X3.class));
                 break;
             case R.id.JWIFI:
-                Log.d("new","2");
                 startActivity(new Intent(this,JWiFi.class));
                 break;
             case R.id.HWIFI:
-                Log.d("new","3");
                 startActivity(new Intent(this,HWiFi.class));
                 break;
         }

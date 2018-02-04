@@ -25,7 +25,7 @@ public class Server extends Thread {
             Socket socket = null;
             while (true){
                 socket = serverSocket.accept();
-                System.out.println("新增连接："+socket.getInetAddress()+":"+socket.getPort());
+                System.out.println("Add connection："+socket.getInetAddress()+":"+socket.getPort());
                 new HandlerThread(socket);
             }
         } catch (IOException e) {
@@ -43,16 +43,16 @@ public class Server extends Thread {
 
         public void run() {
             try {
-                // 读取客户端数据
+                // Read client data
                 DataInputStream input = new DataInputStream(socket.getInputStream());
-                String clientInputStr = input.readUTF();//这里要注意和客户端输出流的写方法对应,否则会抛 EOFException
-                // 处理客户端数据
-                System.out.println("客户端发过来的内容:" + clientInputStr);
+                String clientInputStr = input.readUTF();//Here and pay attention to the client output stream write method corresponding, otherwise it will throw EOFException
+                // Handle client data
+                System.out.println("Client sent over the content:" + clientInputStr);
 
-                // 向客户端回复信息
+                // Reply to the client information
                 DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                System.out.print("请输入:\t");
-//                // 发送键盘输入的一行
+                System.out.print("please enter:\t");
+//                // Send the keyboard input line
 //                String s = new BufferedReader(new InputStreamReader(System.in)).readLine();
 //                out.writeUTF(s);
 
@@ -61,14 +61,14 @@ public class Server extends Thread {
                 out.close();
                 input.close();
             } catch (Exception e) {
-                System.out.println("服务器 run 异常: " + e.getMessage());
+                System.out.println("Server run exception: " + e.getMessage());
             } finally {
                 if (socket != null) {
                     try {
                         socket.close();
                     } catch (Exception e) {
                         socket = null;
-                        System.out.println("服务端 finally 异常:" + e.getMessage());
+                        System.out.println("The server finally abnormal:" + e.getMessage());
                     }
                 }
             }
