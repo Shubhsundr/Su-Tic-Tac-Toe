@@ -23,20 +23,8 @@ public class MainActivity extends AppCompatActivity {
         Intent i=new Intent(this,SMSP3X3.class);
         startActivity(i);
     }
-    public void DMDP3X3( View v) {
-        Intent i=new Intent(this,DMDP3X3.class);
-        startActivity(i);
-    }
-    public void SMDP9X9( View v) {
-        Intent i=new Intent(this,SMDP9X9.class);
-        startActivity(i);
-    }
     public void JWiFi( View v) {
         Intent i=new Intent(this,JWiFi.class);
-        startActivity(i);
-    }
-    public void HWiFi( View v) {
-        Intent i=new Intent(this,HWiFi.class);
         startActivity(i);
     }
 }

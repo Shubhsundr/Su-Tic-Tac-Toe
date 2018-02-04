@@ -2,13 +2,17 @@ package com.example.img_144.sutictac_as;
 
 
 import android.content.BroadcastReceiver;
+import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.content.Context;
@@ -19,7 +23,7 @@ import android.widget.Toast;
 public class JWiFi extends AppCompatActivity {
     public TextView mTextView;
     public ListView mListView;
-    private Button searchBtn, playBtn;
+    private Button searchBtn, homeBtn;
     private IntentFilter mIntentFilter;
     private ArrayAdapter<String> wifiP2pArrayAdapter;
 
@@ -43,6 +47,28 @@ public class JWiFi extends AppCompatActivity {
 
         wifiP2pArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
         mListView.setAdapter(wifiP2pArrayAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("new", "Items " + wifiP2pArrayAdapter.getItem(position));
+
+                WifiP2pConfig config = new WifiP2pConfig();
+                config.deviceAddress = wifiP2pArrayAdapter.getItem(position);
+                mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+
+                    @Override
+                    public void onSuccess() {
+                        Log.d("new","device has been connected");
+                    }
+
+                    @Override
+                    public void onFailure(int reason) {
+                        Toast.makeText(JWiFi.this, "Connect failed. Retry.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         searchBtn = (Button) findViewById(R.id.search_button);
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -52,17 +78,21 @@ public class JWiFi extends AppCompatActivity {
             }
         });
 
-        playBtn = (Button) findViewById(R.id.play_button);
-        playBtn.setOnClickListener(new View.OnClickListener() {
+        homeBtn = (Button) findViewById(R.id.home_button);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                play(v);
+                Intent main = new Intent(JWiFi.this, MainActivity.class);
+                startActivity(main);
+                return;
             }
         });
+
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
         mReceiver = new WiFiDirectBroadcastReceiver(mManager, mChannel, this);
     }
+
     public void search(View view) {
         mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
             @Override
@@ -76,13 +106,11 @@ public class JWiFi extends AppCompatActivity {
             }
         });
     }
-    public void play(View view) {
-        Toast.makeText(getApplicationContext(), "The game has been connected", Toast.LENGTH_LONG).show();
-    }
+
     public void displayPeers(WifiP2pDeviceList peerlist) {
         wifiP2pArrayAdapter.clear();
         for(WifiP2pDevice peer : peerlist.getDeviceList()) {
-            wifiP2pArrayAdapter.add(peer.deviceName + "\n" + peer.deviceAddress);
+            wifiP2pArrayAdapter.add(peer.deviceAddress);
         }
     }
 

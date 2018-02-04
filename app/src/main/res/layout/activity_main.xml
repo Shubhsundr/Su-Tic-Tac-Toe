@@ -32,57 +32,19 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/Game2" />
-
-    <Button
-        android:id="@+id/Game2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:onClick="DMDP3X3"
-        android:text="DMDP3X3"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/Game3" />
-
-    <Button
-        android:id="@+id/Game3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:onClick="SMDP9X9"
-        android:text="SMDP9X9"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toTopOf="@+id/WIFI" />
 
     <Button
         android:id="@+id/WIFI"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:onClick="JWiFi"
         android:text="JWiFi"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/Hotspot" />
-
-    <Button
-        android:id="@+id/Hotspot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="65dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:onClick="HWiFi"
-        android:text="HWiFi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
