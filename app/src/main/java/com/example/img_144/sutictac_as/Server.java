@@ -1,5 +1,7 @@
 package com.example.img_144.sutictac_as;
 
+import android.util.Log;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -25,7 +27,7 @@ public class Server extends Thread {
             Socket socket = null;
             while (true){
                 socket = serverSocket.accept();
-                System.out.println("Add connection："+socket.getInetAddress()+":"+socket.getPort());
+                Log.d("new","Add connection："+socket.getInetAddress()+":"+socket.getPort());
                 new HandlerThread(socket);
             }
         } catch (IOException e) {
@@ -47,11 +49,11 @@ public class Server extends Thread {
                 DataInputStream input = new DataInputStream(socket.getInputStream());
                 String clientInputStr = input.readUTF();//Here and pay attention to the client output stream write method corresponding, otherwise it will throw EOFException
                 // Handle client data
-                System.out.println("Client sent over the content:" + clientInputStr);
+                Log.d("new","Client sent over the content:" + clientInputStr);
 
                 // Reply to the client information
                 DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                System.out.print("please enter:\t");
+                Log.d("new","please enter:\t");
 //                // Send the keyboard input line
 //                String s = new BufferedReader(new InputStreamReader(System.in)).readLine();
 //                out.writeUTF(s);
@@ -61,14 +63,14 @@ public class Server extends Thread {
                 out.close();
                 input.close();
             } catch (Exception e) {
-                System.out.println("Server run exception: " + e.getMessage());
+                Log.d("new","Server run exception: " + e.getMessage());
             } finally {
                 if (socket != null) {
                     try {
                         socket.close();
                     } catch (Exception e) {
                         socket = null;
-                        System.out.println("The server finally abnormal:" + e.getMessage());
+                        Log.d("new","The server finally abnormal:" + e.getMessage());
                     }
                 }
             }
