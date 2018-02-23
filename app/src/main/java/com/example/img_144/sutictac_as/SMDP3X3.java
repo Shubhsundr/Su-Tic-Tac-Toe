@@ -81,6 +81,7 @@ public class SMDP3X3 extends AppCompatActivity {
                 for (int j = 0; j < 8; j++) {
                     if ((win.get(j)).equals(x.get(i))) {
                         Intent main = new Intent(this, MainActivity.class);
+                        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(main);
                         return;
                     }
@@ -89,6 +90,7 @@ public class SMDP3X3 extends AppCompatActivity {
         }
         if (myuser.size()+opponent.size()==9) {
             Intent main = new Intent(this, MainActivity.class);
+            main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(main);
             return;
         }

@@ -1,64 +1,175 @@
 package com.example.img_144.sutictac_as;
 
-import android.util.Log;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-
 /**
- * Created by IMG-144 on 2/5/2018.
+ * Created by rajeev on 13/3/17.
  */
 
-public class Client extends Thread {
-    InetAddress address;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
-    public Client(InetAddress address){
-        this.address = address;
-    }
+import com.example.img_144.sutictac_as.CustomAdapter;
+import com.example.img_144.sutictac_as.R;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+
+
+public class Client extends AppCompatActivity {
+
+    EditText message;
+    ListView message_list;
+    Thread m_objThreadClient;
+    Socket clientSocket;
+    String IP, u_name;
+    ArrayList<com.example.img_144.sutictac_as.Message> messages = new ArrayList<com.example.img_144.sutictac_as.Message>();
+    CustomAdapter arrayAdapter;
+
     @Override
-    public void run() {
-        communication();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.client);
+        message = (EditText) findViewById(R.id.enter_message);
+        message_list = (ListView) findViewById(R.id.message_list);
+        arrayAdapter = new CustomAdapter(this, messages);
+        message_list.setAdapter(arrayAdapter);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            u_name = extras.getString("Name");
+            IP = extras.getString("IP");
+        }
+
+        connectToServer();
+        addMessage();
     }
 
-    private void communication(){
-        Socket socket = null;
-        try {
-            //Create a stream socket and connect it to the specified port number on the specified host
-            socket = new Socket(address, Server.PORT);
-
-            //Read server-side data
-            DataInputStream input = new DataInputStream(socket.getInputStream());
-            //Send data to the server
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-            Log.d("new","please enter: \t");
-//            String str = new BufferedReader(new InputStreamReader(System.in)).readLine();
-//            out.writeUTF(str);
-            out.writeUTF("test");
-
-            String ret = input.readUTF();
-            Log.d("new","Back to the server is: " + ret);
-            // If you receive "OK" then disconnect
-            if ("OK".equals(ret)) {
-                Log.d("new","Clients will close the connection");
-                Thread.sleep(500);
-            }
-
-            out.close();
-            input.close();
-        } catch (Exception e) {
-            Log.d("new","The client is abnormal:" + e.getMessage());
-        } finally {
-            if (socket != null) {
+    public void connectToServer() {
+        m_objThreadClient = new Thread(new Runnable() {
+            @Override
+            public void run() {
                 try {
-                    socket.close();
-                } catch (IOException e) {
-                    socket = null;
-                    Log.d("new","Client finally abnormal:" + e.getMessage());
+                    clientSocket = new Socket(IP, 8080);
+                }
+                catch (Exception e) {
+                    Message msg3 = Message.obtain();
+                    msg3.obj = e.getMessage();
+                    mHandler.sendMessage(msg3);
                 }
             }
+        });
+        m_objThreadClient.start();
+    }
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String timeStamp = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
+            com.example.img_144.sutictac_as.Message recvMessage = new com.example.img_144.sutictac_as.Message(msg.obj.toString(), false, timeStamp);
+
+            messages.add(recvMessage);
+            arrayAdapter.notifyDataSetChanged();
+        }
+    };
+
+    public void sendClientMessage(View view) {
+        try {
+            String msg = message.getText().toString().trim();
+            if(msg.length() > 0) {
+                String timeStamp = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
+                com.example.img_144.sutictac_as.Message clientMessage = new com.example.img_144.sutictac_as.Message(msg, true, timeStamp);
+                ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+                oos.writeObject(msg);
+
+                messages.add(clientMessage);
+                arrayAdapter.notifyDataSetChanged();
+                scrollMyListViewToBottom();
+                message.setText("");
+            }
+        }
+        catch (Exception e) {
+            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG);
+        }
+    }
+
+    public void addMessage() {
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (true) {
+                    String msg = null;
+                    try {
+                        ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+                        msg = (String) ois.readObject();
+                    } catch (Exception e) { }
+
+                    if(msg != null) {
+                        Message new_msg = Message.obtain();
+                        new_msg.obj = msg;
+                        mHandler.sendMessage(new_msg);
+                        scrollMyListViewToBottom();
+                    }
+                    try {
+                        synchronized (this) {
+                            wait(100);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        thread.start();
+    }
+
+    public void clearText(View view) {
+        message.setText("");
+    }
+
+    private void scrollMyListViewToBottom() {
+        message_list.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                message_list.setSelection(arrayAdapter.getCount() - 1);
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
