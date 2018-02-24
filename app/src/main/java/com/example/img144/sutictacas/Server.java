@@ -1,4 +1,4 @@
-package com.example.img_144.sutictac_as;
+package com.example.img144.sutictacas;
 
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.img_144.sutictac_as.R;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -32,7 +34,7 @@ public class Server extends AppCompatActivity {
     Thread m_objThread;
     ServerSocket m_server;
     Socket connectedSocket;
-    ArrayList<com.example.img_144.sutictac_as.Message> messages = new ArrayList<>();
+    ArrayList<com.example.img144.sutictacas.Message> messages = new ArrayList<>();
     CustomAdapter arrayAdapter;
     DatagramSocket ds;
     WifiManager wifi;
@@ -196,7 +198,7 @@ public class Server extends AppCompatActivity {
         String msg = message.getText().toString().trim();
         if(msg.length() > 0) {
             String timeStamp = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
-            com.example.img_144.sutictac_as.Message serverMessage = new com.example.img_144.sutictac_as.Message(msg, true, timeStamp);
+            com.example.img144.sutictacas.Message serverMessage = new com.example.img144.sutictacas.Message(msg, true, timeStamp);
 
             try {
                 ObjectOutputStream oos = new ObjectOutputStream(connectedSocket.getOutputStream());
@@ -222,7 +224,7 @@ public class Server extends AppCompatActivity {
         public void handleMessage(Message msg) {
             String new_msg = msg.obj.toString();
             String timeStamp = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
-            com.example.img_144.sutictac_as.Message recvMessage = new com.example.img_144.sutictac_as.Message(new_msg, false, timeStamp);
+            com.example.img144.sutictacas.Message recvMessage = new com.example.img144.sutictacas.Message(new_msg, false, timeStamp);
 
             messages.add(recvMessage);
             arrayAdapter.notifyDataSetChanged();

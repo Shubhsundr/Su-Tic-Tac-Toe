@@ -1,4 +1,4 @@
-package com.example.img_144.sutictac_as;
+package com.example.img144.sutictacas;
 
 /**
  * Created by rajeev on 13/3/17.

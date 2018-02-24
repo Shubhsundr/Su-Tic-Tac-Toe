@@ -1,4 +1,4 @@
-package com.example.img_144.sutictac_as;
+package com.example.img144.sutictacas;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.img_144.sutictac_as.Message;
 import com.example.img_144.sutictac_as.R;
 
 import java.util.ArrayList;

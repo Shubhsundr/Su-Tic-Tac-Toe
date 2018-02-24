@@ -1,4 +1,4 @@
-package com.example.img_144.sutictac_as;
+package com.example.img144.sutictacas;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

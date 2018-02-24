@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
     defaultConfig {
-        applicationId "com.example.img_144.sutictac_as"
+        applicationId "com.example.img144.sutictacas"
         minSdkVersion 23
         targetSdkVersion 26
         versionCode 1
@@ -17,7 +17,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets { main { aidl.srcDirs = ['src/main/aidl', 'src/main/cpp/'] } }
 }
 
 dependencies {

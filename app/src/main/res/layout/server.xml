@@ -5,7 +5,7 @@
     android:id="@+id/activity_server"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.img_144.sutictac_as.Server"
+    tools:context="com.example.img144.sutictacas.Server"
     android:background="#119">
 
     <Button

@@ -1,4 +1,4 @@
-package com.example.img_144.sutictac_as;
+package com.example.img144.sutictacas;
 
 import org.junit.Test;
 

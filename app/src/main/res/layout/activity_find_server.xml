@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.img_144.sutictac_as.FindServers"
+    tools:context="com.example.img144.sutictacas.FindServers"
     android:background="#119">
 
     <Button

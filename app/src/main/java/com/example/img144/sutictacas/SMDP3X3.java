@@ -1,4 +1,4 @@
-package com.example.img_144.sutictac_as;
+package com.example.img144.sutictacas;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.img_144.sutictac_as.R;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class SMDP3X3 extends AppCompatActivity {
     List<Integer> myuser = new ArrayList<Integer>();
     List<Integer> opponent = new ArrayList<Integer>();
 
-    @Override
+    @Override   
     protected void onCreate(Bundle savedInstanceState) {
         for (int j = 0; j < 8; j++) {
             Set<Integer> abs = new HashSet<Integer>();

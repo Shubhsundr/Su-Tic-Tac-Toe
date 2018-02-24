@@ -1,4 +1,4 @@
-package com.example.img_144.sutictac_as;
+package com.example.img144.sutictacas;
 
 /**
  * Created by rajeev on 13/3/17.
@@ -12,10 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.example.img_144.sutictac_as.CustomAdapter;
 import com.example.img_144.sutictac_as.R;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -32,7 +29,7 @@ public class Client extends AppCompatActivity {
     Thread m_objThreadClient;
     Socket clientSocket;
     String IP, u_name;
-    ArrayList<com.example.img_144.sutictac_as.Message> messages = new ArrayList<com.example.img_144.sutictac_as.Message>();
+    ArrayList<com.example.img144.sutictacas.Message> messages = new ArrayList<com.example.img144.sutictacas.Message>();
     CustomAdapter arrayAdapter;
 
     @Override
@@ -75,7 +72,7 @@ public class Client extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             String timeStamp = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
-            com.example.img_144.sutictac_as.Message recvMessage = new com.example.img_144.sutictac_as.Message(msg.obj.toString(), false, timeStamp);
+            com.example.img144.sutictacas.Message recvMessage = new com.example.img144.sutictacas.Message(msg.obj.toString(), false, timeStamp);
 
             messages.add(recvMessage);
             arrayAdapter.notifyDataSetChanged();
@@ -87,7 +84,7 @@ public class Client extends AppCompatActivity {
             String msg = message.getText().toString().trim();
             if(msg.length() > 0) {
                 String timeStamp = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
-                com.example.img_144.sutictac_as.Message clientMessage = new com.example.img_144.sutictac_as.Message(msg, true, timeStamp);
+                com.example.img144.sutictacas.Message clientMessage = new com.example.img144.sutictacas.Message(msg, true, timeStamp);
                 ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
                 oos.writeObject(msg);
 

@@ -1,4 +1,4 @@
-package com.example.img_144.sutictac_as;
+package com.example.img144.sutictacas;
 
 import android.content.Intent;
 import android.net.wifi.WifiManager;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.img_144.sutictac_as.R;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;

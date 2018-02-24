@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.example.img_144.sutictac_as.SMDP3X3">
+    tools:context="com.example.img144.sutictacas.SMDP3X3">
 
     <LinearLayout
         android:id="@+id/row0"
