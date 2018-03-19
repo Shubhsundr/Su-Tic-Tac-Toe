@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.img_144.sutictac_as.R;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,21 +21,14 @@ public class MainActivity extends AppCompatActivity {
     public void SMDP3X3(View view) {
         startActivity(new Intent(this, SMDP3X3.class));
     }
+    public void LAN(View view) { startActivity(new Intent(this, LAN.class)); }
+    public void SMSP9X9(View view) {
+        startActivity(new Intent(this, SMSP9X9.class));
+    }
+    public void SMDP9X9(View view) {
+        startActivity(new Intent(this, SMDP9X9.class));
+    }
 
-    public void JOIN(View view) {
-        //String u_name = user_name.getText().toString();
-        Intent i = new Intent(this, FindServers.class);
-        i.putExtra("Name", "");
-        startActivity(i);
-    }
-    public void HOST(View view) {
-        Intent i = new Intent(this, Server.class);
-        //String u_name = user_name.getText().toString();
-        //String server = server_name.getText().toString();
-        i.putExtra("Name", "");
-        i.putExtra("ServerName", "my_server");
-        startActivity(i);
-    }
 
     @Override
     protected void onStop() {

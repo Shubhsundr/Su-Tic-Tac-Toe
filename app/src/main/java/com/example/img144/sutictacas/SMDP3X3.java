@@ -3,17 +3,11 @@ package com.example.img144.sutictacas;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.img_144.sutictac_as.R;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,14 +17,14 @@ public class SMDP3X3 extends AppCompatActivity {
     Boolean turn;
     int i;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
-    List<Set<Integer>> win = new ArrayList<Set<Integer>>();
-    List<Integer> myuser = new ArrayList<Integer>();
-    List<Integer> opponent = new ArrayList<Integer>();
+    List<Set<Integer>> win = new ArrayList<>();
+    List<Integer> myuser = new ArrayList<>();
+    List<Integer> opponent = new ArrayList<>();
 
     @Override   
     protected void onCreate(Bundle savedInstanceState) {
         for (int j = 0; j < 8; j++) {
-            Set<Integer> abs = new HashSet<Integer>();
+            Set<Integer> abs = new HashSet<>();
             abs.addAll(Arrays.asList(my[j]));
             win.add(abs);
         }
@@ -58,17 +52,16 @@ public class SMDP3X3 extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button b = (Button) v;
-                if (b.getText().toString().equals("")) {
+                if (btn.getText().toString().equals("")) {
                     if (turn) {
                         myuser.add(x);
                         turn = false;
-                        b.setText("X");
+                        btn.setText("X");
                         endGame(myuser);
                     } else {
                         opponent.add(x);
                         turn = true;
-                        b.setText("O");
+                        btn.setText("O");
                         endGame(opponent);
                     }
                 }

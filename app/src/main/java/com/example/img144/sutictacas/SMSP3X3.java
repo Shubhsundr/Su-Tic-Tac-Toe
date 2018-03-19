@@ -7,13 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.img_144.sutictac_as.R;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -24,14 +19,14 @@ public class SMSP3X3 extends AppCompatActivity {
     Boolean turn;
     int i;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
-    List<Set<Integer>> win = new ArrayList<Set<Integer>>();
-    List<Integer> myuser = new ArrayList<Integer>();
-    List<Integer> opponent = new ArrayList<Integer>();
+    List<Set<Integer>> win = new ArrayList<>();
+    List<Integer> myuser = new ArrayList<>();
+    List<Integer> opponent = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         for (int j = 0; j < 8; j++) {
-            Set<Integer> abs = new HashSet<Integer>();
+            Set<Integer> abs = new HashSet<>();
             abs.addAll(Arrays.asList(my[j]));
             win.add(abs);
         }
@@ -59,11 +54,10 @@ public class SMSP3X3 extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button b = (Button) v;
-                if (b.getText().toString().equals("")) {
+                if (btn.getText().toString().equals("")) {
                     myuser.add(x);
                     turn = true;
-                    b.setText("X");
+                    btn.setText("X");
                     endGame(myuser);
                 }
             }
@@ -84,9 +78,7 @@ public class SMSP3X3 extends AppCompatActivity {
                 }
             }
         }
-        int qwer=myuser.size()+opponent.size();
-        Log.d("me",""+qwer);
-        if (qwer==9) {
+        if (myuser.size()+opponent.size()==9) {
             Intent main = new Intent(this, MainActivity.class);
             main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(main);

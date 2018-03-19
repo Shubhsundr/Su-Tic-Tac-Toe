@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.img144.sutictacas.LAN">
+
+    <RelativeLayout
+        android:id="@+id/create_server_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/create_server_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="24dp"
+            android:text="Server is not setup!! click to create server" />
+
+        <Button
+            android:id="@+id/create_server_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_server_text"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:text="create" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/client_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="36dp">
+
+        <LinearLayout
+            android:id="@+id/crow0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout1"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cb0"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/cb1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/cb2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/crow1"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cb3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/cb4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/cb5"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/crow1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cb6"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/cb7"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/cb8"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/server_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="36dp">
+
+        <LinearLayout
+            android:id="@+id/row0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout2"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/b0"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/b1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/b2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/row1"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/b3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/b4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/b5"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/b6"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/b7"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/b8"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/join_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:context="com.example.img144.sutictacas.LAN">
+
+        <TextView
+            android:id="@+id/join_server"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="24dp"
+            android:text="Server side user is waiting!! click to join server" />
+
+        <Button
+            android:id="@+id/join_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/join_server"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:text="Join" />
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>

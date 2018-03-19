@@ -5,58 +5,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.img144.sutictacas.MainActivity"
-    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteY="50dp"
     tools:layout_editor_absoluteX="0dp">
-
-    <Button
-        android:id="@+id/SMDP3X3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:onClick="SMDP3X3"
-        android:text="SMDP3X3"
-        app:layout_constraintBottom_toTopOf="@+id/SMSP3X3"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         android:id="@+id/SMSP3X3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="50dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:onClick="SMSP3X3"
         android:text="SMSP3X3"
-        app:layout_constraintBottom_toTopOf="@+id/HOST"
+        app:layout_constraintBottom_toTopOf="@+id/SMSP9X9"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
-        android:id="@+id/HOST"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:onClick="HOST"
-        android:text="HOST"
-        app:layout_constraintBottom_toTopOf="@+id/JOIN"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <Button
-        android:id="@+id/JOIN"
+        android:id="@+id/SMSP9X9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:onClick="JOIN"
-        android:text="JOIN"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:onClick="SMSP9X9"
+        android:text="SMSP9X9"
+        app:layout_constraintBottom_toTopOf="@+id/SMDP3X3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/SMDP3X3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="SMDP3X3"
+        android:text="SMDP3X3"
+        app:layout_constraintBottom_toTopOf="@+id/SMDP9X9"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/SMDP9X9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="SMDP9X9"
+        android:text="SMDP9X9"
+        app:layout_constraintBottom_toTopOf="@+id/LAN"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/LAN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="LAN"
+        android:text="LAN"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
