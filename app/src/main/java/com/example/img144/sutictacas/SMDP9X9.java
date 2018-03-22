@@ -209,7 +209,9 @@ public class SMDP9X9 extends AppCompatActivity {
     }
 
     public boolean valid(Integer x, Integer y) {
-        if (myuser.get(9).contains(x) || opponent.get(9).contains(x) || neutral.contains(x)) {
+        if (myuser.get(x).contains(y) || opponent.get(x).contains(y)) {
+            return false;
+        } else if (myuser.get(9).contains(x) || opponent.get(9).contains(x) || neutral.contains(x)) {
             return false;
         } else if(last==x || last==9) {
             last=y;

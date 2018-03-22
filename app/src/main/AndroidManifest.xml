@@ -8,7 +8,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:installLocation="preferExternal">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SMDP3X3" />
-        <activity android:name=".LAN" />
+        <activity android:name=".LAN3X3" />
+        <activity android:name=".LAN9X9" />
         <activity android:name=".SMSP3X3" />
         <activity android:name=".SMDP9X9" />
         <activity android:name=".SMSP9X9" />

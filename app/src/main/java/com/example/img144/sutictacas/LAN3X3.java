@@ -1,5 +1,6 @@
 package com.example.img144.sutictacas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,15 +21,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
  * Created by kanish on 3/4/18.
  */
 
-public class LAN extends AppCompatActivity {
+public class LAN3X3 extends AppCompatActivity {
     Button b[] = new Button[9];
-    Boolean turn=true;
+    Boolean turn = true;
+    Boolean ifServer = false;
     int j;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
     List<Set<Integer>> win = new ArrayList<>();
@@ -39,15 +42,14 @@ public class LAN extends AppCompatActivity {
     public ServerSocket serverSocket;
     public boolean isClient = false;
     public String connectedIP="";
-    public String serverName = "";
-    public String clientName = "";
+    public String serverName = "Server";
+    public String clientName = "Client";
 
     Button client_join,server_create;
     RelativeLayout join_layout, create_server_layout, game_layout;
     ClientThread clientThread = null;
     List<ChatClient> userList;
 
-    @Override
     public void onCreate(Bundle savedInstanceState) {
 
         for (j = 0; j < 8; j++) {
@@ -57,7 +59,8 @@ public class LAN extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lan);
+        setContentView(R.layout.lan3_x3);
+
         join_layout = (RelativeLayout)findViewById(R.id.join_layout);
         game_layout = (RelativeLayout)findViewById(R.id.game_layout);
         create_server_layout = (RelativeLayout)findViewById(R.id.create_server_layout);
@@ -73,9 +76,6 @@ public class LAN extends AppCompatActivity {
         b[7] = (Button) findViewById(R.id.b7);
         b[8] = (Button) findViewById(R.id.b8);
 
-        for (j = 0; j < 9; j++) {
-            setOnClick(b[j],j);
-        }
 
         ArrayList<String> devices = new ArrayList<>();
 
@@ -107,17 +107,17 @@ public class LAN extends AppCompatActivity {
 
     public void startClientSequence(){
         //Join layout stuff
-        Toast.makeText(LAN.this, "Connect server at: "+connectedIP ,Toast.LENGTH_LONG).show();
+        Toast.makeText(LAN3X3.this, "Connect server at: "+connectedIP ,Toast.LENGTH_LONG).show();
         client_join = (Button)findViewById(R.id.join_button);
         client_join.setOnClickListener(
                 new Button.OnClickListener(){
                     public void onClick(View v){
-                        String client_name = "zero";
+                        String client_name = clientName;
                         if (client_name.equals("")) {
-                            Toast.makeText(LAN.this, "Enter User Name",Toast.LENGTH_LONG).show();
+                            Toast.makeText(LAN3X3.this, "Enter User Name",Toast.LENGTH_LONG).show();
                             return;
                         }
-                        clientName = client_name;
+
                         join_layout.setVisibility(View.GONE);
                         game_layout.setVisibility(View.VISIBLE);
 
@@ -126,7 +126,11 @@ public class LAN extends AppCompatActivity {
                     }
                 }
         );
+        ifServer=false;
 
+        for (j = 0; j < 9; j++) {
+            setOnClick(b[j],j,ifServer);
+        }
 /*        client_disconnect_button = (Button)findViewById(R.id.disconnect_client);
         client_disconnect_button.setOnClickListener(
                 new Button.OnClickListener(){
@@ -147,35 +151,56 @@ public class LAN extends AppCompatActivity {
         server_create.setOnClickListener(
                 new Button.OnClickListener(){
                     public void onClick(View v){
-                        String server_name = "Cross";
+
+                        String server_name = "Server";
                         if(server_name.equals("")){
-                            Toast.makeText(LAN.this, "Enter User Name",Toast.LENGTH_LONG).show();
+                            Toast.makeText(LAN3X3.this, "Enter User Name",Toast.LENGTH_LONG).show();
                             return;
                         }
+
                         serverName = server_name;
                         userList = new ArrayList<>();
+
                         ServerThread chatServerThread = new ServerThread();
                         chatServerThread.start();
+
                         game_layout.setVisibility(View.VISIBLE);
                         create_server_layout.setVisibility(View.GONE);
+
                     }
                 }
         );
+
+        ifServer=true;
+        for (j = 0; j < 9; j++) {
+            setOnClick(b[j],j,ifServer);
+        }
     }
 
-    public void setOnClick(final Button btn, final Integer x) {
+    public void setOnClick(final Button btn, final Integer x, final Boolean ifServer) {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Button sb = (Button) v;
                 if (sb.getText().toString().equals("")) {
                     if (turn) {
-                        myuser.add(x);
-                        turn = false;
-                        sb.setText("X");
-                        ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(x));
-                        Toast.makeText(LAN.this, "You clicked on " + x + " ",Toast.LENGTH_LONG).show();
-                        serverSenderThread.start();
+                        if(ifServer) {
+                            myuser.add(x);
+                            turn = false;
+                            sb.setText("X");
+                            ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(x));
+//                            Toast.makeText(LAN3X3.this, x + " send to client", Toast.LENGTH_LONG).show();
+                            serverSenderThread.start();
+                            endGame(myuser);
+                        }
+                        else {
+                            sb.setText("X");
+                            turn=false;
+                            myuser.add(x);
+                            clientThread.sendMsg(Integer.toString(x));
+                            endGame(myuser);
+//                            Toast.makeText(LAN3X3.this, x + " send to server", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
             }
@@ -229,22 +254,26 @@ public class LAN extends AppCompatActivity {
                 while(!disconnect){
                     if(dataInputStream.available()>0){
                         final String msgLog = dataInputStream.readUTF();
-                        LAN.this.runOnUiThread(new Runnable(){
+                        LAN3X3.this.runOnUiThread(new Runnable(){
                             public void run(){
-                                    try {
-                                        Integer msg = Integer.parseInt(msgLog);
+                                try {
+                                    Integer msg = Integer.parseInt(msgLog);
+                                    if(!myuser.contains(msg) && !opponent.contains(msg)) {
                                         opponent.add(msg);
                                         turn = true;
-                                        b[msg].setText("O");
-                                        Toast.makeText(LAN.this, "1st received message " + msg + " ",Toast.LENGTH_LONG).show();
-                                        } catch (NumberFormatException ex) {
-                                        Toast.makeText(LAN.this, "1st msgLog is " + msgLog + " ",Toast.LENGTH_LONG).show();}
+                                        b[msg].setText("0");
+                                        endGame(opponent);
+//                                        Toast.makeText(LAN3X3.this, "client send message " + msg, Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (Exception e) {
+                                    Toast.makeText(LAN3X3.this, msgLog, Toast.LENGTH_LONG).show();
+                                }
                             }
                         });
                     }
 
                     if(!message.equals("")){
-                        dataOutputStream.writeUTF(String.valueOf(message));
+                        dataOutputStream.writeUTF(message);
                         dataOutputStream.flush();
                         message="";
                     }
@@ -252,22 +281,22 @@ public class LAN extends AppCompatActivity {
             } catch (UnknownHostException e) {
                 e.printStackTrace();
                 final String eString = e.toString();
-                LAN.this.runOnUiThread(new Runnable() {
+                LAN3X3.this.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        Toast.makeText(LAN.this, eString, Toast.LENGTH_LONG).show();
+                        Toast.makeText(LAN3X3.this, eString, Toast.LENGTH_LONG).show();
                     }
 
                 });
             } catch (IOException e) {
                 e.printStackTrace();
                 final String eString = e.toString();
-                LAN.this.runOnUiThread(new Runnable() {
+                LAN3X3.this.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        Toast.makeText(LAN.this, eString, Toast.LENGTH_LONG).show();
+                        Toast.makeText(LAN3X3.this, eString, Toast.LENGTH_LONG).show();
                     }
 
                 });
@@ -300,7 +329,7 @@ public class LAN extends AppCompatActivity {
                 }
             }
 
-            LAN.this.runOnUiThread(new Runnable() {
+            LAN3X3.this.runOnUiThread(new Runnable() {
 
                 @Override
                 public void run() {
@@ -328,10 +357,10 @@ public class LAN extends AppCompatActivity {
             Socket socket = null;
             try {
                 serverSocket = new ServerSocket(port_number);
-                LAN.this.runOnUiThread(new Runnable() {
+                LAN3X3.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(LAN.this, "say client to connect" + serverSocket.getLocalPort(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(LAN3X3.this, "say client to connect" + serverSocket.getLocalPort(), Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -385,11 +414,11 @@ public class LAN extends AppCompatActivity {
                         connectClient.socket.getInetAddress() +
                         ":" + connectClient.socket.getPort() + "\n";
 
-                LAN.this.runOnUiThread(new Runnable() {
+                LAN3X3.this.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        Toast.makeText(LAN.this, msgLog, Toast.LENGTH_LONG).show();
+                        Toast.makeText(LAN3X3.this, msgLog, Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -401,19 +430,23 @@ public class LAN extends AppCompatActivity {
                     if (dataInputStream.available() > 0) {
                         final String newMsg = dataInputStream.readUTF();
 
-                        LAN.this.runOnUiThread(new Runnable() {
+                        LAN3X3.this.runOnUiThread(new Runnable() {
 
                             @Override
                             public void run() {
-                                    try {
-                                        Integer msg = Integer.parseInt(newMsg);
+                                try {
+                                    Integer msg = Integer.parseInt(newMsg);
+                                    if(!myuser.contains(msg) && !opponent.contains(msg)) {
                                         opponent.add(msg);
                                         turn = true;
                                         b[msg].setText("O");
-                                        Toast.makeText(LAN.this, "2nd Received Message " + msg, Toast.LENGTH_LONG).show();
-                                    } catch (Exception e) {
-                                        Toast.makeText(LAN.this, "2nd Message Log " + newMsg, Toast.LENGTH_LONG).show();
+                                        endGame(opponent);
+//                                            Toast.makeText(LAN3X3.this, "Server Received Message " + msg, Toast.LENGTH_LONG).show();
+                                        broadcastMsg(newMsg);
                                     }
+                                } catch (Exception e) {
+                                    Toast.makeText(LAN3X3.this, newMsg, Toast.LENGTH_LONG).show();
+                                }
                             }
                         });
                         broadcastMsg(newMsg);
@@ -438,17 +471,17 @@ public class LAN extends AppCompatActivity {
                 }
 
                 userList.remove(connectClient);
-                LAN.this.runOnUiThread(new Runnable() {
+                LAN3X3.this.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        Toast.makeText(LAN.this,
+                        Toast.makeText(LAN3X3.this,
                                 connectClient.name + " removed.", Toast.LENGTH_LONG).show();
                         msgLog = "-- " + connectClient.name + " left\n";
-                        LAN.this.runOnUiThread(new Runnable() {
+                        LAN3X3.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(LAN.this, "Client's Last Message " + msgLog, Toast.LENGTH_LONG).show();
+                                Toast.makeText(LAN3X3.this, "Client's Last Message " + msgLog, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -468,7 +501,7 @@ public class LAN extends AppCompatActivity {
         }
     }
 
-    private class ServerSenderThread extends Thread{
+    public class ServerSenderThread extends Thread{
         String msgToSend = "";
         public ServerSenderThread(String msg){
             msgToSend = msg;
@@ -478,31 +511,82 @@ public class LAN extends AppCompatActivity {
         public void run() {
             try {
                 if (!msgToSend.equals("")) {
-                    LAN.this.runOnUiThread(new Runnable() {
+                    LAN3X3.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                int x = Integer.parseInt(msgToSend);
-                                b[x].setText("#");
+                            if(msgToSend!="") {
+//                                Toast.makeText(LAN3X3.this, "The Comeback Message " + msgToSend, Toast.LENGTH_LONG).show();
                             }
-                            catch (Exception e) {
-                                Toast.makeText(LAN.this , " " + e, Toast.LENGTH_LONG).show();
-                            }
-                           Toast.makeText(LAN.this, "Both Received Comeback Message " + msgToSend, Toast.LENGTH_LONG).show();
                         }
                     });
+
                     broadcastMsg(msgToSend);
+                    msgToSend="";
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        private void broadcastMsg(String msg){
+        public void broadcastMsg(String msg){
             for(int i=0; i<userList.size(); i++){
                 userList.get(i).chatThread.sendMsg(msg);
                 //msgLog += "- send to " + userList.get(i).name + "\n";
             }
         }
+    }
+
+
+    private void endGame(List a1) {
+        List<Set<Integer>> x = getSubsets(a1, 3);
+        if (x.size() > 0) {
+            for (int i = 0; i < x.size(); i++) {
+                for (int j = 0; j < 8; j++) {
+                    if ((win.get(j)).equals(x.get(i))) {
+                        Intent main = new Intent(this, MainActivity.class);
+                        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(main);
+                        return;
+                    }
+                }
+            }
+        }
+        if (myuser.size()+opponent.size()==9) {
+            Intent main = new Intent(this, MainActivity.class);
+            main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(main);
+            return;
+        }
+    }
+
+    private static void getSubsets(List<Integer> superSet, int k, int idx, Set<Integer> current, List<Set<Integer>> solution) {
+        //successful stop clause
+        if (current.size() == k) {
+            solution.add(new HashSet<>(current));
+            return;
+        }
+        //unseccessful stop clause
+        if (idx == superSet.size()) return;
+        Integer x = superSet.get(idx);
+        current.add(x);
+        //"guess" x is in the subset
+        getSubsets(superSet, k, idx + 1, current, solution);
+        current.remove(x);
+        //"guess" x is not in the subset
+        getSubsets(superSet, k, idx + 1, current, solution);
+    }
+
+    public static List<Set<Integer>> getSubsets(List<Integer> superSet, int k) {
+        List<Set<Integer>> res = new ArrayList<>();
+        getSubsets(superSet, k, 0, new HashSet<Integer>(), res);
+        return res;
+    }
+
+    public <T> List<T> twoDArrayToList(T[][] twoDArray) {
+        List<T> list = new ArrayList<T>();
+        for (T[] array : twoDArray) {
+            list.addAll(Arrays.asList(array));
+        }
+        return list;
     }
 }

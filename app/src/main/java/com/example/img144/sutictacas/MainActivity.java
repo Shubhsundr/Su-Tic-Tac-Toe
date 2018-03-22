@@ -21,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
     public void SMDP3X3(View view) {
         startActivity(new Intent(this, SMDP3X3.class));
     }
-    public void LAN(View view) { startActivity(new Intent(this, LAN.class)); }
+    public void LAN3X3(View view) { startActivity(new Intent(this, LAN3X3.class)); }
+    public void LAN9X9(View view) { startActivity(new Intent(this, LAN9X9.class)); }
     public void SMSP9X9(View view) {
         startActivity(new Intent(this, SMSP9X9.class));
     }

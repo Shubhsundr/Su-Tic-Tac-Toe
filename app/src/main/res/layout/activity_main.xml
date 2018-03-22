@@ -56,19 +56,32 @@
         android:layout_marginRight="8dp"
         android:onClick="SMDP9X9"
         android:text="SMDP9X9"
-        app:layout_constraintBottom_toTopOf="@+id/LAN"
+        app:layout_constraintBottom_toTopOf="@+id/LAN3X3"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
-        android:id="@+id/LAN"
+        android:id="@+id/LAN3X3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:onClick="LAN"
-        android:text="LAN"
+        android:onClick="LAN3X3"
+        android:text="LAN3X3"
+        app:layout_constraintBottom_toTopOf="@+id/LAN9X9"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/LAN9X9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="LAN9X9"
+        android:text="LAN9X9"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
