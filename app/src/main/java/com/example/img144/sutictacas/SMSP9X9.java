@@ -1,12 +1,14 @@
 package com.example.img144.sutictacas;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,7 +21,7 @@ import java.util.Set;
 public class SMSP9X9 extends AppCompatActivity {
     Button b[][] = new Button[10][9];
     LinearLayout L[] = new LinearLayout[9];
-    Boolean turn;
+    Boolean turn, myturn, firstturn;
     int i,j;
     int last=9;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
@@ -27,9 +29,15 @@ public class SMSP9X9 extends AppCompatActivity {
     List<List<Integer>> myuser = new ArrayList(10);
     List<List<Integer>> opponent = new ArrayList(10);
     List<Integer> neutral = new ArrayList<>();
+    List<Integer> proceeding = new ArrayList<>();
+    private int color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Bundle bundle = this.getIntent().getExtras();
+        myturn = bundle.getBoolean("my_turn");
+        firstturn = bundle.getBoolean("first_turn");
+
         for (j = 0; j < 8; j++) {
             Set<Integer> abs = new HashSet<>();
             abs.addAll(Arrays.asList(my[j]));
@@ -41,8 +49,6 @@ public class SMSP9X9 extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.smdp9_x9);
-
-        turn = true;
 
         L[0] = (LinearLayout) findViewById(R.id.a0);
         L[1] = (LinearLayout) findViewById(R.id.a1);
@@ -158,6 +164,9 @@ public class SMSP9X9 extends AppCompatActivity {
             for (j = 0 ; j<9; j++)
                 setOnClick(b[i][j], i, j);
         }
+
+        turn = firstturn;
+        bot();
     }
 
     private void setOnClick(final Button btn, final Integer x, final Integer y) {
@@ -168,13 +177,22 @@ public class SMSP9X9 extends AppCompatActivity {
                     if (turn) {
                         if(valid(x, y)) {
                             myuser.get(x).add(y);
+                            proceeding.add(10*x+y);
                             turn = false;
-                            b[x][y].setText("X");
+                            if(myturn==true) {
+                                b[x][y].setText("X");
+                            } else {
+                                b[x][y].setText("O");
+                            }
                             int be = bendGame(myuser.get(x));
                             if(be==1) {
                                 L[x].setVisibility(View.GONE);
                                 b[9][x].setVisibility(View.VISIBLE);
-                                b[9][x].setText("X");
+                                if(myturn==true) {
+                                    b[9][x].setText("X");
+                                } else {
+                                    b[9][x].setText("O");
+                                }
                                 myuser.get(9).add(x);
                                 endGame(myuser.get(9));
                             } else if(be==2) {
@@ -199,13 +217,22 @@ public class SMSP9X9 extends AppCompatActivity {
             if (b[m][n].getText().toString().equals("")) {
                 if(valid(m, n)) {
                     opponent.get(m).add(n);
+                    proceeding.add(10*m+n);
                     turn = true;
-                    b[m][n].setText("O");
+                    if(myturn==true) {
+                        b[m][n].setText("O");
+                    } else {
+                        b[m][n].setText("X");
+                    }
                     int be=bendGame(opponent.get(m));
                     if(be==1) {
                         L[m].setVisibility(View.GONE);
                         b[9][m].setVisibility(View.VISIBLE);
-                        b[9][m].setText("O");
+                        if(myturn==true) {
+                            b[9][m].setText("O");
+                        } else {
+                            b[9][m].setText("X");
+                        }
                         opponent.get(9).add(m);
                         endGame(opponent.get(9));
                     } else if(be==2) {
@@ -221,11 +248,11 @@ public class SMSP9X9 extends AppCompatActivity {
     public boolean valid(Integer x, Integer y) {
         if (myuser.get(9).contains(x) || opponent.get(9).contains(x) || neutral.contains(x)) {
             return false;
-        } else if(last==x || last==9) {
-            last=y;
-            return true;
         } else if (myuser.get(9).contains(last) || opponent.get(9).contains(last) || neutral.contains(last)) {
-            last=y;
+            last = y;
+            return true;
+        } else if (last == x || last == 9) {
+            last = y;
             return true;
         } else {
             return false;
@@ -234,6 +261,24 @@ public class SMSP9X9 extends AppCompatActivity {
 
     private int bendGame(List a1) {
         List<Set<Integer>> x = getSubsets(a1, 3);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                GradientDrawable gd = new GradientDrawable();
+                color = R.color.black;
+                gd.setStroke(1, color);
+                // Assign the created border to EditText widget
+                b[i][j].setBackground(gd);
+            }
+        }
+        for (int i = 0; i < 9; i++) {
+            if(b[last][i].getText().toString().equals("")) {
+                GradientDrawable gd = new GradientDrawable();
+                color = R.color.play_online;
+                gd.setStroke(3, color);
+                // Assign the created border to EditText widget
+                b[last][i].setBackground(gd);
+            }
+        }
         if (x.size() > 0) {
             for (int i = 0; i < x.size(); i++) {
                 for (int j = 0; j < 8; j++) {
@@ -269,6 +314,51 @@ public class SMSP9X9 extends AppCompatActivity {
             main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(main);
             return;
+        }
+    }
+
+    public void home(View view) {
+        Intent main = new Intent(this, MainActivity.class);
+        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(main);
+        return;
+    }
+
+    public void restart(View view) {
+        Intent main = new Intent(this, SMDP9X9.class);
+        main.putExtra("my_turn", turn);
+        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(main);
+        return;
+    }
+
+    public void undo(View view) {
+        try {
+            int prev = proceeding.get(proceeding.size()-1);
+            proceeding.remove(proceeding.size()-1);
+            opponent.get(prev/10).remove(opponent.get(prev/10).size()-1);
+            b[prev/10][prev%10].setText("");
+            turn = false;
+            try {
+                if (opponent.get(9).get(opponent.get(9).size() - 1) == prev / 10) {
+                    opponent.get(9).remove(opponent.get(9).size() - 1);
+                    b[9][prev / 10].setVisibility(View.GONE);
+                    L[prev / 10].setVisibility(View.VISIBLE);
+                }
+            } catch (Exception e) {}
+            myuser.get(prev/10).remove(myuser.get(prev/10).size()-1);
+            b[prev/10][prev%10].setText("");
+            turn = false;
+            try {
+                if (myuser.get(9).get(myuser.get(9).size() - 1) == prev / 10) {
+                    myuser.get(9).remove(myuser.get(9).size() - 1);
+                    b[9][prev / 10].setVisibility(View.GONE);
+                    L[prev / 10].setVisibility(View.VISIBLE);
+                }
+            } catch (Exception e) {}
+            last = proceeding.get(proceeding.size()-1)%10;
+        } catch (Exception e) {
+            Toast.makeText(SMSP9X9.this, "can't undo", Toast.LENGTH_LONG).show();
         }
     }
 

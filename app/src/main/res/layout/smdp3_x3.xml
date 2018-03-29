@@ -3,34 +3,110 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     tools:context="com.example.img144.sutictacas.SMDP3X3">
+
+    <Space
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
+        <Button
+            android:id="@+id/home"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="H"
+            android:onClick="home"/>
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="R"
+            android:onClick="restart" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
+        <Button
+            android:id="@+id/undo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="U"
+            android:onClick="undo"/>
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
 
     <LinearLayout
         android:id="@+id/row0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp">
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
         <Button
             android:id="@+id/b0"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp" />
+            android:layout_height="100dp" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
         <Button
             android:id="@+id/b1"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp" />
+            android:layout_height="100dp" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
         <Button
             android:id="@+id/b2"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp" />
+            android:layout_height="100dp" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
     </LinearLayout>
 
@@ -39,25 +115,44 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp">
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
         <Button
             android:id="@+id/b3"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp" />
+            android:layout_height="100dp" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
         <Button
             android:id="@+id/b4"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp" />
+            android:layout_height="100dp" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
         <Button
             android:id="@+id/b5"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp" />
+            android:layout_height="100dp" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -65,25 +160,49 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp">
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
         <Button
             android:id="@+id/b6"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp" />
+            android:layout_height="100dp" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
         <Button
             android:id="@+id/b7"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp" />
+            android:layout_height="100dp" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
         <Button
             android:id="@+id/b8"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp" />
+            android:layout_height="100dp" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
     </LinearLayout>
+
+    <Space
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
 
 </LinearLayout>

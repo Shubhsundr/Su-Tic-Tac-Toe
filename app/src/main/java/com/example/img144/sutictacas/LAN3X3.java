@@ -31,6 +31,7 @@ import java.util.Set;
 public class LAN3X3 extends AppCompatActivity {
     Button b[] = new Button[9];
     Boolean turn = true;
+    Boolean myturn;
     Boolean ifServer = false;
     int j;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
@@ -60,6 +61,9 @@ public class LAN3X3 extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lan3_x3);
+
+        Bundle bundle = this.getIntent().getExtras();
+        myturn = bundle.getBoolean("my_turn");
 
         join_layout = (RelativeLayout)findViewById(R.id.join_layout);
         game_layout = (RelativeLayout)findViewById(R.id.game_layout);
@@ -187,14 +191,22 @@ public class LAN3X3 extends AppCompatActivity {
                         if(ifServer) {
                             myuser.add(x);
                             turn = false;
-                            sb.setText("X");
+                            if(myturn==true) {
+                                sb.setText("X");
+                            } else {
+                                sb.setText("O");
+                            }
                             ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(x));
 //                            Toast.makeText(LAN3X3.this, x + " send to client", Toast.LENGTH_LONG).show();
                             serverSenderThread.start();
                             endGame(myuser);
                         }
                         else {
-                            sb.setText("X");
+                            if(myturn==true) {
+                                sb.setText("X");
+                            } else {
+                                sb.setText("O");
+                            }
                             turn=false;
                             myuser.add(x);
                             clientThread.sendMsg(Integer.toString(x));
@@ -261,7 +273,11 @@ public class LAN3X3 extends AppCompatActivity {
                                     if(!myuser.contains(msg) && !opponent.contains(msg)) {
                                         opponent.add(msg);
                                         turn = true;
-                                        b[msg].setText("0");
+                                        if(myturn==true) {
+                                            b[msg].setText("O");
+                                        } else {
+                                            b[msg].setText("X");
+                                        }
                                         endGame(opponent);
 //                                        Toast.makeText(LAN3X3.this, "client send message " + msg, Toast.LENGTH_LONG).show();
                                     }
@@ -439,7 +455,11 @@ public class LAN3X3 extends AppCompatActivity {
                                     if(!myuser.contains(msg) && !opponent.contains(msg)) {
                                         opponent.add(msg);
                                         turn = true;
-                                        b[msg].setText("O");
+                                        if(myturn==true) {
+                                            b[msg].setText("O");
+                                        } else {
+                                            b[msg].setText("X");
+                                        }
                                         endGame(opponent);
 //                                            Toast.makeText(LAN3X3.this, "Server Received Message " + msg, Toast.LENGTH_LONG).show();
                                         broadcastMsg(newMsg);
@@ -556,6 +576,39 @@ public class LAN3X3 extends AppCompatActivity {
             main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(main);
             return;
+        }
+    }
+
+    public void home(View view) {
+        Intent main = new Intent(this, MainActivity.class);
+        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(main);
+        return;
+    }
+
+    public void restart(View view) {
+        Intent main = new Intent(this, SMDP3X3.class);
+        main.putExtra("my_turn", turn);
+        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(main);
+        return;
+    }
+
+    public void undo(View view) {
+        try {
+            if (turn) {
+                int x = opponent.get(opponent.size() - 1);
+                opponent.remove(opponent.size() - 1);
+                b[x].setText("");
+                turn = false;
+            } else {
+                int x = myuser.get(myuser.size() - 1);
+                myuser.remove(myuser.size() - 1);
+                b[x].setText("");
+                turn = true;
+            }
+        } catch (Exception e) {
+            Toast.makeText(LAN3X3.this, "can't undo", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -42,6 +42,36 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="36dp">
 
+
+        <LinearLayout
+            android:id="@+id/row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/home"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="H"
+                android:layout_margin="40dp" />
+
+            <Button
+                android:id="@+id/reset"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="R"
+                android:layout_margin="40dp" />
+
+            <Button
+                android:id="@+id/undo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="U"
+                android:layout_margin="40dp" />
+
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/row0"
             android:layout_width="match_parent"

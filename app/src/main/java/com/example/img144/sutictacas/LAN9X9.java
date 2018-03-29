@@ -34,6 +34,7 @@ public class LAN9X9 extends AppCompatActivity {
     LinearLayout L[] = new LinearLayout[9];
     Boolean turn = true;
     Boolean ifServer = false;
+    Boolean myturn;
     int i,j;
     int last=9;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
@@ -67,6 +68,9 @@ public class LAN9X9 extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lan9_x9);
+
+        Bundle bundle = this.getIntent().getExtras();
+        myturn = bundle.getBoolean("my_turn");
 
         join_layout = (RelativeLayout)findViewById(R.id.join_layout);
         game_layout = (RelativeLayout)findViewById(R.id.game_layout);
@@ -298,12 +302,20 @@ public class LAN9X9 extends AppCompatActivity {
                             if(valid(x, y)) {
                                 myuser.get(x).add(y);
                                 turn = false;
-                                btn.setText("X");
+                                if(myturn==true) {
+                                    btn.setText("X");
+                                } else {
+                                    btn.setText("O");
+                                }
                                 int be = bendGame(myuser.get(x));
                                 if(be==1) {
                                     L[x].setVisibility(View.GONE);
                                     b[9][x].setVisibility(View.VISIBLE);
-                                    bt.setText("X");
+                                    if(myturn==true) {
+                                        bt.setText("X");
+                                    } else {
+                                        bt.setText("O");
+                                    }
                                     myuser.get(9).add(x);
                                     endGame(myuser.get(9));
                                 } else if(be==2) {
@@ -321,12 +333,20 @@ public class LAN9X9 extends AppCompatActivity {
                             if(valid(x, y)) {
                                 myuser.get(x).add(y);
                                 turn = false;
-                                btn.setText("X");
+                                if(myturn==true) {
+                                    btn.setText("X");
+                                } else {
+                                    btn.setText("O");
+                                }
                                 int be=bendGame(myuser.get(x));
                                 if(be==1) {
                                     L[x].setVisibility(View.GONE);
                                     b[9][x].setVisibility(View.VISIBLE);
-                                    bt.setText("X");
+                                    if(myturn==true) {
+                                        bt.setText("X");
+                                    } else {
+                                        bt.setText("O");
+                                    }
                                     myuser.get(9).add(x);
                                     endGame(myuser.get(9));
                                 } else if(be==2) {
@@ -401,12 +421,20 @@ public class LAN9X9 extends AppCompatActivity {
                                     if(valid(x, y)) {
                                         opponent.get(x).add(y);
                                         turn = true;
-                                        b[x][y].setText("O");
+                                        if(myturn==true) {
+                                            b[x][y].setText("O");
+                                        } else {
+                                            b[x][y].setText("X");
+                                        }
                                         int be=bendGame(opponent.get(x));
                                         if(be==1) {
                                             L[x].setVisibility(View.GONE);
                                             b[9][x].setVisibility(View.VISIBLE);
-                                            b[9][x].setText("O");
+                                            if(myturn==true) {
+                                                b[9][x].setText("O");
+                                            } else {
+                                                b[9][x].setText("X");
+                                            }
                                             opponent.get(9).add(x);
                                             endGame(opponent.get(9));
                                         } else if(be==2) {
@@ -592,12 +620,20 @@ public class LAN9X9 extends AppCompatActivity {
                                     if(valid(x, y)) {
                                         opponent.get(x).add(y);
                                         turn = true;
-                                        b[x][y].setText("O");
+                                        if(myturn==true) {
+                                            b[x][y].setText("O");
+                                        } else {
+                                            b[x][y].setText("X");
+                                        }
                                         int be=bendGame(opponent.get(x));
                                         if(be==1) {
                                             L[x].setVisibility(View.GONE);
                                             b[9][x].setVisibility(View.VISIBLE);
-                                            b[9][x].setText("O");
+                                            if(myturn==true) {
+                                                b[9][x].setText("O");
+                                            } else {
+                                                b[9][x].setText("X");
+                                            }
                                             opponent.get(9).add(x);
                                             endGame(opponent.get(9));
                                         } else if(be==2) {

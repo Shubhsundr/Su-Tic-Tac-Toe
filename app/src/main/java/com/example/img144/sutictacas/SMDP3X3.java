@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.Set;
 
 public class SMDP3X3 extends AppCompatActivity {
     Button b[] = new Button[9];
-    Boolean turn;
+    Boolean turn, my_turn;
     int i;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
     List<Set<Integer>> win = new ArrayList<>();
@@ -23,6 +24,10 @@ public class SMDP3X3 extends AppCompatActivity {
 
     @Override   
     protected void onCreate(Bundle savedInstanceState) {
+        Bundle bundle = this.getIntent().getExtras();
+        my_turn = bundle.getBoolean("my_turn");
+        turn = my_turn;
+
         for (int j = 0; j < 8; j++) {
             Set<Integer> abs = new HashSet<>();
             abs.addAll(Arrays.asList(my[j]));
@@ -30,8 +35,6 @@ public class SMDP3X3 extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.smdp3_x3);
-
-        turn = true;
 
         b[0] = (Button) findViewById(R.id.b0);
         b[1] = (Button) findViewById(R.id.b1);
@@ -75,19 +78,52 @@ public class SMDP3X3 extends AppCompatActivity {
             for (int i = 0; i < x.size(); i++) {
                 for (int j = 0; j < 8; j++) {
                     if ((win.get(j)).equals(x.get(i))) {
-                        Intent main = new Intent(this, MainActivity.class);
-                        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(main);
-                        return;
+                        if (turn) {
+                            Toast.makeText(SMDP3X3.this, "Circle wins", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(SMDP3X3.this, "Cross wins",Toast.LENGTH_LONG).show();
+                        }
+                        restart(findViewById(R.id.reset));
                     }
                 }
             }
         }
         if (myuser.size()+opponent.size()==9) {
-            Intent main = new Intent(this, MainActivity.class);
-            main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(main);
-            return;
+            Toast.makeText(SMDP3X3.this, "Match Tie!!", Toast.LENGTH_LONG).show();
+            restart(findViewById(R.id.reset));
+        }
+    }
+
+    public void home(View view) {
+        Intent main = new Intent(this, MainActivity.class);
+        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(main);
+        return;
+    }
+
+    public void restart(View view) {
+        Intent main = new Intent(this, SMDP3X3.class);
+        main.putExtra("my_turn", turn);
+        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(main);
+        return;
+    }
+
+    public void undo(View view) {
+        try {
+            if (turn) {
+                int x = opponent.get(opponent.size() - 1);
+                opponent.remove(opponent.size() - 1);
+                b[x].setText("");
+                turn = false;
+            } else {
+                int x = myuser.get(myuser.size() - 1);
+                myuser.remove(myuser.size() - 1);
+                b[x].setText("");
+                turn = true;
+            }
+        } catch (Exception e) {
+            Toast.makeText(SMDP3X3.this, "can't undo", Toast.LENGTH_LONG).show();
         }
     }
 
