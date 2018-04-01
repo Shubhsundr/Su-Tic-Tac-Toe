@@ -428,8 +428,12 @@ public class LAN extends AppCompatActivity {
                                         Integer msg = Integer.parseInt(msgLog);
                                         if(msg.equals(100)) {
                                             undo_a();
-                                        }
-                                        if (mode) {
+                                        } else if(msg.equals(101)) {
+                                            Toast.makeText(LAN.this, "your friend leave the game", Toast.LENGTH_LONG).show();
+                                            home_a();
+                                        } else if(msg.equals(102)) {
+                                            restart_a();
+                                        } else if (mode) {
                                             if (!myuser.get(9).contains(msg) && !opponent.get(9).contains(msg)) {
                                                 opponent.get(9).add(msg);
                                                 turn = true;
@@ -494,7 +498,12 @@ public class LAN extends AppCompatActivity {
                                             ingame = true;
                                             for (i = 0; i < 9; i++) {
                                                 for (j = 0 ; j<9; j++)
+                                                {
                                                     setOnClick(b[i][j], b[9][i], i, j, ifServer);
+                                                    b[i][j].setText("");
+                                                }
+                                                b[9][i].setText("");
+                                                b[9][i].setBackgroundColor(getResources().getColor(R.color.trans));
                                             }
                                             create_server_layout.setVisibility(View.GONE);
                                             game_layout.setVisibility(View.VISIBLE);
@@ -506,6 +515,8 @@ public class LAN extends AppCompatActivity {
                                             mode = true;
                                             ingame = true;
                                             for (j = 0; j < 9; j++) {
+                                                b[9][j].setText("");
+                                                b[9][j].setBackgroundColor(getResources().getColor(R.color.trans));
                                                 setOnClick3(b[9][j],j,ifServer);
                                             }
                                             create_server_layout.setVisibility(View.GONE);
@@ -537,7 +548,6 @@ public class LAN extends AppCompatActivity {
 
                     @Override
                     public void run() {
-                        Toast.makeText(LAN.this, eString, Toast.LENGTH_LONG).show();
                     }
 
                 });
@@ -548,7 +558,6 @@ public class LAN extends AppCompatActivity {
 
                     @Override
                     public void run() {
-                        Toast.makeText(LAN.this, eString, Toast.LENGTH_LONG).show();
                     }
 
                 });
@@ -585,8 +594,9 @@ public class LAN extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    create_server_layout.setVisibility(View.VISIBLE);
-                    game_layout.setVisibility(View.GONE);
+                    Toast.makeText(LAN.this, "no game found!!!", Toast.LENGTH_LONG).show();
+                    home(findViewById(R.id.back));
+                    disconn();
                 }
 
             });
@@ -595,12 +605,10 @@ public class LAN extends AppCompatActivity {
         public void sendMsg(String msg){
             message = msg;
         }
-/*
+
         public void disconn(){
             disconnect = true;
-            Log.d("gg","disconnected at client side");
         }
-*/
     }
 
     private class ServerThread extends Thread{
@@ -678,7 +686,6 @@ public class LAN extends AppCompatActivity {
 
                 dataOutputStream.writeUTF("Welcome");
                 dataOutputStream.flush();
-                broadcastMsg(n + " join the game.\n");
 
 
                 while (true) {
@@ -694,8 +701,12 @@ public class LAN extends AppCompatActivity {
                                         Integer msg = Integer.parseInt(newMsg);
                                         if(msg.equals(100)) {
                                             undo_a();
-                                        }
-                                        if (mode) {
+                                        } else if(msg.equals(101)) {
+                                            Toast.makeText(LAN.this, "your friend leave the game", Toast.LENGTH_LONG).show();
+                                            home_a();
+                                        } else if(msg.equals(102)) {
+                                            restart_a();
+                                        } else if (mode) {
                                             if(!myuser.get(9).contains(msg) && !opponent.get(9).contains(msg)) {
                                                 opponent.get(9).add(msg);
                                                 turn = true;
@@ -757,7 +768,12 @@ public class LAN extends AppCompatActivity {
                                             ingame = true;
                                             for (i = 0; i < 9; i++) {
                                                 for (j = 0 ; j<9; j++)
+                                                {
                                                     setOnClick(b[i][j], b[9][i], i, j, ifServer);
+                                                    b[i][j].setText("");
+                                                }
+                                                b[9][i].setText("");
+                                                b[9][i].setBackgroundColor(getResources().getColor(R.color.trans));
                                             }
                                             create_server_layout.setVisibility(View.GONE);
                                             game_layout.setVisibility(View.VISIBLE);
@@ -769,6 +785,8 @@ public class LAN extends AppCompatActivity {
                                             mode = true;
                                             ingame = true;
                                             for (j = 0; j < 9; j++) {
+                                                b[9][j].setText("");
+                                                b[9][j].setBackgroundColor(getResources().getColor(R.color.trans));
                                                 setOnClick3(b[9][j],j,ifServer);
                                             }
                                             create_server_layout.setVisibility(View.GONE);
@@ -957,7 +975,7 @@ public class LAN extends AppCompatActivity {
                             myuser.get(9).add(x);
                             clientThread.sendMsg(Integer.toString(x));
                             endGame(myuser.get(9));
-//                            Toast.makeText(LAN3X3.this, x + " send to server", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(LAN.this, x + " send to server", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -1013,36 +1031,49 @@ public class LAN extends AppCompatActivity {
     }
 
     private void onturn() {
-        for (int i = 0; i < 8; i++ ) {
-            if (!turn)
-                s[9][i].setBackgroundColor(getResources().getColor(R.color.quick_play));
+        if (mode) {
+            for (int i = 0; i < 8; i++ ) {
+                if (turn!=myturn)
+                    s[9][i].setBackgroundColor(getResources().getColor(R.color.quick_play));
+                else
+                    s[9][i].setBackgroundColor(getResources().getColor(R.color.play_online));
+            }
+            if (turn!=myturn)
+                t[0].setTextColor(getResources().getColor(R.color.quick_play));
             else
-                s[9][i].setBackgroundColor(getResources().getColor(R.color.play_online));
-        }
-        if (!turn) {
-            t[0].setTextColor(getResources().getColor(R.color.quick_play));
-            t[1].setTextColor(getResources().getColor(R.color.black));
+                t[0].setTextColor(getResources().getColor(R.color.play_online));
         }
         else {
-            t[0].setTextColor(getResources().getColor(R.color.black));
-            t[1].setTextColor(getResources().getColor(R.color.play_online));
-        }
-        for (int i = 0; i < 9; i++) {
-            if (valid(i)) {
-                if (!turn)
-                    L[i].setBackgroundColor(getResources().getColor(R.color.quick_play));
+            for (int i = 0; i < 8; i++) {
+                if (turn)
+                    s[9][i].setBackgroundColor(getResources().getColor(R.color.quick_play));
                 else
-                    L[i].setBackgroundColor(getResources().getColor(R.color.play_online));
-                L[i].getBackground().setAlpha(20);
+                    s[9][i].setBackgroundColor(getResources().getColor(R.color.play_online));
             }
-            else {
-                L[i].setBackgroundColor(getResources().getColor(R.color.trans));
+            if (turn) {
+                t[0].setTextColor(getResources().getColor(R.color.quick_play));
+                t[1].setTextColor(getResources().getColor(R.color.black));
+            } else {
+                t[0].setTextColor(getResources().getColor(R.color.black));
+                t[1].setTextColor(getResources().getColor(R.color.play_online));
+            }
+            for (int i = 0; i < 9; i++) {
+                if (valid(i)) {
+                    if (turn)
+                        L[i].setBackgroundColor(getResources().getColor(R.color.quick_play));
+                    else
+                        L[i].setBackgroundColor(getResources().getColor(R.color.play_online));
+                    L[i].getBackground().setAlpha(20);
+                } else {
+                    L[i].setBackgroundColor(getResources().getColor(R.color.trans));
+                }
             }
         }
     }
 
     private int bendGame(int a1) {
         List<Set<Integer>> x;
+        onturn();
         if (turn)
             x = getSubsets(opponent.get(a1), 3);
         else
@@ -1096,7 +1127,7 @@ public class LAN extends AppCompatActivity {
                         } else {
                             Toast.makeText(LAN.this, "You Won",Toast.LENGTH_LONG).show();
                         }
-                        restart(findViewById(R.id.reset));
+                        restart_a();
                         return;
                     }
                 }
@@ -1105,12 +1136,25 @@ public class LAN extends AppCompatActivity {
         if ((myuser.get(9)).size()+(opponent.get(9)).size()+neutral.size()==9) {
             Toast.makeText(LAN.this, "Match Tie!!", Toast.LENGTH_LONG).show();
             turn=!turn;
-            restart(findViewById(R.id.reset));
+            restart_a();
             return;
         }
+        onturn();
     }
 
     public void home(View view) {
+        ingame = false;
+        if (ifServer) {
+            ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(101));
+//                            Toast.makeText(LAN.this, x + " send to client", Toast.LENGTH_LONG).show();
+            serverSenderThread.start();
+        } else {
+            clientThread.sendMsg(Integer.toString(101));
+        }
+        home_a();
+    }
+    private void home_a() {
+        restart_a();
         Intent main = new Intent(this, MainActivity.class);
         main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(main);
@@ -1118,13 +1162,39 @@ public class LAN extends AppCompatActivity {
     }
 
     public void restart(View view) {
-        win = new ArrayList<>();
+        if (ifServer) {
+            ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(102));
+//                            Toast.makeText(LAN.this, x + " send to client", Toast.LENGTH_LONG).show();
+            serverSenderThread.start();
+        } else {
+            clientThread.sendMsg(Integer.toString(102));
+        }
+    }
+
+    private void restart_a() {
+        win.clear();
+        myuser.clear();
+        opponent.clear();
         myuser = new ArrayList<>(10);
         opponent = new ArrayList<>(10);
-        neutral = new ArrayList<>();
-        proceeding = new ArrayList<>();
+        neutral.clear();
+        proceeding.clear();
+        last = 9;
+        wait_layout.setVisibility(View.GONE);
+        menu_layout.setVisibility(View.GONE);
         game_layout.setVisibility(View.GONE);
         create_server_layout.setVisibility(View.VISIBLE);
+        ingame=false;
+        turn=!turn;
+        for (j = 0; j < 8; j++) {
+            Set<Integer> abs = new HashSet<>();
+            abs.addAll(Arrays.asList(my[j]));
+            win.add(abs);
+        }
+        for (i=0; i<10; i++) {
+            myuser.add(new ArrayList<Integer>());
+            opponent.add(new ArrayList<Integer>());
+        }
         return;
     }
 
@@ -1143,20 +1213,22 @@ public class LAN extends AppCompatActivity {
         try {
             if (mode) {
                 if (turn) {
-                    int x = opponent.get(9).get(opponent.size() - 1);
-                    opponent.remove(opponent.get(9).size() - 1);
+                    int x = opponent.get(9).get(opponent.get(9).size() - 1);
+                    opponent.get(9).remove(opponent.get(9).size() - 1);
                     b[9][x].setText("");
+                    b[9][x].setBackgroundColor(getResources().getColor(R.color.trans));
                     turn = false;
                 } else {
                     int x = myuser.get(9).get(myuser.get(9).size() - 1);
-                    myuser.remove(myuser.get(9).size() - 1);
+                    myuser.get(9).remove(myuser.get(9).size() - 1);
                     b[9][x].setText("");
+                    b[9][x].setBackgroundColor(getResources().getColor(R.color.trans));
                     turn = true;
                 }
             } else {
                 int prev = proceeding.get(proceeding.size() - 1);
                 proceeding.remove(proceeding.size() - 1);
-                if (turn) {
+                try {
                     opponent.get(prev / 10).remove(opponent.get(prev / 10).size() - 1);
                     b[prev / 10][prev % 10].setText("");
                     turn = false;
@@ -1166,17 +1238,15 @@ public class LAN extends AppCompatActivity {
                             b[9][prev / 10].setVisibility(View.GONE);
                             L[prev / 10].setVisibility(View.VISIBLE);
                         }
-                    } catch (Exception e) {
-                    }
+                    } catch (Exception e) {}
                     try {
                         if (neutral.get(neutral.size() - 1) == prev / 10) {
                             neutral.remove(neutral.size() - 1);
                             b[9][prev / 10].setVisibility(View.GONE);
                             L[prev / 10].setVisibility(View.VISIBLE);
                         }
-                    } catch (Exception e) {
-                    }
-                } else {
+                    } catch (Exception e) {}
+                } catch (Exception e1) {
                     myuser.get(prev / 10).remove(myuser.get(prev / 10).size() - 1);
                     b[prev / 10][prev % 10].setText("");
                     turn = true;
@@ -1186,16 +1256,14 @@ public class LAN extends AppCompatActivity {
                             b[9][prev / 10].setVisibility(View.GONE);
                             L[prev / 10].setVisibility(View.VISIBLE);
                         }
-                    } catch (Exception e) {
-                    }
+                    } catch (Exception e) {}
                     try {
                         if (neutral.get(neutral.size() - 1) == prev / 10) {
                             neutral.remove(neutral.size() - 1);
                             b[9][prev / 10].setVisibility(View.GONE);
                             L[prev / 10].setVisibility(View.VISIBLE);
                         }
-                    } catch (Exception e) {
-                    }
+                    } catch (Exception e) {}
                 }
                 if (proceeding.size() == 0)
                     last = 9;
@@ -1270,6 +1338,8 @@ public class LAN extends AppCompatActivity {
     public void start(View view) {
         if (mode) {
             for (j = 0; j < 9; j++) {
+                b[9][j].setText("");
+                b[9][j].setBackgroundColor(getResources().getColor(R.color.trans));
                 setOnClick3(b[9][j],j,ifServer);
             }
             create_server_layout.setVisibility(View.GONE);
@@ -1281,7 +1351,12 @@ public class LAN extends AppCompatActivity {
         } else {
             for (i = 0; i < 9; i++) {
                 for (j = 0 ; j<9; j++)
+                {
                     setOnClick(b[i][j], b[9][i], i, j, ifServer);
+                    b[i][j].setText("");
+                }
+                b[9][i].setText("");
+                b[9][i].setBackgroundColor(getResources().getColor(R.color.trans));
             }
             create_server_layout.setVisibility(View.GONE);
             game_layout.setVisibility(View.VISIBLE);
@@ -1298,5 +1373,12 @@ public class LAN extends AppCompatActivity {
         } else {
             clientThread.sendMsg(Boolean.toString(mode) + Boolean.toString(true));
         }
+    }
+    @Override
+    public void onBackPressed() {
+        if (game_layout.getVisibility()==View.VISIBLE)
+            Switch(findViewById(R.id.back));
+        else
+            home(findViewById(R.id.back));
     }
 }
