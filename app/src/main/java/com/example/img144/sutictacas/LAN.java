@@ -526,7 +526,6 @@ public class LAN extends AppCompatActivity {
                                                 b[9][i].setVisibility(View.VISIBLE);
                                             }
                                         } else {
-                                            Toast.makeText(LAN.this, msgLog, Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 } catch (Exception e) {
@@ -913,7 +912,6 @@ public class LAN extends AppCompatActivity {
                                     btn.setText("O");
                                     btn.setTextColor(getResources().getColor(R.color.quick_play));
                                 }
-                                btn.setTextColor(getResources().getColor(R.color.quick_play));
                                 int be=bendGame(x);
                                 if(be==1) {
                                     L[x].setVisibility(View.GONE);
@@ -1044,27 +1042,25 @@ public class LAN extends AppCompatActivity {
                 t[0].setTextColor(getResources().getColor(R.color.play_online));
         }
         else {
-            for (int i = 0; i < 8; i++) {
-                if (turn)
+            for (int i = 0; i < 8; i++ ) {
+                if (turn!=myturn)
                     s[9][i].setBackgroundColor(getResources().getColor(R.color.quick_play));
                 else
                     s[9][i].setBackgroundColor(getResources().getColor(R.color.play_online));
             }
-            if (turn) {
+            if (turn!=myturn)
                 t[0].setTextColor(getResources().getColor(R.color.quick_play));
-                t[1].setTextColor(getResources().getColor(R.color.black));
-            } else {
-                t[0].setTextColor(getResources().getColor(R.color.black));
-                t[1].setTextColor(getResources().getColor(R.color.play_online));
-            }
+            else
+                t[0].setTextColor(getResources().getColor(R.color.play_online));
             for (int i = 0; i < 9; i++) {
                 if (valid(i)) {
-                    if (turn)
+                    if (turn!=myturn)
                         L[i].setBackgroundColor(getResources().getColor(R.color.quick_play));
                     else
                         L[i].setBackgroundColor(getResources().getColor(R.color.play_online));
                     L[i].getBackground().setAlpha(20);
-                } else {
+                }
+                else {
                     L[i].setBackgroundColor(getResources().getColor(R.color.trans));
                 }
             }
@@ -1169,6 +1165,7 @@ public class LAN extends AppCompatActivity {
         } else {
             clientThread.sendMsg(Integer.toString(102));
         }
+        restart_a();
     }
 
     private void restart_a() {
@@ -1226,11 +1223,11 @@ public class LAN extends AppCompatActivity {
                     turn = true;
                 }
             } else {
-                int prev = proceeding.get(proceeding.size() - 1);
-                proceeding.remove(proceeding.size() - 1);
-                try {
-                    opponent.get(prev / 10).remove(opponent.get(prev / 10).size() - 1);
-                    b[prev / 10][prev % 10].setText("");
+                int prev = proceeding.get(proceeding.size()-1);
+                proceeding.remove(proceeding.size()-1);
+                if (turn) {
+                    opponent.get(prev/10).remove(opponent.get(prev/10).size()-1);
+                    b[prev/10][prev%10].setText("");
                     turn = false;
                     try {
                         if (opponent.get(9).get(opponent.get(9).size() - 1) == prev / 10) {
@@ -1240,35 +1237,35 @@ public class LAN extends AppCompatActivity {
                         }
                     } catch (Exception e) {}
                     try {
-                        if (neutral.get(neutral.size() - 1) == prev / 10) {
-                            neutral.remove(neutral.size() - 1);
-                            b[9][prev / 10].setVisibility(View.GONE);
-                            L[prev / 10].setVisibility(View.VISIBLE);
+                        if (neutral.get(neutral.size()-1) == prev/10) {
+                            neutral.remove(neutral.size()-1);
+                            b[9][prev/10].setVisibility(View.GONE);
+                            L[prev/10].setVisibility(View.VISIBLE);
                         }
                     } catch (Exception e) {}
-                } catch (Exception e1) {
-                    myuser.get(prev / 10).remove(myuser.get(prev / 10).size() - 1);
-                    b[prev / 10][prev % 10].setText("");
+                } else {
+                    myuser.get(prev/10).remove(myuser.get(prev/10).size()-1);
+                    b[prev/10][prev%10].setText("");
                     turn = true;
                     try {
-                        if (myuser.get(9).get(myuser.get(9).size() - 1) == prev / 10) {
-                            myuser.get(9).remove(myuser.get(9).size() - 1);
-                            b[9][prev / 10].setVisibility(View.GONE);
-                            L[prev / 10].setVisibility(View.VISIBLE);
+                        if (myuser.get(9).get(myuser.get(9).size()-1) == prev/10) {
+                            myuser.get(9).remove(myuser.get(9).size()-1);
+                            b[9][prev/10].setVisibility(View.GONE);
+                            L[prev/10].setVisibility(View.VISIBLE);
                         }
                     } catch (Exception e) {}
                     try {
-                        if (neutral.get(neutral.size() - 1) == prev / 10) {
-                            neutral.remove(neutral.size() - 1);
-                            b[9][prev / 10].setVisibility(View.GONE);
-                            L[prev / 10].setVisibility(View.VISIBLE);
+                        if (neutral.get(neutral.size()-1) == prev/10) {
+                            neutral.remove(neutral.size()-1);
+                            b[9][prev/10].setVisibility(View.GONE);
+                            L[prev/10].setVisibility(View.VISIBLE);
                         }
                     } catch (Exception e) {}
                 }
-                if (proceeding.size() == 0)
-                    last = 9;
+                if (proceeding.size()==0)
+                    last=9;
                 else
-                    last = proceeding.get(proceeding.size() - 1) % 10;
+                    last = proceeding.get(proceeding.size()-1)%10;
                 onturn();
             }
         } catch (Exception e) {
@@ -1365,6 +1362,7 @@ public class LAN extends AppCompatActivity {
                 b[9][i].setVisibility(View.GONE);
             }
         }
+        onturn();
         ingame = true;
         if(ifServer) {
             ServerSenderThread serverSenderThread = new ServerSenderThread(Boolean.toString(mode) + Boolean.toString(true));

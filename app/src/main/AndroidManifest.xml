@@ -22,8 +22,6 @@
         <activity android:name=".SMDP3X3" />
         <activity android:name=".SMDP9X9" />
         <activity android:name=".LAN" />
-        <activity android:name=".LAN3X3" />
-        <activity android:name=".LAN9X9" />
 
 
     </application>
