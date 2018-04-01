@@ -1,17 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.img144.sutictacas.SMDP9X9">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.img144.sutictacas.LAN">
 
     <LinearLayout
-        android:id="@+id/layout1"
+        android:id="@+id/create_server_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/mode_layout"
+                android:layout_weight="1"
+                android:layout_width="750dp"
+                android:layout_height="650dp"
+                android:layout_marginTop="-500dp"
+                android:layout_gravity="center"
+                android:background="@drawable/panel_layout"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <Space
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="80dp">
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+
+                    <Button
+                        android:id="@+id/B9X9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/main_play_button"
+                        android:backgroundTint="@color/white"
+                        android:onClick="changemode"
+                        android:text="9X9"
+                        android:textColor="@color/quick_play" />
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+
+                    <Button
+                        android:id="@+id/B3X3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/main_play_button"
+                        android:backgroundTint="@color/white"
+                        android:onClick="changemode"
+                        android:text="3X3"
+                        android:textColor="@color/quick_play" />
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Space
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+            <Button
+                android:id="@+id/cross"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:text="X"
+                android:textColor="@color/white"
+                android:textSize="100dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/panel_layout"
+                android:backgroundTint="@color/black"
+                android:onClick="firstspone" />
+
+            <Space
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+            <Space
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+
+            <Button
+                android:id="@+id/start_game"
+                android:layout_width="250dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/main_play_button"
+                android:backgroundTint="@color/play_online"
+                android:text="Start Game"
+                android:textColor="@color/white"
+                android:onClick="start"/>
+
+            <Space
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/wait_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Wait!!!!"
+        android:textSize="60dp"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/game_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <Space
             android:layout_weight="1"
@@ -1581,7 +1721,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout2"
+        android:id="@+id/menu_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -1643,4 +1783,5 @@
             android:layout_height="wrap_content"
             android:layout_weight="5" />
     </LinearLayout>
-</RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

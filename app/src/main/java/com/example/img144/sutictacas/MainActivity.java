@@ -41,10 +41,8 @@ public class MainActivity extends AppCompatActivity {
         screen2.setVisibility(View.GONE);
     }
     public void lan(View view) {
-        qplay = false;
-        screen0.setVisibility(View.GONE);
-        screen1.setVisibility(View.GONE);
-        screen2.setVisibility(View.VISIBLE);
+        Intent l = new Intent(this, LAN.class);
+        startActivity(l);
     }
     public void single(View view) {
         player = true;
@@ -60,10 +58,11 @@ public class MainActivity extends AppCompatActivity {
         screen2.setVisibility(View.VISIBLE);
     }
 
-    public void info(View view) {
-
+    public void quit(View view) {
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
     }
-    public void setting(View view) {
+    public void info(View view) {
 
     }
 
@@ -94,18 +93,6 @@ public class MainActivity extends AppCompatActivity {
                     l.putExtra("my_turn", me);
                     startActivity(l);
                 }
-            }
-        }
-        else {
-            if (mode) {
-                Intent l = new Intent(this, LAN3X3.class);
-                l.putExtra("my_turn", me);
-                startActivity(l);
-            }
-            else {
-                Intent l = new Intent(this, LAN9X9.class);
-                l.putExtra("my_turn", me);
-                startActivity(l);
             }
         }
     }

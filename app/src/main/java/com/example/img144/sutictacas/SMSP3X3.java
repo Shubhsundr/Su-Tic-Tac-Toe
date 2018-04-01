@@ -3,9 +3,11 @@ package com.example.img144.sutictacas;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,6 +19,9 @@ import java.util.Set;
 
 public class SMSP3X3 extends AppCompatActivity {
     Button b[] = new Button[9];
+    RelativeLayout s[] = new RelativeLayout[8];
+    ImageView p[] = new ImageView[2];
+    TextView t[] = new TextView[2];
     Boolean turn, my_turn, first_turn;
     int i;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
@@ -48,12 +53,31 @@ public class SMSP3X3 extends AppCompatActivity {
         b[7] = (Button) findViewById(R.id.b7);
         b[8] = (Button) findViewById(R.id.b8);
 
+        s[0] = (RelativeLayout) findViewById(R.id.s0);
+        s[1] = (RelativeLayout) findViewById(R.id.s1);
+        s[2] = (RelativeLayout) findViewById(R.id.s2);
+        s[3] = (RelativeLayout) findViewById(R.id.s3);
+        s[4] = (RelativeLayout) findViewById(R.id.s4);
+        s[5] = (RelativeLayout) findViewById(R.id.s5);
+        s[6] = (RelativeLayout) findViewById(R.id.s6);
+        s[7] = (RelativeLayout) findViewById(R.id.s7);
+
+        p[0] = (ImageView) findViewById(R.id.p1);
+        p[1] = (ImageView) findViewById(R.id.p2);
+
+        t[0] = (TextView) findViewById(R.id.t1);
+        t[1] = (TextView) findViewById(R.id.t2);
+
+        t[0].setText("Me");
+        t[1].setText("Bot");
+
         for (i = 0; i < 9; i++) {
             setOnClick(b[i], i);
         }
 
         turn = !first_turn;
         bot();
+        onturn();
     }
 
     private void setOnClick(final Button btn, final Integer x) {
@@ -64,14 +88,29 @@ public class SMSP3X3 extends AppCompatActivity {
                     myuser.add(x);
                     turn = true;
                     if(my_turn==true) {
+                        btn.setBackgroundColor(getResources().getColor(R.color.play_online));
                         btn.setText("X");
                     } else {
+                        btn.setBackgroundColor(getResources().getColor(R.color.quick_play));
                         btn.setText("O");
                     }
                     endGame(myuser);
                 }
             }
         });
+    }
+
+    private void onturn() {
+        for (int i = 0; i < 8; i++ ) {
+            if (turn==my_turn)
+                s[i].setBackgroundColor(getResources().getColor(R.color.quick_play));
+            else
+                s[i].setBackgroundColor(getResources().getColor(R.color.play_online));
+        }
+        if (turn==my_turn)
+            t[0].setTextColor(getResources().getColor(R.color.quick_play));
+        else
+            t[0].setTextColor(getResources().getColor(R.color.play_online));
     }
 
     private void endGame(List a1) {
@@ -83,7 +122,7 @@ public class SMSP3X3 extends AppCompatActivity {
                         if (turn) {
                             Toast.makeText(SMSP3X3.this, "You Won!!", Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(SMSP3X3.this, "You Lose!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SMSP3X3.this, "You Loss!!", Toast.LENGTH_LONG).show();
                         }
                         restart(findViewById(R.id.reset));
                         return;
@@ -96,7 +135,30 @@ public class SMSP3X3 extends AppCompatActivity {
             restart(findViewById(R.id.reset));
             return;
         }
+        onturn();
         bot();
+    }
+
+    public void Switch(View view) {
+        if (findViewById(R.id.layout1).getVisibility() != View.VISIBLE) {
+            findViewById(R.id.layout1).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout2).setVisibility(View.GONE);
+        }
+        else {
+            findViewById(R.id.layout2).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout1).setVisibility(View.GONE);
+        }
+    }
+
+    public void sound(View view) {
+        if (findViewById(R.id.soundon).getVisibility() != View.VISIBLE) {
+            findViewById(R.id.soundon).setVisibility(View.VISIBLE);
+            findViewById(R.id.soundoff).setVisibility(View.GONE);
+        }
+        else {
+            findViewById(R.id.soundoff).setVisibility(View.VISIBLE);
+            findViewById(R.id.soundon).setVisibility(View.GONE);
+        }
     }
 
     public void bot() {
@@ -106,8 +168,10 @@ public class SMSP3X3 extends AppCompatActivity {
             if (b[n].getText().toString().equals("")) {
                 opponent.add(n);
                 if(my_turn==true) {
+                    b[n].setBackgroundColor(getResources().getColor(R.color.quick_play));
                     b[n].setText("O");
                 } else {
+                    b[n].setBackgroundColor(getResources().getColor(R.color.play_online));
                     b[n].setText("X");
                 }
                 turn = false;
@@ -137,9 +201,11 @@ public class SMSP3X3 extends AppCompatActivity {
             int x = myuser.get(myuser.size() - 1);
             myuser.remove(myuser.size() - 1);
             b[x].setText("");
+            b[x].setBackgroundColor(getResources().getColor(R.color.trans));
             int y = opponent.get(opponent.size() - 1);
             opponent.remove(opponent.size() - 1);
             b[y].setText("");
+            b[y].setBackgroundColor(getResources().getColor(R.color.trans));;
         } catch (Exception e) {
             Toast.makeText(SMSP3X3.this, "can't undo", Toast.LENGTH_LONG).show();
         }

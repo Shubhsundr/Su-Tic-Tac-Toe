@@ -1,13 +1,14 @@
 package com.example.img144.sutictacas;
 
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,7 +21,10 @@ import java.util.Set;
 
 public class SMSP9X9 extends AppCompatActivity {
     Button b[][] = new Button[10][9];
+    RelativeLayout s[][] = new RelativeLayout[10][8];
     LinearLayout L[] = new LinearLayout[9];
+    ImageView p[] = new ImageView[2];
+    TextView t[] = new TextView[2];
     Boolean turn, myturn, firstturn;
     int i,j;
     int last=9;
@@ -30,7 +34,6 @@ public class SMSP9X9 extends AppCompatActivity {
     List<List<Integer>> opponent = new ArrayList(10);
     List<Integer> neutral = new ArrayList<>();
     List<Integer> proceeding = new ArrayList<>();
-    private int color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,12 +163,113 @@ public class SMSP9X9 extends AppCompatActivity {
         b[9][7] = (Button) findViewById(R.id.b7);
         b[9][8] = (Button) findViewById(R.id.b8);
 
+
+        s[0][0] = (RelativeLayout) findViewById(R.id.s00);
+        s[0][1] = (RelativeLayout) findViewById(R.id.s01);
+        s[0][2] = (RelativeLayout) findViewById(R.id.s02);
+        s[0][3] = (RelativeLayout) findViewById(R.id.s03);
+        s[0][4] = (RelativeLayout) findViewById(R.id.s04);
+        s[0][5] = (RelativeLayout) findViewById(R.id.s05);
+        s[0][6] = (RelativeLayout) findViewById(R.id.s06);
+        s[0][7] = (RelativeLayout) findViewById(R.id.s07);
+
+        s[1][0] = (RelativeLayout) findViewById(R.id.s10);
+        s[1][1] = (RelativeLayout) findViewById(R.id.s11);
+        s[1][2] = (RelativeLayout) findViewById(R.id.s12);
+        s[1][3] = (RelativeLayout) findViewById(R.id.s13);
+        s[1][4] = (RelativeLayout) findViewById(R.id.s14);
+        s[1][5] = (RelativeLayout) findViewById(R.id.s15);
+        s[1][6] = (RelativeLayout) findViewById(R.id.s16);
+        s[1][7] = (RelativeLayout) findViewById(R.id.s17);
+
+        s[2][0] = (RelativeLayout) findViewById(R.id.s20);
+        s[2][1] = (RelativeLayout) findViewById(R.id.s21);
+        s[2][2] = (RelativeLayout) findViewById(R.id.s22);
+        s[2][3] = (RelativeLayout) findViewById(R.id.s23);
+        s[2][4] = (RelativeLayout) findViewById(R.id.s24);
+        s[2][5] = (RelativeLayout) findViewById(R.id.s25);
+        s[2][6] = (RelativeLayout) findViewById(R.id.s26);
+        s[2][7] = (RelativeLayout) findViewById(R.id.s27);
+
+        s[3][0] = (RelativeLayout) findViewById(R.id.s30);
+        s[3][1] = (RelativeLayout) findViewById(R.id.s31);
+        s[3][2] = (RelativeLayout) findViewById(R.id.s32);
+        s[3][3] = (RelativeLayout) findViewById(R.id.s33);
+        s[3][4] = (RelativeLayout) findViewById(R.id.s34);
+        s[3][5] = (RelativeLayout) findViewById(R.id.s35);
+        s[3][6] = (RelativeLayout) findViewById(R.id.s36);
+        s[3][7] = (RelativeLayout) findViewById(R.id.s37);
+
+        s[4][0] = (RelativeLayout) findViewById(R.id.s40);
+        s[4][1] = (RelativeLayout) findViewById(R.id.s41);
+        s[4][2] = (RelativeLayout) findViewById(R.id.s42);
+        s[4][3] = (RelativeLayout) findViewById(R.id.s43);
+        s[4][4] = (RelativeLayout) findViewById(R.id.s44);
+        s[4][5] = (RelativeLayout) findViewById(R.id.s45);
+        s[4][6] = (RelativeLayout) findViewById(R.id.s46);
+        s[4][7] = (RelativeLayout) findViewById(R.id.s47);
+
+        s[5][0] = (RelativeLayout) findViewById(R.id.s50);
+        s[5][1] = (RelativeLayout) findViewById(R.id.s51);
+        s[5][2] = (RelativeLayout) findViewById(R.id.s52);
+        s[5][3] = (RelativeLayout) findViewById(R.id.s53);
+        s[5][4] = (RelativeLayout) findViewById(R.id.s54);
+        s[5][5] = (RelativeLayout) findViewById(R.id.s55);
+        s[5][6] = (RelativeLayout) findViewById(R.id.s56);
+        s[5][7] = (RelativeLayout) findViewById(R.id.s57);
+
+        s[6][0] = (RelativeLayout) findViewById(R.id.s60);
+        s[6][1] = (RelativeLayout) findViewById(R.id.s61);
+        s[6][2] = (RelativeLayout) findViewById(R.id.s62);
+        s[6][3] = (RelativeLayout) findViewById(R.id.s63);
+        s[6][4] = (RelativeLayout) findViewById(R.id.s64);
+        s[6][5] = (RelativeLayout) findViewById(R.id.s65);
+        s[6][6] = (RelativeLayout) findViewById(R.id.s66);
+        s[6][7] = (RelativeLayout) findViewById(R.id.s67);
+
+        s[7][0] = (RelativeLayout) findViewById(R.id.s70);
+        s[7][1] = (RelativeLayout) findViewById(R.id.s71);
+        s[7][2] = (RelativeLayout) findViewById(R.id.s72);
+        s[7][3] = (RelativeLayout) findViewById(R.id.s73);
+        s[7][4] = (RelativeLayout) findViewById(R.id.s74);
+        s[7][5] = (RelativeLayout) findViewById(R.id.s75);
+        s[7][6] = (RelativeLayout) findViewById(R.id.s76);
+        s[7][7] = (RelativeLayout) findViewById(R.id.s77);
+
+        s[8][0] = (RelativeLayout) findViewById(R.id.s80);
+        s[8][1] = (RelativeLayout) findViewById(R.id.s81);
+        s[8][2] = (RelativeLayout) findViewById(R.id.s82);
+        s[8][3] = (RelativeLayout) findViewById(R.id.s83);
+        s[8][4] = (RelativeLayout) findViewById(R.id.s84);
+        s[8][5] = (RelativeLayout) findViewById(R.id.s85);
+        s[8][6] = (RelativeLayout) findViewById(R.id.s86);
+        s[8][7] = (RelativeLayout) findViewById(R.id.s87);
+
+        s[9][0] = (RelativeLayout) findViewById(R.id.s0);
+        s[9][1] = (RelativeLayout) findViewById(R.id.s1);
+        s[9][2] = (RelativeLayout) findViewById(R.id.s2);
+        s[9][3] = (RelativeLayout) findViewById(R.id.s3);
+        s[9][4] = (RelativeLayout) findViewById(R.id.s4);
+        s[9][5] = (RelativeLayout) findViewById(R.id.s5);
+        s[9][6] = (RelativeLayout) findViewById(R.id.s6);
+        s[9][7] = (RelativeLayout) findViewById(R.id.s7);
+
+        p[0] = (ImageView) findViewById(R.id.p1);
+        p[1] = (ImageView) findViewById(R.id.p2);
+
+        t[0] = (TextView) findViewById(R.id.t1);
+        t[1] = (TextView) findViewById(R.id.t2);
+
+        t[0].setText("Me");
+        t[1].setText("Bot");
+
         for (i = 0; i < 9; i++) {
             for (j = 0 ; j<9; j++)
                 setOnClick(b[i][j], i, j);
         }
 
         turn = firstturn;
+        onturn();
         bot();
     }
 
@@ -175,32 +279,36 @@ public class SMSP9X9 extends AppCompatActivity {
             public void onClick(View v) {
                 if (btn.getText().toString().equals("")) {
                     if (turn) {
-                        if(valid(x, y)) {
+                        if(valid(x)) {
+                            last=y;
                             myuser.get(x).add(y);
                             proceeding.add(10*x+y);
                             turn = false;
                             if(myturn==true) {
                                 b[x][y].setText("X");
+                                b[x][y].setTextColor(getResources().getColor(R.color.play_online));
                             } else {
                                 b[x][y].setText("O");
+                                b[x][y].setTextColor(getResources().getColor(R.color.quick_play));
                             }
-                            int be = bendGame(myuser.get(x));
+                            int be = bendGame(x);
                             if(be==1) {
                                 L[x].setVisibility(View.GONE);
                                 b[9][x].setVisibility(View.VISIBLE);
                                 if(myturn==true) {
                                     b[9][x].setText("X");
+                                    b[9][x].setBackgroundColor(getResources().getColor(R.color.play_online));
                                 } else {
                                     b[9][x].setText("O");
+                                    b[9][x].setBackgroundColor(getResources().getColor(R.color.quick_play));
                                 }
                                 myuser.get(9).add(x);
                                 endGame(myuser.get(9));
                             } else if(be==2) {
-                                L[x].setVisibility(View.GONE);
-                                b[9][x].setVisibility(View.VISIBLE);
-                                b[9][x].setText("#");
                                 neutral.add(x);
+                                endGame(myuser.get(9));
                             }
+                            onturn();
                             bot();
                         }
                     }
@@ -215,70 +323,81 @@ public class SMSP9X9 extends AppCompatActivity {
             int m = rand.nextInt(9);
             int n = rand.nextInt(9);
             if (b[m][n].getText().toString().equals("")) {
-                if(valid(m, n)) {
+                if(valid(m)) {
+                    last = n;
                     opponent.get(m).add(n);
                     proceeding.add(10*m+n);
                     turn = true;
                     if(myturn==true) {
                         b[m][n].setText("O");
+                        b[m][n].setTextColor(getResources().getColor(R.color.quick_play));
                     } else {
                         b[m][n].setText("X");
+                        b[m][n].setTextColor(getResources().getColor(R.color.play_online));
                     }
-                    int be=bendGame(opponent.get(m));
+                    int be=bendGame(m);
                     if(be==1) {
                         L[m].setVisibility(View.GONE);
                         b[9][m].setVisibility(View.VISIBLE);
                         if(myturn==true) {
                             b[9][m].setText("O");
+                            b[9][m].setBackgroundColor(getResources().getColor(R.color.quick_play));
                         } else {
                             b[9][m].setText("X");
+                            b[9][m].setBackgroundColor(getResources().getColor(R.color.play_online));
                         }
                         opponent.get(9).add(m);
                         endGame(opponent.get(9));
                     } else if(be==2) {
-                        L[m].setVisibility(View.GONE);
-                        b[9][m].setVisibility(View.VISIBLE);
-                        b[9][m].setText("#");
                         neutral.add(m);
+                        endGame(opponent.get(9));
                     }
                 }
             }
         }
+        onturn();
     }
-    public boolean valid(Integer x, Integer y) {
+
+    public boolean valid(Integer x) {
         if (myuser.get(9).contains(x) || opponent.get(9).contains(x) || neutral.contains(x)) {
             return false;
         } else if (myuser.get(9).contains(last) || opponent.get(9).contains(last) || neutral.contains(last)) {
-            last = y;
             return true;
         } else if (last == x || last == 9) {
-            last = y;
             return true;
         } else {
             return false;
         }
     }
 
-    private int bendGame(List a1) {
-        List<Set<Integer>> x = getSubsets(a1, 3);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                GradientDrawable gd = new GradientDrawable();
-                color = R.color.black;
-                gd.setStroke(1, color);
-                // Assign the created border to EditText widget
-                b[i][j].setBackground(gd);
-            }
+    public void Switch(View view) {
+        if (findViewById(R.id.layout1).getVisibility() != View.VISIBLE) {
+            findViewById(R.id.layout1).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout2).setVisibility(View.GONE);
         }
-        for (int i = 0; i < 9; i++) {
-            if(b[last][i].getText().toString().equals("")) {
-                GradientDrawable gd = new GradientDrawable();
-                color = R.color.play_online;
-                gd.setStroke(3, color);
-                // Assign the created border to EditText widget
-                b[last][i].setBackground(gd);
-            }
+        else {
+            findViewById(R.id.layout2).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout1).setVisibility(View.GONE);
         }
+    }
+
+    public void sound(View view) {
+        if (findViewById(R.id.soundon).getVisibility() != View.VISIBLE) {
+            findViewById(R.id.soundon).setVisibility(View.VISIBLE);
+            findViewById(R.id.soundoff).setVisibility(View.GONE);
+        }
+        else {
+            findViewById(R.id.soundoff).setVisibility(View.VISIBLE);
+            findViewById(R.id.soundon).setVisibility(View.GONE);
+        }
+    }
+
+    private int bendGame(int a1) {
+        List<Set<Integer>> x;
+        if (turn)
+            x = getSubsets(opponent.get(a1), 3);
+        else
+            x = getSubsets(myuser.get(a1), 3);
         if (x.size() > 0) {
             for (int i = 0; i < x.size(); i++) {
                 for (int j = 0; j < 8; j++) {
@@ -288,31 +407,58 @@ public class SMSP9X9 extends AppCompatActivity {
                 }
             }
         }
-        if (myuser.size()+opponent.size()==9) {
-            return 1;
+        if ((myuser.get(a1)).size()+(opponent.get(a1)).size()==9) {
+            return 2;
         } else {
             return 0;
         }
     }
 
+    private void onturn() {
+        for (int i = 0; i < 8; i++ ) {
+            if (turn!=myturn)
+                s[9][i].setBackgroundColor(getResources().getColor(R.color.quick_play));
+            else
+                s[9][i].setBackgroundColor(getResources().getColor(R.color.play_online));
+        }
+        if (turn!=myturn)
+            t[0].setTextColor(getResources().getColor(R.color.quick_play));
+        else
+            t[0].setTextColor(getResources().getColor(R.color.play_online));
+        for (int i = 0; i < 9; i++) {
+            if (valid(i)) {
+                if (turn!=myturn)
+                    L[i].setBackgroundColor(getResources().getColor(R.color.quick_play));
+                else
+                    L[i].setBackgroundColor(getResources().getColor(R.color.play_online));
+                L[i].getBackground().setAlpha(20);
+            }
+            else {
+                L[i].setBackgroundColor(getResources().getColor(R.color.trans));
+            }
+        }
+    }
     private void endGame(List a1) {
         List<Set<Integer>> x = getSubsets(a1, 3);
         if (x.size() > 0) {
             for (int i = 0; i < x.size(); i++) {
                 for (int j = 0; j < 8; j++) {
                     if ((win.get(j)).equals(x.get(i))) {
-                        Intent main = new Intent(this, MainActivity.class);
-                        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(main);
+                        if (!turn) {
+                            Toast.makeText(SMSP9X9.this, "You Won!!", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(SMSP9X9.this, "You Loss!!",Toast.LENGTH_LONG).show();
+                        }
+                        restart(findViewById(R.id.reset));
                         return;
                     }
                 }
             }
         }
-        if (myuser.size()+opponent.size()==9) {
-            Intent main = new Intent(this, MainActivity.class);
-            main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(main);
+        if ((myuser.get(9)).size()+(opponent.get(9)).size()+neutral.size()==9) {
+            Toast.makeText(SMSP9X9.this, "Match Tie!!", Toast.LENGTH_LONG).show();
+            turn=!turn;
+            restart(findViewById(R.id.reset));
             return;
         }
     }
@@ -325,8 +471,9 @@ public class SMSP9X9 extends AppCompatActivity {
     }
 
     public void restart(View view) {
-        Intent main = new Intent(this, SMDP9X9.class);
-        main.putExtra("my_turn", turn);
+        Intent main = new Intent(this, SMSP9X9.class);
+        main.putExtra("my_turn", myturn);
+        main.putExtra("first_turn", !turn);
         main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(main);
         return;
@@ -335,10 +482,10 @@ public class SMSP9X9 extends AppCompatActivity {
     public void undo(View view) {
         try {
             int prev = proceeding.get(proceeding.size()-1);
+            turn = false;
             proceeding.remove(proceeding.size()-1);
             opponent.get(prev/10).remove(opponent.get(prev/10).size()-1);
             b[prev/10][prev%10].setText("");
-            turn = false;
             try {
                 if (opponent.get(9).get(opponent.get(9).size() - 1) == prev / 10) {
                     opponent.get(9).remove(opponent.get(9).size() - 1);
@@ -346,9 +493,17 @@ public class SMSP9X9 extends AppCompatActivity {
                     L[prev / 10].setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {}
+            try {
+                if (neutral.get(neutral.size()-1) == prev/10) {
+                    neutral.remove(neutral.size()-1);
+                    b[9][prev/10].setVisibility(View.GONE);
+                    L[prev/10].setVisibility(View.VISIBLE);
+                }
+            } catch (Exception e) {}
+            prev = proceeding.get(proceeding.size()-1);
+            proceeding.remove(proceeding.size()-1);
             myuser.get(prev/10).remove(myuser.get(prev/10).size()-1);
             b[prev/10][prev%10].setText("");
-            turn = false;
             try {
                 if (myuser.get(9).get(myuser.get(9).size() - 1) == prev / 10) {
                     myuser.get(9).remove(myuser.get(9).size() - 1);
@@ -356,8 +511,23 @@ public class SMSP9X9 extends AppCompatActivity {
                     L[prev / 10].setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {}
-            last = proceeding.get(proceeding.size()-1)%10;
+            try {
+                if (neutral.get(neutral.size()-1) == prev/10) {
+                    neutral.remove(neutral.size()-1);
+                    b[9][prev/10].setVisibility(View.GONE);
+                    L[prev/10].setVisibility(View.VISIBLE);
+                }
+            } catch (Exception e) {}
+            if (proceeding.size()==0)
+                last=9;
+            else
+                last = proceeding.get(proceeding.size()-1)%10;
+            turn = true;
+            onturn();
         } catch (Exception e) {
+            turn=true;
+            if (proceeding.size()==0)
+                last=9;
             Toast.makeText(SMSP9X9.this, "can't undo", Toast.LENGTH_LONG).show();
         }
     }
