@@ -29,7 +29,7 @@
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/panel_layout"
                 android:layout_gravity="center"
-                app:srcCompat="@android:drawable/ic_media_play"
+                app:srcCompat="@android:drawable/ic_media_pause"
                 android:onClick="Switch"/>
 
             <Space
@@ -1597,7 +1597,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:background="@drawable/panel_layout"
-            app:srcCompat="@android:drawable/ic_media_pause"
+            app:srcCompat="@android:drawable/ic_media_play"
 
             android:onClick="Switch"
             android:visibility="visible"/>
