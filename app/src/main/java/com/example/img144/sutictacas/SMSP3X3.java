@@ -129,7 +129,7 @@ public class SMSP3X3 extends AppCompatActivity {
             if (!turn)
                 Toast.makeText(SMSP3X3.this, "You Won!!", Toast.LENGTH_LONG).show();
             else
-                Toast.makeText(SMSP3X3.this, "You Loss!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(SMSP3X3.this, "You Lost!!", Toast.LENGTH_LONG).show();
             restart(findViewById(R.id.reset));
             return false;
         } else if (myuser.size()+opponent.size()==9) {

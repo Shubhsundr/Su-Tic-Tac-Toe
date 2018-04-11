@@ -566,7 +566,7 @@ public class SMSP9X9 extends AppCompatActivity {
     private boolean endgame(List a) {
         if (result(a)){
             if (turn)
-                Toast.makeText(SMSP9X9.this, "You Loss!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(SMSP9X9.this, "You Lost!!", Toast.LENGTH_LONG).show();
             else
                 Toast.makeText(SMSP9X9.this, "You Won!!", Toast.LENGTH_LONG).show();
             restart(findViewById(R.id.reset));
