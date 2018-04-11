@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        but3 = (Button) findViewById(R.id.B3X3);
-        but9 = (Button) findViewById(R.id.B9X9);
+        but3 = findViewById(R.id.B3X3);
+        but9 = findViewById(R.id.B9X9);
         changemode(but3);
 
-        screen0 = (LinearLayout) findViewById(R.id.screen0);
-        screen1 = (LinearLayout) findViewById(R.id.screen1);
-        screen2 = (LinearLayout) findViewById(R.id.screen2);
+        screen0 = findViewById(R.id.screen0);
+        screen1 = findViewById(R.id.screen1);
+        screen2 = findViewById(R.id.screen2);
     }
 
     public void quick(View view) {
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void firstspone(View view) {
         me = !me;
-        Button b = (Button) view;
+        TextView b = (TextView) view;
         if (me) {
             b.setText("X");
         } else {

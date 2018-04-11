@@ -3,6 +3,7 @@ package com.example.img144.sutictacas;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,30 +44,30 @@ public class SMSP3X3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.smdp3_x3);
 
-        b[0] = (Button) findViewById(R.id.b0);
-        b[1] = (Button) findViewById(R.id.b1);
-        b[2] = (Button) findViewById(R.id.b2);
-        b[3] = (Button) findViewById(R.id.b3);
-        b[4] = (Button) findViewById(R.id.b4);
-        b[5] = (Button) findViewById(R.id.b5);
-        b[6] = (Button) findViewById(R.id.b6);
-        b[7] = (Button) findViewById(R.id.b7);
-        b[8] = (Button) findViewById(R.id.b8);
+        b[0] = findViewById(R.id.b0);
+        b[1] = findViewById(R.id.b1);
+        b[2] = findViewById(R.id.b2);
+        b[3] = findViewById(R.id.b3);
+        b[4] = findViewById(R.id.b4);
+        b[5] = findViewById(R.id.b5);
+        b[6] = findViewById(R.id.b6);
+        b[7] = findViewById(R.id.b7);
+        b[8] = findViewById(R.id.b8);
 
-        s[0] = (RelativeLayout) findViewById(R.id.s0);
-        s[1] = (RelativeLayout) findViewById(R.id.s1);
-        s[2] = (RelativeLayout) findViewById(R.id.s2);
-        s[3] = (RelativeLayout) findViewById(R.id.s3);
-        s[4] = (RelativeLayout) findViewById(R.id.s4);
-        s[5] = (RelativeLayout) findViewById(R.id.s5);
-        s[6] = (RelativeLayout) findViewById(R.id.s6);
-        s[7] = (RelativeLayout) findViewById(R.id.s7);
+        s[0] = findViewById(R.id.s0);
+        s[1] = findViewById(R.id.s1);
+        s[2] = findViewById(R.id.s2);
+        s[3] = findViewById(R.id.s3);
+        s[4] = findViewById(R.id.s4);
+        s[5] = findViewById(R.id.s5);
+        s[6] = findViewById(R.id.s6);
+        s[7] = findViewById(R.id.s7);
 
-        p[0] = (ImageView) findViewById(R.id.p1);
-        p[1] = (ImageView) findViewById(R.id.p2);
+        p[0] = findViewById(R.id.p1);
+        p[1] = findViewById(R.id.p2);
 
-        t[0] = (TextView) findViewById(R.id.t1);
-        t[1] = (TextView) findViewById(R.id.t2);
+        t[0] = findViewById(R.id.t1);
+        t[1] = findViewById(R.id.t2);
 
         t[0].setText("Me");
         t[1].setText("Bot");
@@ -84,17 +85,19 @@ public class SMSP3X3 extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btn.getText().toString().equals("")) {
+                if (btn.getText().toString().equals("") && !turn) {
                     myuser.add(x);
-                    turn = true;
-                    if(my_turn==true) {
+                    if(my_turn) {
                         btn.setBackgroundColor(getResources().getColor(R.color.play_online));
                         btn.setText("X");
                     } else {
                         btn.setBackgroundColor(getResources().getColor(R.color.quick_play));
                         btn.setText("O");
                     }
-                    endGame(myuser);
+                    if (endgame(myuser)) {
+                        turn = true;
+                        bot();
+                    }
                 }
             }
         });
@@ -107,36 +110,45 @@ public class SMSP3X3 extends AppCompatActivity {
             else
                 s[i].setBackgroundColor(getResources().getColor(R.color.play_online));
         }
-        if (turn==my_turn)
+        if (turn==my_turn) {
+            p[0].setImageResource(R.drawable.ic_profile_green);
+            p[1].setImageResource(R.drawable.ic_profile_grey);
             t[0].setTextColor(getResources().getColor(R.color.quick_play));
-        else
+            t[1].setTextColor(getResources().getColor(R.color.black));
+        }
+        else {
+            p[0].setImageResource(R.drawable.ic_profile_red);
+            p[1].setImageResource(R.drawable.ic_profile_grey);
             t[0].setTextColor(getResources().getColor(R.color.play_online));
+            t[1].setTextColor(getResources().getColor(R.color.black));
+        }
     }
 
-    private void endGame(List a1) {
-        List<Set<Integer>> x = getSubsets(a1, 3);
-        if (x.size() > 0) {
-            for (int i = 0; i < x.size(); i++) {
-                for (int j = 0; j < 8; j++) {
-                    if ((win.get(j)).equals(x.get(i))) {
-                        if (turn) {
-                            Toast.makeText(SMSP3X3.this, "You Won!!", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(SMSP3X3.this, "You Loss!!", Toast.LENGTH_LONG).show();
-                        }
-                        restart(findViewById(R.id.reset));
-                        return;
-                    }
-                }
-            }
-        }
-        if (myuser.size()+opponent.size()==9) {
+    private boolean endgame(List a) {
+        if (result(a)){
+            if (!turn)
+                Toast.makeText(SMSP3X3.this, "You Won!!", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(SMSP3X3.this, "You Loss!!", Toast.LENGTH_LONG).show();
+            restart(findViewById(R.id.reset));
+            return false;
+        } else if (myuser.size()+opponent.size()==9) {
             Toast.makeText(SMSP3X3.this, "Match Tie!!", Toast.LENGTH_LONG).show();
             restart(findViewById(R.id.reset));
-            return;
+            return false;
+        } else {
+            return true;
         }
-        onturn();
-        bot();
+    }
+
+    private boolean result(List a1) {
+        List<Set<Integer>> x = getSubsets(a1, 3);
+        if (x.size() > 0)
+            for (int i = 0; i < x.size(); i++)
+                for (int j = 0; j < 8; j++)
+                    if ((win.get(j)).equals(x.get(i)))
+                        return true;
+        return false;
     }
 
     public void Switch(View view) {
@@ -162,22 +174,93 @@ public class SMSP3X3 extends AppCompatActivity {
     }
 
     public void bot() {
-        while(turn) {
+        if(turn) {
             Random rand = new Random();
-            int n = rand.nextInt(9);
-            if (b[n].getText().toString().equals("")) {
-                opponent.add(n);
-                if(my_turn==true) {
-                    b[n].setBackgroundColor(getResources().getColor(R.color.quick_play));
-                    b[n].setText("O");
-                } else {
-                    b[n].setBackgroundColor(getResources().getColor(R.color.play_online));
-                    b[n].setText("X");
+            int xy = rand.nextInt(9);
+            if(myuser.size()+opponent.size() > 0) {
+                int xy_w = 100;
+                for (int m = 0; m < 9; m++) {
+                    if (b[m].getText().toString().equals("")) {
+                        List a1 = new ArrayList(opponent);
+                        List a2 = new ArrayList(myuser);
+                        a1.add(m);
+                        if (result(a1) || a1.size()+a2.size()==9) {
+                            xy_w = -100;
+                            xy = m;
+                        } else if(xy_w!=-100) {
+                            int weight = autohuman(a1, a2);
+                            if (weight < xy_w || xy_w == 100) {
+                                xy_w = weight;
+                                xy = m;
+                            }
+                        }
+                    }
                 }
+            }
+
+            opponent.add(xy);
+            if (my_turn) {
+                b[xy].setBackgroundColor(getResources().getColor(R.color.quick_play));
+                b[xy].setText("O");
+            } else {
+                b[xy].setBackgroundColor(getResources().getColor(R.color.play_online));
+                b[xy].setText("X");
+            }
+            if (endgame(opponent)) {
                 turn = false;
-                endGame(opponent);
+                onturn();
             }
         }
+    }
+
+    public int autobot(List a1, List a2) {
+        int s1 = 2, s2;
+        for (int n=0; n<9; n++) {
+            List l1 = new ArrayList(a1);
+            List l2 = new ArrayList(a2);
+            if (!l1.contains(n) && !l2.contains(n)) {
+                l1.add(n);
+                if (result(l1)) {
+                    return -2;
+                } else if (l1.size()+l2.size()==9) {
+                    return 0;
+                } else {
+                    s2 = autohuman(l1, l2);
+                    if (s2 == -2) {
+                        return -2;
+                    } else if (s1 == 2) {
+                        s1 = s2;
+                    }
+                }
+            }
+        }
+        return s1;
+    }
+
+    public int autohuman(List a1, List a2) {
+        int s1 = -3, s2;
+        for (int n=0; n<9; n++) {
+            List l1 = new ArrayList(a1);
+            List l2 = new ArrayList(a2);
+            if (!l1.contains(n) && !l2.contains(n)) {
+                l2.add(n);
+                if (result(l2)) {
+                    return 2;
+                } else if (l1.size()+l2.size()==9) {
+                    return 0;
+                } else {
+                    s2 = autobot(l1, l2);
+                    if (s2 == 2) {
+                        return 2;
+                    } else if (s1 == -3) {
+                        s1 = s2;
+                    } else if (s1 != 0 && s2 == 0) {
+                        s1 = -1;
+                    }
+                }
+            }
+        }
+        return s1;
     }
 
     public void home(View view) {
@@ -190,7 +273,7 @@ public class SMSP3X3 extends AppCompatActivity {
     public void restart(View view) {
         Intent main = new Intent(this, SMSP3X3.class);
         main.putExtra("my_turn", my_turn);
-        main.putExtra("first_turn", turn);
+        main.putExtra("first_turn", !turn);
         main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(main);
         return;

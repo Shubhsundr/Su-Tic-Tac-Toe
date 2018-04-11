@@ -42,30 +42,30 @@ public class SMDP3X3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.smdp3_x3);
 
-        b[0] = (Button) findViewById(R.id.b0);
-        b[1] = (Button) findViewById(R.id.b1);
-        b[2] = (Button) findViewById(R.id.b2);
-        b[3] = (Button) findViewById(R.id.b3);
-        b[4] = (Button) findViewById(R.id.b4);
-        b[5] = (Button) findViewById(R.id.b5);
-        b[6] = (Button) findViewById(R.id.b6);
-        b[7] = (Button) findViewById(R.id.b7);
-        b[8] = (Button) findViewById(R.id.b8);
+        b[0] = findViewById(R.id.b0);
+        b[1] = findViewById(R.id.b1);
+        b[2] = findViewById(R.id.b2);
+        b[3] = findViewById(R.id.b3);
+        b[4] = findViewById(R.id.b4);
+        b[5] = findViewById(R.id.b5);
+        b[6] = findViewById(R.id.b6);
+        b[7] = findViewById(R.id.b7);
+        b[8] = findViewById(R.id.b8);
 
-        s[0] = (RelativeLayout) findViewById(R.id.s0);
-        s[1] = (RelativeLayout) findViewById(R.id.s1);
-        s[2] = (RelativeLayout) findViewById(R.id.s2);
-        s[3] = (RelativeLayout) findViewById(R.id.s3);
-        s[4] = (RelativeLayout) findViewById(R.id.s4);
-        s[5] = (RelativeLayout) findViewById(R.id.s5);
-        s[6] = (RelativeLayout) findViewById(R.id.s6);
-        s[7] = (RelativeLayout) findViewById(R.id.s7);
+        s[0] = findViewById(R.id.s0);
+        s[1] = findViewById(R.id.s1);
+        s[2] = findViewById(R.id.s2);
+        s[3] = findViewById(R.id.s3);
+        s[4] = findViewById(R.id.s4);
+        s[5] = findViewById(R.id.s5);
+        s[6] = findViewById(R.id.s6);
+        s[7] = findViewById(R.id.s7);
 
-        p[0] = (ImageView) findViewById(R.id.p1);
-        p[1] = (ImageView) findViewById(R.id.p2);
+        p[0] = findViewById(R.id.p1);
+        p[1] = findViewById(R.id.p2);
 
-        t[1] = (TextView) findViewById(R.id.t1);
-        t[0] = (TextView) findViewById(R.id.t2);
+        t[0] = findViewById(R.id.t1);
+        t[1] = findViewById(R.id.t2);
 
         for (i = 0; i < 9; i++) {
             setOnClick(b[i], i);
@@ -126,10 +126,14 @@ public class SMDP3X3 extends AppCompatActivity {
                 s[i].setBackgroundColor(getResources().getColor(R.color.play_online));
         }
         if (!turn) {
+            p[0].setImageResource(R.drawable.ic_profile_green);
+            p[1].setImageResource(R.drawable.ic_profile_grey);
             t[0].setTextColor(getResources().getColor(R.color.quick_play));
             t[1].setTextColor(getResources().getColor(R.color.black));
         }
         else {
+            p[0].setImageResource(R.drawable.ic_profile_grey);
+            p[1].setImageResource(R.drawable.ic_profile_red);
             t[0].setTextColor(getResources().getColor(R.color.black));
             t[1].setTextColor(getResources().getColor(R.color.play_online));
         }

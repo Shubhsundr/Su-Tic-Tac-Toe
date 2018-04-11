@@ -26,8 +26,7 @@ public class SMSP9X9 extends AppCompatActivity {
     ImageView p[] = new ImageView[2];
     TextView t[] = new TextView[2];
     Boolean turn, myturn, firstturn;
-    int i,j;
-    int last=9;
+    int i, j, last=9;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
     List<Set<Integer>> win = new ArrayList<>();
     List<List<Integer>> myuser = new ArrayList(10);
@@ -53,212 +52,212 @@ public class SMSP9X9 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.smdp9_x9);
 
-        L[0] = (LinearLayout) findViewById(R.id.a0);
-        L[1] = (LinearLayout) findViewById(R.id.a1);
-        L[2] = (LinearLayout) findViewById(R.id.a2);
-        L[3] = (LinearLayout) findViewById(R.id.a3);
-        L[4] = (LinearLayout) findViewById(R.id.a4);
-        L[5] = (LinearLayout) findViewById(R.id.a5);
-        L[6] = (LinearLayout) findViewById(R.id.a6);
-        L[7] = (LinearLayout) findViewById(R.id.a7);
-        L[8] = (LinearLayout) findViewById(R.id.a8);
+        L[0] = findViewById(R.id.a0);
+        L[1] = findViewById(R.id.a1);
+        L[2] = findViewById(R.id.a2);
+        L[3] = findViewById(R.id.a3);
+        L[4] = findViewById(R.id.a4);
+        L[5] = findViewById(R.id.a5);
+        L[6] = findViewById(R.id.a6);
+        L[7] = findViewById(R.id.a7);
+        L[8] = findViewById(R.id.a8);
 
-        b[0][0] = (Button) findViewById(R.id.b00);
-        b[0][1] = (Button) findViewById(R.id.b01);
-        b[0][2] = (Button) findViewById(R.id.b02);
-        b[0][3] = (Button) findViewById(R.id.b03);
-        b[0][4] = (Button) findViewById(R.id.b04);
-        b[0][5] = (Button) findViewById(R.id.b05);
-        b[0][6] = (Button) findViewById(R.id.b06);
-        b[0][7] = (Button) findViewById(R.id.b07);
-        b[0][8] = (Button) findViewById(R.id.b08);
+        b[0][0] = findViewById(R.id.b00);
+        b[0][1] = findViewById(R.id.b01);
+        b[0][2] = findViewById(R.id.b02);
+        b[0][3] = findViewById(R.id.b03);
+        b[0][4] = findViewById(R.id.b04);
+        b[0][5] = findViewById(R.id.b05);
+        b[0][6] = findViewById(R.id.b06);
+        b[0][7] = findViewById(R.id.b07);
+        b[0][8] = findViewById(R.id.b08);
 
-        b[1][0] = (Button) findViewById(R.id.b10);
-        b[1][1] = (Button) findViewById(R.id.b11);
-        b[1][2] = (Button) findViewById(R.id.b12);
-        b[1][3] = (Button) findViewById(R.id.b13);
-        b[1][4] = (Button) findViewById(R.id.b14);
-        b[1][5] = (Button) findViewById(R.id.b15);
-        b[1][6] = (Button) findViewById(R.id.b16);
-        b[1][7] = (Button) findViewById(R.id.b17);
-        b[1][8] = (Button) findViewById(R.id.b18);
+        b[1][0] = findViewById(R.id.b10);
+        b[1][1] = findViewById(R.id.b11);
+        b[1][2] = findViewById(R.id.b12);
+        b[1][3] = findViewById(R.id.b13);
+        b[1][4] = findViewById(R.id.b14);
+        b[1][5] = findViewById(R.id.b15);
+        b[1][6] = findViewById(R.id.b16);
+        b[1][7] = findViewById(R.id.b17);
+        b[1][8] = findViewById(R.id.b18);
 
-        b[2][0] = (Button) findViewById(R.id.b20);
-        b[2][1] = (Button) findViewById(R.id.b21);
-        b[2][2] = (Button) findViewById(R.id.b22);
-        b[2][3] = (Button) findViewById(R.id.b23);
-        b[2][4] = (Button) findViewById(R.id.b24);
-        b[2][5] = (Button) findViewById(R.id.b25);
-        b[2][6] = (Button) findViewById(R.id.b26);
-        b[2][7] = (Button) findViewById(R.id.b27);
-        b[2][8] = (Button) findViewById(R.id.b28);
+        b[2][0] = findViewById(R.id.b20);
+        b[2][1] = findViewById(R.id.b21);
+        b[2][2] = findViewById(R.id.b22);
+        b[2][3] = findViewById(R.id.b23);
+        b[2][4] = findViewById(R.id.b24);
+        b[2][5] = findViewById(R.id.b25);
+        b[2][6] = findViewById(R.id.b26);
+        b[2][7] = findViewById(R.id.b27);
+        b[2][8] = findViewById(R.id.b28);
 
-        b[3][0] = (Button) findViewById(R.id.b30);
-        b[3][1] = (Button) findViewById(R.id.b31);
-        b[3][2] = (Button) findViewById(R.id.b32);
-        b[3][3] = (Button) findViewById(R.id.b33);
-        b[3][4] = (Button) findViewById(R.id.b34);
-        b[3][5] = (Button) findViewById(R.id.b35);
-        b[3][6] = (Button) findViewById(R.id.b36);
-        b[3][7] = (Button) findViewById(R.id.b37);
-        b[3][8] = (Button) findViewById(R.id.b38);
+        b[3][0] = findViewById(R.id.b30);
+        b[3][1] = findViewById(R.id.b31);
+        b[3][2] = findViewById(R.id.b32);
+        b[3][3] = findViewById(R.id.b33);
+        b[3][4] = findViewById(R.id.b34);
+        b[3][5] = findViewById(R.id.b35);
+        b[3][6] = findViewById(R.id.b36);
+        b[3][7] = findViewById(R.id.b37);
+        b[3][8] = findViewById(R.id.b38);
 
-        b[4][0] = (Button) findViewById(R.id.b40);
-        b[4][1] = (Button) findViewById(R.id.b41);
-        b[4][2] = (Button) findViewById(R.id.b42);
-        b[4][3] = (Button) findViewById(R.id.b43);
-        b[4][4] = (Button) findViewById(R.id.b44);
-        b[4][5] = (Button) findViewById(R.id.b45);
-        b[4][6] = (Button) findViewById(R.id.b46);
-        b[4][7] = (Button) findViewById(R.id.b47);
-        b[4][8] = (Button) findViewById(R.id.b48);
+        b[4][0] = findViewById(R.id.b40);
+        b[4][1] = findViewById(R.id.b41);
+        b[4][2] = findViewById(R.id.b42);
+        b[4][3] = findViewById(R.id.b43);
+        b[4][4] = findViewById(R.id.b44);
+        b[4][5] = findViewById(R.id.b45);
+        b[4][6] = findViewById(R.id.b46);
+        b[4][7] = findViewById(R.id.b47);
+        b[4][8] = findViewById(R.id.b48);
 
-        b[5][0] = (Button) findViewById(R.id.b50);
-        b[5][1] = (Button) findViewById(R.id.b51);
-        b[5][2] = (Button) findViewById(R.id.b52);
-        b[5][3] = (Button) findViewById(R.id.b53);
-        b[5][4] = (Button) findViewById(R.id.b54);
-        b[5][5] = (Button) findViewById(R.id.b55);
-        b[5][6] = (Button) findViewById(R.id.b56);
-        b[5][7] = (Button) findViewById(R.id.b57);
-        b[5][8] = (Button) findViewById(R.id.b58);
+        b[5][0] = findViewById(R.id.b50);
+        b[5][1] = findViewById(R.id.b51);
+        b[5][2] = findViewById(R.id.b52);
+        b[5][3] = findViewById(R.id.b53);
+        b[5][4] = findViewById(R.id.b54);
+        b[5][5] = findViewById(R.id.b55);
+        b[5][6] = findViewById(R.id.b56);
+        b[5][7] = findViewById(R.id.b57);
+        b[5][8] = findViewById(R.id.b58);
 
-        b[6][0] = (Button) findViewById(R.id.b60);
-        b[6][1] = (Button) findViewById(R.id.b61);
-        b[6][2] = (Button) findViewById(R.id.b62);
-        b[6][3] = (Button) findViewById(R.id.b63);
-        b[6][4] = (Button) findViewById(R.id.b64);
-        b[6][5] = (Button) findViewById(R.id.b65);
-        b[6][6] = (Button) findViewById(R.id.b66);
-        b[6][7] = (Button) findViewById(R.id.b67);
-        b[6][8] = (Button) findViewById(R.id.b68);
+        b[6][0] = findViewById(R.id.b60);
+        b[6][1] = findViewById(R.id.b61);
+        b[6][2] = findViewById(R.id.b62);
+        b[6][3] = findViewById(R.id.b63);
+        b[6][4] = findViewById(R.id.b64);
+        b[6][5] = findViewById(R.id.b65);
+        b[6][6] = findViewById(R.id.b66);
+        b[6][7] = findViewById(R.id.b67);
+        b[6][8] = findViewById(R.id.b68);
 
-        b[7][0] = (Button) findViewById(R.id.b70);
-        b[7][1] = (Button) findViewById(R.id.b71);
-        b[7][2] = (Button) findViewById(R.id.b72);
-        b[7][3] = (Button) findViewById(R.id.b73);
-        b[7][4] = (Button) findViewById(R.id.b74);
-        b[7][5] = (Button) findViewById(R.id.b75);
-        b[7][6] = (Button) findViewById(R.id.b76);
-        b[7][7] = (Button) findViewById(R.id.b77);
-        b[7][8] = (Button) findViewById(R.id.b78);
+        b[7][0] = findViewById(R.id.b70);
+        b[7][1] = findViewById(R.id.b71);
+        b[7][2] = findViewById(R.id.b72);
+        b[7][3] = findViewById(R.id.b73);
+        b[7][4] = findViewById(R.id.b74);
+        b[7][5] = findViewById(R.id.b75);
+        b[7][6] = findViewById(R.id.b76);
+        b[7][7] = findViewById(R.id.b77);
+        b[7][8] = findViewById(R.id.b78);
 
-        b[8][0] = (Button) findViewById(R.id.b80);
-        b[8][1] = (Button) findViewById(R.id.b81);
-        b[8][2] = (Button) findViewById(R.id.b82);
-        b[8][3] = (Button) findViewById(R.id.b83);
-        b[8][4] = (Button) findViewById(R.id.b84);
-        b[8][5] = (Button) findViewById(R.id.b85);
-        b[8][6] = (Button) findViewById(R.id.b86);
-        b[8][7] = (Button) findViewById(R.id.b87);
-        b[8][8] = (Button) findViewById(R.id.b88);
+        b[8][0] = findViewById(R.id.b80);
+        b[8][1] = findViewById(R.id.b81);
+        b[8][2] = findViewById(R.id.b82);
+        b[8][3] = findViewById(R.id.b83);
+        b[8][4] = findViewById(R.id.b84);
+        b[8][5] = findViewById(R.id.b85);
+        b[8][6] = findViewById(R.id.b86);
+        b[8][7] = findViewById(R.id.b87);
+        b[8][8] = findViewById(R.id.b88);
 
-        b[9][0] = (Button) findViewById(R.id.b0);
-        b[9][1] = (Button) findViewById(R.id.b1);
-        b[9][2] = (Button) findViewById(R.id.b2);
-        b[9][3] = (Button) findViewById(R.id.b3);
-        b[9][4] = (Button) findViewById(R.id.b4);
-        b[9][5] = (Button) findViewById(R.id.b5);
-        b[9][6] = (Button) findViewById(R.id.b6);
-        b[9][7] = (Button) findViewById(R.id.b7);
-        b[9][8] = (Button) findViewById(R.id.b8);
+        b[9][0] = findViewById(R.id.b0);
+        b[9][1] = findViewById(R.id.b1);
+        b[9][2] = findViewById(R.id.b2);
+        b[9][3] = findViewById(R.id.b3);
+        b[9][4] = findViewById(R.id.b4);
+        b[9][5] = findViewById(R.id.b5);
+        b[9][6] = findViewById(R.id.b6);
+        b[9][7] = findViewById(R.id.b7);
+        b[9][8] = findViewById(R.id.b8);
 
 
-        s[0][0] = (RelativeLayout) findViewById(R.id.s00);
-        s[0][1] = (RelativeLayout) findViewById(R.id.s01);
-        s[0][2] = (RelativeLayout) findViewById(R.id.s02);
-        s[0][3] = (RelativeLayout) findViewById(R.id.s03);
-        s[0][4] = (RelativeLayout) findViewById(R.id.s04);
-        s[0][5] = (RelativeLayout) findViewById(R.id.s05);
-        s[0][6] = (RelativeLayout) findViewById(R.id.s06);
-        s[0][7] = (RelativeLayout) findViewById(R.id.s07);
+        s[0][0] = findViewById(R.id.s00);
+        s[0][1] = findViewById(R.id.s01);
+        s[0][2] = findViewById(R.id.s02);
+        s[0][3] = findViewById(R.id.s03);
+        s[0][4] = findViewById(R.id.s04);
+        s[0][5] = findViewById(R.id.s05);
+        s[0][6] = findViewById(R.id.s06);
+        s[0][7] = findViewById(R.id.s07);
 
-        s[1][0] = (RelativeLayout) findViewById(R.id.s10);
-        s[1][1] = (RelativeLayout) findViewById(R.id.s11);
-        s[1][2] = (RelativeLayout) findViewById(R.id.s12);
-        s[1][3] = (RelativeLayout) findViewById(R.id.s13);
-        s[1][4] = (RelativeLayout) findViewById(R.id.s14);
-        s[1][5] = (RelativeLayout) findViewById(R.id.s15);
-        s[1][6] = (RelativeLayout) findViewById(R.id.s16);
-        s[1][7] = (RelativeLayout) findViewById(R.id.s17);
+        s[1][0] = findViewById(R.id.s10);
+        s[1][1] = findViewById(R.id.s11);
+        s[1][2] = findViewById(R.id.s12);
+        s[1][3] = findViewById(R.id.s13);
+        s[1][4] = findViewById(R.id.s14);
+        s[1][5] = findViewById(R.id.s15);
+        s[1][6] = findViewById(R.id.s16);
+        s[1][7] = findViewById(R.id.s17);
 
-        s[2][0] = (RelativeLayout) findViewById(R.id.s20);
-        s[2][1] = (RelativeLayout) findViewById(R.id.s21);
-        s[2][2] = (RelativeLayout) findViewById(R.id.s22);
-        s[2][3] = (RelativeLayout) findViewById(R.id.s23);
-        s[2][4] = (RelativeLayout) findViewById(R.id.s24);
-        s[2][5] = (RelativeLayout) findViewById(R.id.s25);
-        s[2][6] = (RelativeLayout) findViewById(R.id.s26);
-        s[2][7] = (RelativeLayout) findViewById(R.id.s27);
+        s[2][0] = findViewById(R.id.s20);
+        s[2][1] = findViewById(R.id.s21);
+        s[2][2] = findViewById(R.id.s22);
+        s[2][3] = findViewById(R.id.s23);
+        s[2][4] = findViewById(R.id.s24);
+        s[2][5] = findViewById(R.id.s25);
+        s[2][6] = findViewById(R.id.s26);
+        s[2][7] = findViewById(R.id.s27);
 
-        s[3][0] = (RelativeLayout) findViewById(R.id.s30);
-        s[3][1] = (RelativeLayout) findViewById(R.id.s31);
-        s[3][2] = (RelativeLayout) findViewById(R.id.s32);
-        s[3][3] = (RelativeLayout) findViewById(R.id.s33);
-        s[3][4] = (RelativeLayout) findViewById(R.id.s34);
-        s[3][5] = (RelativeLayout) findViewById(R.id.s35);
-        s[3][6] = (RelativeLayout) findViewById(R.id.s36);
-        s[3][7] = (RelativeLayout) findViewById(R.id.s37);
+        s[3][0] = findViewById(R.id.s30);
+        s[3][1] = findViewById(R.id.s31);
+        s[3][2] = findViewById(R.id.s32);
+        s[3][3] = findViewById(R.id.s33);
+        s[3][4] = findViewById(R.id.s34);
+        s[3][5] = findViewById(R.id.s35);
+        s[3][6] = findViewById(R.id.s36);
+        s[3][7] = findViewById(R.id.s37);
 
-        s[4][0] = (RelativeLayout) findViewById(R.id.s40);
-        s[4][1] = (RelativeLayout) findViewById(R.id.s41);
-        s[4][2] = (RelativeLayout) findViewById(R.id.s42);
-        s[4][3] = (RelativeLayout) findViewById(R.id.s43);
-        s[4][4] = (RelativeLayout) findViewById(R.id.s44);
-        s[4][5] = (RelativeLayout) findViewById(R.id.s45);
-        s[4][6] = (RelativeLayout) findViewById(R.id.s46);
-        s[4][7] = (RelativeLayout) findViewById(R.id.s47);
+        s[4][0] = findViewById(R.id.s40);
+        s[4][1] = findViewById(R.id.s41);
+        s[4][2] = findViewById(R.id.s42);
+        s[4][3] = findViewById(R.id.s43);
+        s[4][4] = findViewById(R.id.s44);
+        s[4][5] = findViewById(R.id.s45);
+        s[4][6] = findViewById(R.id.s46);
+        s[4][7] = findViewById(R.id.s47);
 
-        s[5][0] = (RelativeLayout) findViewById(R.id.s50);
-        s[5][1] = (RelativeLayout) findViewById(R.id.s51);
-        s[5][2] = (RelativeLayout) findViewById(R.id.s52);
-        s[5][3] = (RelativeLayout) findViewById(R.id.s53);
-        s[5][4] = (RelativeLayout) findViewById(R.id.s54);
-        s[5][5] = (RelativeLayout) findViewById(R.id.s55);
-        s[5][6] = (RelativeLayout) findViewById(R.id.s56);
-        s[5][7] = (RelativeLayout) findViewById(R.id.s57);
+        s[5][0] = findViewById(R.id.s50);
+        s[5][1] = findViewById(R.id.s51);
+        s[5][2] = findViewById(R.id.s52);
+        s[5][3] = findViewById(R.id.s53);
+        s[5][4] = findViewById(R.id.s54);
+        s[5][5] = findViewById(R.id.s55);
+        s[5][6] = findViewById(R.id.s56);
+        s[5][7] = findViewById(R.id.s57);
 
-        s[6][0] = (RelativeLayout) findViewById(R.id.s60);
-        s[6][1] = (RelativeLayout) findViewById(R.id.s61);
-        s[6][2] = (RelativeLayout) findViewById(R.id.s62);
-        s[6][3] = (RelativeLayout) findViewById(R.id.s63);
-        s[6][4] = (RelativeLayout) findViewById(R.id.s64);
-        s[6][5] = (RelativeLayout) findViewById(R.id.s65);
-        s[6][6] = (RelativeLayout) findViewById(R.id.s66);
-        s[6][7] = (RelativeLayout) findViewById(R.id.s67);
+        s[6][0] = findViewById(R.id.s60);
+        s[6][1] = findViewById(R.id.s61);
+        s[6][2] = findViewById(R.id.s62);
+        s[6][3] = findViewById(R.id.s63);
+        s[6][4] = findViewById(R.id.s64);
+        s[6][5] = findViewById(R.id.s65);
+        s[6][6] = findViewById(R.id.s66);
+        s[6][7] = findViewById(R.id.s67);
 
-        s[7][0] = (RelativeLayout) findViewById(R.id.s70);
-        s[7][1] = (RelativeLayout) findViewById(R.id.s71);
-        s[7][2] = (RelativeLayout) findViewById(R.id.s72);
-        s[7][3] = (RelativeLayout) findViewById(R.id.s73);
-        s[7][4] = (RelativeLayout) findViewById(R.id.s74);
-        s[7][5] = (RelativeLayout) findViewById(R.id.s75);
-        s[7][6] = (RelativeLayout) findViewById(R.id.s76);
-        s[7][7] = (RelativeLayout) findViewById(R.id.s77);
+        s[7][0] = findViewById(R.id.s70);
+        s[7][1] = findViewById(R.id.s71);
+        s[7][2] = findViewById(R.id.s72);
+        s[7][3] = findViewById(R.id.s73);
+        s[7][4] = findViewById(R.id.s74);
+        s[7][5] = findViewById(R.id.s75);
+        s[7][6] = findViewById(R.id.s76);
+        s[7][7] = findViewById(R.id.s77);
 
-        s[8][0] = (RelativeLayout) findViewById(R.id.s80);
-        s[8][1] = (RelativeLayout) findViewById(R.id.s81);
-        s[8][2] = (RelativeLayout) findViewById(R.id.s82);
-        s[8][3] = (RelativeLayout) findViewById(R.id.s83);
-        s[8][4] = (RelativeLayout) findViewById(R.id.s84);
-        s[8][5] = (RelativeLayout) findViewById(R.id.s85);
-        s[8][6] = (RelativeLayout) findViewById(R.id.s86);
-        s[8][7] = (RelativeLayout) findViewById(R.id.s87);
+        s[8][0] = findViewById(R.id.s80);
+        s[8][1] = findViewById(R.id.s81);
+        s[8][2] = findViewById(R.id.s82);
+        s[8][3] = findViewById(R.id.s83);
+        s[8][4] = findViewById(R.id.s84);
+        s[8][5] = findViewById(R.id.s85);
+        s[8][6] = findViewById(R.id.s86);
+        s[8][7] = findViewById(R.id.s87);
 
-        s[9][0] = (RelativeLayout) findViewById(R.id.s0);
-        s[9][1] = (RelativeLayout) findViewById(R.id.s1);
-        s[9][2] = (RelativeLayout) findViewById(R.id.s2);
-        s[9][3] = (RelativeLayout) findViewById(R.id.s3);
-        s[9][4] = (RelativeLayout) findViewById(R.id.s4);
-        s[9][5] = (RelativeLayout) findViewById(R.id.s5);
-        s[9][6] = (RelativeLayout) findViewById(R.id.s6);
-        s[9][7] = (RelativeLayout) findViewById(R.id.s7);
+        s[9][0] = findViewById(R.id.s0);
+        s[9][1] = findViewById(R.id.s1);
+        s[9][2] = findViewById(R.id.s2);
+        s[9][3] = findViewById(R.id.s3);
+        s[9][4] = findViewById(R.id.s4);
+        s[9][5] = findViewById(R.id.s5);
+        s[9][6] = findViewById(R.id.s6);
+        s[9][7] = findViewById(R.id.s7);
 
-        p[0] = (ImageView) findViewById(R.id.p1);
-        p[1] = (ImageView) findViewById(R.id.p2);
+        p[0] = findViewById(R.id.p1);
+        p[1] = findViewById(R.id.p2);
 
-        t[0] = (TextView) findViewById(R.id.t1);
-        t[1] = (TextView) findViewById(R.id.t2);
+        t[0] = findViewById(R.id.t1);
+        t[1] = findViewById(R.id.t2);
 
         t[0].setText("Me");
         t[1].setText("Bot");
@@ -279,23 +278,23 @@ public class SMSP9X9 extends AppCompatActivity {
             public void onClick(View v) {
                 if (btn.getText().toString().equals("")) {
                     if (turn) {
+                        turn = false;
                         if(valid(x)) {
                             last=y;
                             myuser.get(x).add(y);
                             proceeding.add(10*x+y);
-                            turn = false;
-                            if(myturn==true) {
+                            if(myturn) {
                                 b[x][y].setText("X");
                                 b[x][y].setTextColor(getResources().getColor(R.color.play_online));
                             } else {
                                 b[x][y].setText("O");
                                 b[x][y].setTextColor(getResources().getColor(R.color.quick_play));
                             }
-                            int be = bendGame(x);
+                            int be = bendGame(myuser.get(x) ,x);
                             if(be==1) {
                                 L[x].setVisibility(View.GONE);
                                 b[9][x].setVisibility(View.VISIBLE);
-                                if(myturn==true) {
+                                if(myturn) {
                                     b[9][x].setText("X");
                                     b[9][x].setBackgroundColor(getResources().getColor(R.color.play_online));
                                 } else {
@@ -303,13 +302,16 @@ public class SMSP9X9 extends AppCompatActivity {
                                     b[9][x].setBackgroundColor(getResources().getColor(R.color.quick_play));
                                 }
                                 myuser.get(9).add(x);
-                                endGame(myuser.get(9));
+                                if (!endgame(myuser.get(9))) {
+                                    return;
+                                }
                             } else if(be==2) {
                                 neutral.add(x);
-                                endGame(myuser.get(9));
                             }
                             onturn();
                             bot();
+                        } else {
+                            turn = true;
                         }
                     }
                 }
@@ -318,44 +320,162 @@ public class SMSP9X9 extends AppCompatActivity {
     }
 
     public void bot() {
-        while(turn==false) {
+        if (!turn) {
             Random rand = new Random();
-            int m = rand.nextInt(9);
+
+            int m = last;
             int n = rand.nextInt(9);
-            if (b[m][n].getText().toString().equals("")) {
-                if(valid(m)) {
-                    last = n;
-                    opponent.get(m).add(n);
-                    proceeding.add(10*m+n);
-                    turn = true;
-                    if(myturn==true) {
-                        b[m][n].setText("O");
-                        b[m][n].setTextColor(getResources().getColor(R.color.quick_play));
-                    } else {
-                        b[m][n].setText("X");
-                        b[m][n].setTextColor(getResources().getColor(R.color.play_online));
-                    }
-                    int be=bendGame(m);
-                    if(be==1) {
-                        L[m].setVisibility(View.GONE);
-                        b[9][m].setVisibility(View.VISIBLE);
-                        if(myturn==true) {
-                            b[9][m].setText("O");
-                            b[9][m].setBackgroundColor(getResources().getColor(R.color.quick_play));
-                        } else {
-                            b[9][m].setText("X");
-                            b[9][m].setBackgroundColor(getResources().getColor(R.color.play_online));
+
+            if (opponent.get(9).size() + myuser.get(9).size() + neutral.size() > 0) {
+                int xy =100, weight = 100, weight2;
+                for (i = 0; i < 9; i++) {
+                    if (valid(i)) {
+                        List a1 = new ArrayList(opponent.get(9));
+                        List a2 = new ArrayList(myuser.get(9));
+                        a1.add(i);
+                        if (result(a1) || a1.size() + a2.size() + neutral.size() == 9) {
+                            weight = -100;
+                            m = i;
+                        } else if (weight!=-100) {
+                            weight = autohuman(a1, a2);
                         }
-                        opponent.get(9).add(m);
-                        endGame(opponent.get(9));
-                    } else if(be==2) {
-                        neutral.add(m);
-                        endGame(opponent.get(9));
+                        if(opponent.get(i).size() > 0) {
+                            for (j = 0; j < 9; j++) {
+                                if (!proceeding.contains(10*i+j)) {
+                                    List a3 = new ArrayList(opponent.get(i));
+                                    List a4 = new ArrayList(myuser.get(i));
+                                    a3.add(j);
+                                    if (result(a3) || a3.size() + a4.size()==9) {
+                                        xy = weight - 100;
+                                        m = i;
+                                        n = j;
+                                    } else if (xy!=-200) {
+                                        weight2 = autohuman(a3, a4);
+                                        if (weight + weight2 < xy || xy == 100) {
+                                            xy = weight + weight2;
+                                            m = i;
+                                            n = j;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (last ==9) {
+                m = rand.nextInt(9);
+            } else {
+                int xy = 100, weight;
+                for (i = 0; i < 9; i++) {
+                    if (valid(i)) {
+                        if(opponent.get(i).size() > 0) {
+                            for (j = 0; j < 9; j++) {
+                                if (!proceeding.contains(10*i+j)) {
+                                    List a3 = new ArrayList(opponent.get(i));
+                                    List a4 = new ArrayList(myuser.get(i));
+                                    a3.add(j);
+                                    if (result(a3) || a3.size() + a4.size()==9) {
+                                        xy = -100;
+                                        m = i;
+                                        n = j;
+                                    } else if (xy!=-100) {
+                                        weight = autohuman(a3, a4);
+                                        if (weight < xy || xy == 100) {
+                                            xy = weight;
+                                            m = i;
+                                            n = j;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            last = n;
+            opponent.get(m).add(n);
+            proceeding.add(10 * m + n);
+            if (myturn) {
+                b[m][n].setText("O");
+                b[m][n].setTextColor(getResources().getColor(R.color.quick_play));
+            } else {
+                b[m][n].setText("X");
+                b[m][n].setTextColor(getResources().getColor(R.color.play_online));
+            }
+            int be = bendGame(opponent.get(m), m);
+            if (be == 1) {
+                L[m].setVisibility(View.GONE);
+                b[9][m].setVisibility(View.VISIBLE);
+                if (myturn) {
+                    b[9][m].setText("O");
+                    b[9][m].setBackgroundColor(getResources().getColor(R.color.quick_play));
+                } else {
+                    b[9][m].setText("X");
+                    b[9][m].setBackgroundColor(getResources().getColor(R.color.play_online));
+                }
+                opponent.get(9).add(m);
+                turn = true;
+                if (!endgame(opponent.get(9))) {
+                    return;
+                }
+            } else if (be == 2) {
+                neutral.add(m);
+                turn = true;
+            }
+            turn = true;
+            onturn();
+        }
+    }
+
+    public int autobot(List a1, List a2) {
+        int s1 = 2, s2;
+        for (int n=0; n<9; n++) {
+            List l1 = new ArrayList(a1);
+            List l2 = new ArrayList(a2);
+            if (!l1.contains(n) && !l2.contains(n)) {
+                l1.add(n);
+                if (result(l1)) {
+                    return -2;
+                } else if (l1.size()+l2.size()==9) {
+                    return 0;
+                } else {
+                    s2 = autohuman(l1, l2);
+                    if (s2 == -2) {
+                        return -2;
+                    } else if (s1 == 2) {
+                        s1 = s2;
                     }
                 }
             }
         }
-        onturn();
+        return s1;
+    }
+
+    public int autohuman(List a1, List a2) {
+        int s1 = -3, s2;
+        for (int n=0; n<9; n++) {
+            List l1 = new ArrayList(a1);
+            List l2 = new ArrayList(a2);
+            if (!l1.contains(n) && !l2.contains(n)) {
+                l2.add(n);
+                if (result(l2)) {
+                    return 2;
+                } else if (l1.size()+l2.size()==9) {
+                    return 0;
+                } else {
+                    s2 = autobot(l1, l2);
+                    if (s2 == 2) {
+                        return 2;
+                    } else if (s1 == -3) {
+                        s1 = s2;
+                    } else if (s1 != 0 && s2 == 0) {
+                        s1 = -1;
+                    }
+                }
+            }
+        }
+        return s1;
     }
 
     public boolean valid(Integer x) {
@@ -392,12 +512,8 @@ public class SMSP9X9 extends AppCompatActivity {
         }
     }
 
-    private int bendGame(int a1) {
-        List<Set<Integer>> x;
-        if (turn)
-            x = getSubsets(opponent.get(a1), 3);
-        else
-            x = getSubsets(myuser.get(a1), 3);
+    private int bendGame(List a1, int a2) {
+        List<Set<Integer>> x = getSubsets(a1,3);
         if (x.size() > 0) {
             for (int i = 0; i < x.size(); i++) {
                 for (int j = 0; j < 8; j++) {
@@ -407,7 +523,7 @@ public class SMSP9X9 extends AppCompatActivity {
                 }
             }
         }
-        if ((myuser.get(a1)).size()+(opponent.get(a1)).size()==9) {
+        if ((myuser.get(a2)).size()+(opponent.get(a2)).size()==9) {
             return 2;
         } else {
             return 0;
@@ -421,10 +537,18 @@ public class SMSP9X9 extends AppCompatActivity {
             else
                 s[9][i].setBackgroundColor(getResources().getColor(R.color.play_online));
         }
-        if (turn!=myturn)
+        if (turn!=myturn) {
+            p[0].setImageResource(R.drawable.ic_profile_green);
+            p[1].setImageResource(R.drawable.ic_profile_grey);
             t[0].setTextColor(getResources().getColor(R.color.quick_play));
-        else
+            t[1].setTextColor(getResources().getColor(R.color.black));
+        }
+        else {
+            p[0].setImageResource(R.drawable.ic_profile_red);
+            p[1].setImageResource(R.drawable.ic_profile_grey);
             t[0].setTextColor(getResources().getColor(R.color.play_online));
+            t[1].setTextColor(getResources().getColor(R.color.black));
+        }
         for (int i = 0; i < 9; i++) {
             if (valid(i)) {
                 if (turn!=myturn)
@@ -438,29 +562,32 @@ public class SMSP9X9 extends AppCompatActivity {
             }
         }
     }
-    private void endGame(List a1) {
-        List<Set<Integer>> x = getSubsets(a1, 3);
-        if (x.size() > 0) {
-            for (int i = 0; i < x.size(); i++) {
-                for (int j = 0; j < 8; j++) {
-                    if ((win.get(j)).equals(x.get(i))) {
-                        if (!turn) {
-                            Toast.makeText(SMSP9X9.this, "You Won!!", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(SMSP9X9.this, "You Loss!!",Toast.LENGTH_LONG).show();
-                        }
-                        restart(findViewById(R.id.reset));
-                        return;
-                    }
-                }
-            }
-        }
-        if ((myuser.get(9)).size()+(opponent.get(9)).size()+neutral.size()==9) {
-            Toast.makeText(SMSP9X9.this, "Match Tie!!", Toast.LENGTH_LONG).show();
-            turn=!turn;
+
+    private boolean endgame(List a) {
+        if (result(a)){
+            if (turn)
+                Toast.makeText(SMSP9X9.this, "You Loss!!", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(SMSP9X9.this, "You Won!!", Toast.LENGTH_LONG).show();
             restart(findViewById(R.id.reset));
-            return;
+            return false;
+        } else if (myuser.size()+opponent.size()==9) {
+            Toast.makeText(SMSP9X9.this, "Match Tie!!", Toast.LENGTH_LONG).show();
+            restart(findViewById(R.id.reset));
+            return false;
+        } else {
+            return true;
         }
+    }
+
+    private boolean result(List a1) {
+        List<Set<Integer>> x = getSubsets(a1, 3);
+        if (x.size() > 0)
+            for (int i = 0; i < x.size(); i++)
+                for (int j = 0; j < 8; j++)
+                    if ((win.get(j)).equals(x.get(i)))
+                        return true;
+        return false;
     }
 
     public void home(View view) {
