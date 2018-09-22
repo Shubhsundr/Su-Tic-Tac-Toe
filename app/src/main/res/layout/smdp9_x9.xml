@@ -46,12 +46,12 @@
                 android:layout_gravity="center"
                 app:srcCompat="@android:drawable/ic_lock_silent_mode_off"
                 android:onClick="sound"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
             <ImageButton
                 android:id="@+id/soundoff"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/panel_layout"
                 android:layout_gravity="center"
@@ -1593,14 +1593,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="5" />
 
-        <ImageButton
+        <!--ImageButton
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:background="@drawable/panel_layout"
             app:srcCompat="@android:drawable/ic_media_play"
 
             android:onClick="Switch"
-            android:visibility="visible"/>
+            android:visibility="visible"/-->
 
         <Button
             android:layout_width="wrap_content"
@@ -1626,6 +1626,11 @@
             android:textColor="@color/quick_play"
             android:textSize="20dp"
             android:onClick="restart"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/button"

@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean me = true;
 
     Button but3, but9;
+    TextView zero, cross, id_mode;
     LinearLayout screen0, screen1, screen2;
 
     @Override
@@ -26,10 +27,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        id_mode = findViewById(R.id.id_mode);
+
         but3 = findViewById(R.id.B3X3);
         but9 = findViewById(R.id.B9X9);
-        changemode(but3);
 
+        zero = findViewById(R.id.zero);
+        cross = findViewById(R.id.cross);
+
+        changemode(but3);
+        firstspone(cross);
         screen0 = findViewById(R.id.screen0);
         screen1 = findViewById(R.id.screen1);
         screen2 = findViewById(R.id.screen2);
@@ -54,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void dual(View view) {
         player = false;
+        id_mode.setText("Choose the first player's turn");
         screen0.setVisibility(View.GONE);
         screen1.setVisibility(View.GONE);
         screen2.setVisibility(View.VISIBLE);
@@ -64,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
         System.exit(1);
     }
     public void info(View view) {
-
+        Intent info = new Intent(this, INFO.class);
+        startActivity(info);
     }
 
     public void start(View view) {
@@ -108,13 +117,15 @@ public class MainActivity extends AppCompatActivity {
             but3.getBackground().setAlpha(255);
         }
     }
+
     public void firstspone(View view) {
         me = !me;
-        TextView b = (TextView) view;
-        if (me) {
-            b.setText("X");
+        if (!me) {
+            zero.setTextColor(getResources().getColor(R.color.quick_play));
+            cross.setTextColor(getResources().getColor(R.color.info));
         } else {
-            b.setText("O");
+            zero.setTextColor(getResources().getColor(R.color.info));
+            cross.setTextColor(getResources().getColor(R.color.play_online));
         }
     }
 

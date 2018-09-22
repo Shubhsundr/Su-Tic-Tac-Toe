@@ -60,7 +60,7 @@ public class LAN extends AppCompatActivity {
 
     Button startgame, but3, but9;
     LinearLayout create_server_layout, game_layout, menu_layout, mode_layout;
-    TextView wait_layout;
+    TextView zero, cross, wait_layout;
     ClientThread clientThread = null;
     List<ChatClient> userList;
 
@@ -88,6 +88,9 @@ public class LAN extends AppCompatActivity {
 
         but3 = findViewById(R.id.B3X3);
         but9 = findViewById(R.id.B9X9);
+
+        zero = findViewById(R.id.zero);
+        cross = findViewById(R.id.cross);
 
         startgame = findViewById(R.id.start_game);
 
@@ -298,9 +301,6 @@ public class LAN extends AppCompatActivity {
         t[0] = findViewById(R.id.t1);
         t[1] = findViewById(R.id.t2);
 
-        t[0].setText("Me");
-        t[1].setText("LAN");
-
         ArrayList<String> devices = new ArrayList<>();
 
         try {
@@ -330,40 +330,19 @@ public class LAN extends AppCompatActivity {
     }
 
     public void startClientSequence(){
-        //Join layout stuff
-        Toast.makeText(LAN.this, "Connect server at: "+connectedIP ,Toast.LENGTH_LONG).show();
         String client_name = clientName;
-        if (client_name.equals("")) {
-            Toast.makeText(LAN.this, "Enter User Name",Toast.LENGTH_LONG).show();
-            return;
-        }
 
         clientThread = new ClientThread(client_name, connectedIP, port_number);
         clientThread.start();
+        wait_layout.setVisibility(View.GONE);
+        create_server_layout.setVisibility(View.VISIBLE);
 
         ifServer=false;
-
-/*        client_disconnect_button = indViewById(R.id.disconnect_client);
-        client_disconnect_button.setOnClickListener(
-                new Button.OnClickListener(){
-                    public void onClick(View v){
-                        if(clientThread==null){
-                            return;
-                        }
-                        clientThread.disconn();
-                    }
-                }
-        );
-*/
     }
 
     public void startServerSequence(){
 
         String server_name = "Server";
-        if(server_name.equals("")){
-            Toast.makeText(LAN.this, "Enter User Name",Toast.LENGTH_LONG).show();
-            return;
-        }
 
         serverName = server_name;
         userList = new ArrayList<>();
@@ -424,110 +403,7 @@ public class LAN extends AppCompatActivity {
                         LAN.this.runOnUiThread(new Runnable(){
                             public void run(){
                                 try {
-                                    if (ingame) {
-                                        Integer msg = Integer.parseInt(msgLog);
-                                        if(msg.equals(100)) {
-                                            undo_a();
-                                        } else if(msg.equals(101)) {
-                                            Toast.makeText(LAN.this, "your friend leave the game", Toast.LENGTH_LONG).show();
-                                            home_a();
-                                        } else if(msg.equals(102)) {
-                                            restart_a();
-                                        } else if (mode) {
-                                            if (!myuser.get(9).contains(msg) && !opponent.get(9).contains(msg)) {
-                                                opponent.get(9).add(msg);
-                                                turn = true;
-                                                if (myturn) {
-                                                    b[9][msg].setText("O");
-                                                    b[9][msg].setBackgroundColor(getResources().getColor(R.color.quick_play));
-                                                } else {
-                                                    b[9][msg].setText("X");
-                                                    b[9][msg].setBackgroundColor(getResources().getColor(R.color.play_online));
-                                                }
-                                                endGame(opponent.get(9));
-//                                        Toast.makeText(LAN3X3.this, "client send message " + msg, Toast.LENGTH_LONG).show();
-                                            }
-
-                                        } else {
-                                            Integer x = msg / 10;
-                                            Integer y = msg % 10;
-                                            if (valid(x)) {
-                                                last = y;
-                                                opponent.get(x).add(y);
-                                                proceeding.add(10 * x + y);
-                                                turn = true;
-                                                if (myturn) {
-                                                    b[x][y].setText("O");
-                                                    b[x][y].setTextColor(getResources().getColor(R.color.quick_play));
-                                                } else {
-                                                    b[x][y].setText("X");
-                                                    b[x][y].setTextColor(getResources().getColor(R.color.play_online));
-                                                }
-                                                int be = bendGame(x);
-                                                if (be == 1) {
-                                                    L[x].setVisibility(View.GONE);
-                                                    b[9][x].setVisibility(View.VISIBLE);
-                                                    if (myturn) {
-                                                        b[9][x].setText("O");
-                                                        b[9][x].setBackgroundColor(getResources().getColor(R.color.quick_play));
-                                                    } else {
-                                                        b[9][x].setText("X");
-                                                        b[9][x].setBackgroundColor(getResources().getColor(R.color.play_online));
-                                                    }
-                                                    opponent.get(9).add(x);
-                                                    endGame(opponent.get(9));
-                                                } else if (be == 2) {
-                                                    neutral.add(x);
-                                                    endGame(opponent.get(9));
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        if (msgLog.equals("Welcome")) {
-                                            wait_layout.setVisibility(View.GONE);
-                                            create_server_layout.setVisibility(View.VISIBLE);
-                                        } else if (msgLog.equals("true")) {
-                                            but9.getBackground().setAlpha(127);
-                                            but3.getBackground().setAlpha(255);
-                                        } else if (msgLog.equals("false")) {
-                                            but3.getBackground().setAlpha(127);
-                                            but9.getBackground().setAlpha(255);
-                                        } else if (msgLog.equals("falsetrue")) {
-                                            mode = false;
-                                            ingame = true;
-                                            for (i = 0; i < 9; i++) {
-                                                for (j = 0 ; j<9; j++)
-                                                {
-                                                    setOnClick(b[i][j], b[9][i], i, j, ifServer);
-                                                    b[i][j].setText("");
-                                                }
-                                                b[9][i].setText("");
-                                                b[9][i].setBackgroundColor(getResources().getColor(R.color.trans));
-                                            }
-                                            create_server_layout.setVisibility(View.GONE);
-                                            game_layout.setVisibility(View.VISIBLE);
-                                            for (i = 0; i<9; i++) {
-                                                L[i].setVisibility(View.VISIBLE);
-                                                b[9][i].setVisibility(View.GONE);
-                                            }
-                                        } else if (msgLog.equals("truetrue")) {
-                                            mode = true;
-                                            ingame = true;
-                                            for (j = 0; j < 9; j++) {
-                                                b[9][j].setText("");
-                                                b[9][j].setBackgroundColor(getResources().getColor(R.color.trans));
-                                                setOnClick3(b[9][j],j,ifServer);
-                                            }
-                                            create_server_layout.setVisibility(View.GONE);
-                                            game_layout.setVisibility(View.VISIBLE);
-                                            for (i = 0; i<9; i++) {
-                                                L[i].setVisibility(View.GONE);
-                                                b[9][i].setVisibility(View.VISIBLE);
-                                            }
-                                        } else {
-                                        }
-                                    }
+                                    connmessage(msgLog);
                                 } catch (Exception e) {
                                 }
                             }
@@ -618,9 +494,7 @@ public class LAN extends AppCompatActivity {
                 serverSocket = new ServerSocket(port_number);
                 LAN.this.runOnUiThread(new Runnable() {
                     @Override
-                    public void run() {
-                        Toast.makeText(LAN.this, "say client to connect" + serverSocket.getLocalPort(), Toast.LENGTH_LONG).show();
-                    }
+                    public void run() {}
                 });
 
                 while (true) {
@@ -696,109 +570,7 @@ public class LAN extends AppCompatActivity {
                             @Override
                             public void run() {
                                 try {
-                                    if(ingame) {
-                                        Integer msg = Integer.parseInt(newMsg);
-                                        if(msg.equals(100)) {
-                                            undo_a();
-                                        } else if(msg.equals(101)) {
-                                            Toast.makeText(LAN.this, "your friend leave the game", Toast.LENGTH_LONG).show();
-                                            home_a();
-                                        } else if(msg.equals(102)) {
-                                            restart_a();
-                                        } else if (mode) {
-                                            if(!myuser.get(9).contains(msg) && !opponent.get(9).contains(msg)) {
-                                                opponent.get(9).add(msg);
-                                                turn = true;
-                                                if(myturn) {
-                                                    b[9][msg].setText("O");
-                                                    b[9][msg].setBackgroundColor(getResources().getColor(R.color.quick_play));
-                                                } else {
-                                                    b[9][msg].setText("X");
-                                                    b[9][msg].setBackgroundColor(getResources().getColor(R.color.play_online));
-                                                }
-                                                endGame(opponent.get(9));
-//                                            Toast.makeText(LAN3X3.this, "Server Received Message " + msg, Toast.LENGTH_LONG).show();
-                                                broadcastMsg(newMsg);
-                                            }
-                                        } else {
-                                            Integer x = msg / 10;
-                                            Integer y = msg % 10;
-                                            if (valid(x)) {
-                                                last = y;
-                                                opponent.get(x).add(y);
-                                                proceeding.add(10 * x + y);
-                                                turn = true;
-                                                if (myturn) {
-                                                    b[x][y].setText("O");
-                                                    b[x][y].setTextColor(getResources().getColor(R.color.quick_play));
-                                                } else {
-                                                    b[x][y].setText("X");
-                                                    b[x][y].setTextColor(getResources().getColor(R.color.play_online));
-                                                }
-                                                int be = bendGame(x);
-                                                if (be == 1) {
-                                                    L[x].setVisibility(View.GONE);
-                                                    b[9][x].setVisibility(View.VISIBLE);
-                                                    if (myturn) {
-                                                        b[9][x].setText("O");
-                                                        b[9][x].setBackgroundColor(getResources().getColor(R.color.quick_play));
-                                                    } else {
-                                                        b[9][x].setText("X");
-                                                        b[9][x].setBackgroundColor(getResources().getColor(R.color.play_online));
-                                                    }
-                                                    opponent.get(9).add(x);
-                                                    endGame(opponent.get(9));
-                                                } else if (be == 2) {
-                                                    neutral.add(x);
-                                                    endGame(opponent.get(9));
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        if (newMsg.equals("true")) {
-                                            but9.getBackground().setAlpha(127);
-                                            but3.getBackground().setAlpha(255);
-                                        } else if (newMsg.equals("false")) {
-                                            but3.getBackground().setAlpha(127);
-                                            but9.getBackground().setAlpha(255);
-                                        } else if (newMsg.equals("falsetrue")) {
-                                            mode = false;
-                                            ingame = true;
-                                            for (i = 0; i < 9; i++) {
-                                                for (j = 0 ; j<9; j++)
-                                                {
-                                                    setOnClick(b[i][j], b[9][i], i, j, ifServer);
-                                                    b[i][j].setText("");
-                                                }
-                                                b[9][i].setText("");
-                                                b[9][i].setBackgroundColor(getResources().getColor(R.color.trans));
-                                            }
-                                            create_server_layout.setVisibility(View.GONE);
-                                            game_layout.setVisibility(View.VISIBLE);
-                                            for (i = 0; i<9; i++) {
-                                                L[i].setVisibility(View.VISIBLE);
-                                                b[9][i].setVisibility(View.GONE);
-                                            }
-                                        } else if (newMsg.equals("truetrue")) {
-                                            mode = true;
-                                            ingame = true;
-                                            for (j = 0; j < 9; j++) {
-                                                b[9][j].setText("");
-                                                b[9][j].setBackgroundColor(getResources().getColor(R.color.trans));
-                                                setOnClick3(b[9][j],j,ifServer);
-                                            }
-                                            create_server_layout.setVisibility(View.GONE);
-                                            game_layout.setVisibility(View.VISIBLE);
-                                            for (i = 0; i<9; i++) {
-                                                L[i].setVisibility(View.GONE);
-                                                b[9][i].setVisibility(View.VISIBLE);
-                                            }
-                                        } else {
-                                            Toast.makeText(LAN.this, newMsg, Toast.LENGTH_LONG).show();
-                                        }
-                                    }
-//                                            Toast.makeText(LAN.this, "Server Received Message " + msg, Toast.LENGTH_LONG).show();
+                                    connmessage(newMsg);
                                     broadcastMsg(newMsg);
                                 } catch (Exception e) {
                                     Toast.makeText(LAN.this, newMsg, Toast.LENGTH_LONG).show();
@@ -837,7 +609,6 @@ public class LAN extends AppCompatActivity {
                         LAN.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(LAN.this, "Client's Last Message " + msgLog, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -852,8 +623,110 @@ public class LAN extends AppCompatActivity {
         public void broadcastMsg(String msg){
             for(int i=0; i<userList.size(); i++){
                 userList.get(i).chatThread.sendMsg(msg);
-                //msgLog += "- send to " + userList.get(i).name + "\n";
             }
+        }
+    }
+
+    private void connmessage(String mess) {
+        if(ingame) {
+            Integer msg = Integer.parseInt(mess);
+            if(msg.equals(100)) {
+                undo_a();
+            } else if(msg.equals(101)) {
+                Toast.makeText(LAN.this, "your friend leave the game", Toast.LENGTH_LONG).show();
+                home_a();
+            } else if(msg.equals(102)) {
+                restart_a();
+            } else if (mode) {
+                if(!myuser.get(9).contains(msg) && !opponent.get(9).contains(msg)) {
+                    opponent.get(9).add(msg);
+                    turn = true;
+                    if(myturn) {
+                        b[9][msg].setText("O");
+                        b[9][msg].setBackgroundColor(getResources().getColor(R.color.quick_play));
+                    } else {
+                        b[9][msg].setText("X");
+                        b[9][msg].setBackgroundColor(getResources().getColor(R.color.play_online));
+                    }
+                    endGame(opponent.get(9));
+                }
+            } else {
+                Integer x = msg / 10;
+                Integer y = msg % 10;
+                if (valid(x)) {
+                    last = y;
+                    opponent.get(x).add(y);
+                    proceeding.add(10 * x + y);
+                    turn = true;
+                    if (myturn) {
+                        b[x][y].setText("O");
+                        b[x][y].setTextColor(getResources().getColor(R.color.quick_play));
+                    } else {
+                        b[x][y].setText("X");
+                        b[x][y].setTextColor(getResources().getColor(R.color.play_online));
+                    }
+                    int be = bendGame(x);
+                    if (be == 1) {
+                        L[x].setVisibility(View.GONE);
+                        b[9][x].setVisibility(View.VISIBLE);
+                        if (myturn) {
+                            b[9][x].setText("O");
+                            b[9][x].setBackgroundColor(getResources().getColor(R.color.quick_play));
+                        } else {
+                            b[9][x].setText("X");
+                            b[9][x].setBackgroundColor(getResources().getColor(R.color.play_online));
+                        }
+                        opponent.get(9).add(x);
+                        endGame(opponent.get(9));
+                    } else if (be == 2) {
+                        neutral.add(x);
+                        endGame(opponent.get(9));
+                    }
+                }
+            }
+        }
+        else {
+            if (mess.equals("true")) {
+                but9.getBackground().setAlpha(127);
+                but3.getBackground().setAlpha(255);
+            } else if (mess.equals("false")) {
+                but3.getBackground().setAlpha(127);
+                but9.getBackground().setAlpha(255);
+            } else if (mess.equals("falsetrue")) {
+                mode = false;
+                ingame = true;
+                for (i = 0; i < 9; i++) {
+                    for (j = 0 ; j<9; j++)
+                    {
+                        setOnClick(b[i][j], b[9][i], i, j, ifServer);
+                        b[i][j].setText("");
+                    }
+                    b[9][i].setText("");
+                    b[9][i].setBackgroundColor(getResources().getColor(R.color.trans));
+                }
+                create_server_layout.setVisibility(View.GONE);
+                game_layout.setVisibility(View.VISIBLE);
+                for (i = 0; i<9; i++) {
+                    L[i].setVisibility(View.VISIBLE);
+                    b[9][i].setVisibility(View.GONE);
+                }
+            } else if (mess.equals("truetrue")) {
+                mode = true;
+                ingame = true;
+                for (j = 0; j < 9; j++) {
+                    b[9][j].setText("");
+                    b[9][j].setBackgroundColor(getResources().getColor(R.color.trans));
+                    setOnClick3(b[9][j],j,ifServer);
+                }
+                create_server_layout.setVisibility(View.GONE);
+                game_layout.setVisibility(View.VISIBLE);
+                for (i = 0; i<9; i++) {
+                    L[i].setVisibility(View.GONE);
+                    b[9][i].setVisibility(View.VISIBLE);
+                }
+            } else {
+            }
+            onturn();
         }
     }
 
@@ -896,7 +769,6 @@ public class LAN extends AppCompatActivity {
                                 }
                             }
                             ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(10*x+y));
-//                            Toast.makeText(LAN.this, x + " send to client", Toast.LENGTH_LONG).show();
                             serverSenderThread.start();
                         }
                         else if (ingame) {
@@ -931,7 +803,6 @@ public class LAN extends AppCompatActivity {
                                 }
                             }
                             clientThread.sendMsg(Integer.toString(10*x+y));
-//                            Toast.makeText(LAN.this, x + " send to server", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -957,7 +828,6 @@ public class LAN extends AppCompatActivity {
                                 sb.setBackgroundColor(getResources().getColor(R.color.quick_play));
                             }
                             LAN.ServerSenderThread serverSenderThread = new LAN.ServerSenderThread(Integer.toString(x));
-//                            Toast.makeText(LAN3X3.this, x + " send to client", Toast.LENGTH_LONG).show();
                             serverSenderThread.start();
                             endGame(myuser.get(9));
                         }
@@ -973,7 +843,6 @@ public class LAN extends AppCompatActivity {
                             myuser.get(9).add(x);
                             clientThread.sendMsg(Integer.toString(x));
                             endGame(myuser.get(9));
-//                            Toast.makeText(LAN.this, x + " send to server", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -995,7 +864,6 @@ public class LAN extends AppCompatActivity {
                         @Override
                         public void run() {
                             if(!msgToSend.equals("")) {
-//                                Toast.makeText(LAN.this, "The Comeback Message " + msgToSend, Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -1011,7 +879,6 @@ public class LAN extends AppCompatActivity {
         public void broadcastMsg(String msg){
             for(int i=0; i<userList.size(); i++){
                 userList.get(i).chatThread.sendMsg(msg);
-                //msgLog += "- send to " + userList.get(i).name + "\n";
             }
         }
     }
@@ -1036,10 +903,6 @@ public class LAN extends AppCompatActivity {
                 else
                     s[9][i].setBackgroundColor(getResources().getColor(R.color.play_online));
             }
-            if (turn!=myturn)
-                t[0].setTextColor(getResources().getColor(R.color.quick_play));
-            else
-                t[0].setTextColor(getResources().getColor(R.color.play_online));
         }
         else {
             for (int i = 0; i < 8; i++ ) {
@@ -1048,10 +911,6 @@ public class LAN extends AppCompatActivity {
                 else
                     s[9][i].setBackgroundColor(getResources().getColor(R.color.play_online));
             }
-            if (turn!=myturn)
-                t[0].setTextColor(getResources().getColor(R.color.quick_play));
-            else
-                t[0].setTextColor(getResources().getColor(R.color.play_online));
             for (int i = 0; i < 9; i++) {
                 if (valid(i)) {
                     if (turn!=myturn)
@@ -1064,6 +923,19 @@ public class LAN extends AppCompatActivity {
                     L[i].setBackgroundColor(getResources().getColor(R.color.trans));
                 }
             }
+        }
+
+        if (turn!=myturn) {
+            p[0].setImageResource(R.drawable.ic_profile_green);
+            p[1].setImageResource(R.drawable.ic_profile_grey);
+            t[0].setTextColor(getResources().getColor(R.color.quick_play));
+            t[1].setTextColor(getResources().getColor(R.color.black));
+        }
+        else {
+            p[0].setImageResource(R.drawable.ic_profile_grey);
+            p[1].setImageResource(R.drawable.ic_profile_red);
+            t[0].setTextColor(getResources().getColor(R.color.black));
+            t[1].setTextColor(getResources().getColor(R.color.play_online));
         }
     }
 
@@ -1142,7 +1014,6 @@ public class LAN extends AppCompatActivity {
         ingame = false;
         if (ifServer) {
             ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(101));
-//                            Toast.makeText(LAN.this, x + " send to client", Toast.LENGTH_LONG).show();
             serverSenderThread.start();
         } else {
             clientThread.sendMsg(Integer.toString(101));
@@ -1150,7 +1021,8 @@ public class LAN extends AppCompatActivity {
         home_a();
     }
     private void home_a() {
-        restart_a();
+        if (wait_layout.getVisibility()!=View.VISIBLE)
+            restart_a();
         Intent main = new Intent(this, MainActivity.class);
         main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(main);
@@ -1160,7 +1032,6 @@ public class LAN extends AppCompatActivity {
     public void restart(View view) {
         if (ifServer) {
             ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(102));
-//                            Toast.makeText(LAN.this, x + " send to client", Toast.LENGTH_LONG).show();
             serverSenderThread.start();
         } else {
             clientThread.sendMsg(Integer.toString(102));
@@ -1198,7 +1069,6 @@ public class LAN extends AppCompatActivity {
     public void undo(View view) {
         if (ifServer) {
             ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(100));
-//                            Toast.makeText(LAN.this, x + " send to client", Toast.LENGTH_LONG).show();
             serverSenderThread.start();
         } else {
             clientThread.sendMsg(Integer.toString(100));
@@ -1266,8 +1136,8 @@ public class LAN extends AppCompatActivity {
                     last=9;
                 else
                     last = proceeding.get(proceeding.size()-1)%10;
-                onturn();
             }
+            onturn();
         } catch (Exception e) {
             if (proceeding.size()==0)
                 last=9;
@@ -1317,7 +1187,6 @@ public class LAN extends AppCompatActivity {
         }
         if(ifServer) {
             ServerSenderThread serverSenderThread = new ServerSenderThread(Boolean.toString(mode));
-//                            Toast.makeText(LAN.this, x + " send to client", Toast.LENGTH_LONG).show();
             serverSenderThread.start();
         } else {
             clientThread.sendMsg(Boolean.toString(mode));
@@ -1325,11 +1194,16 @@ public class LAN extends AppCompatActivity {
     }
     public void firstspone(View view) {
         myturn = !myturn;
-        Button b = (Button) view;
-        if (myturn) {
-            b.setText("X");
+        if (!myturn) {
+            zero.setTextColor(getResources().getColor(R.color.quick_play));
+            cross.setTextColor(getResources().getColor(R.color.info));
+            t[0].setText("Me");
+            t[1].setText("Opponent");
         } else {
-            b.setText("O");
+            zero.setTextColor(getResources().getColor(R.color.info));
+            cross.setTextColor(getResources().getColor(R.color.play_online));
+            t[0].setText("Opponent");
+            t[1].setText("Me");
         }
     }
     public void start(View view) {
@@ -1366,7 +1240,6 @@ public class LAN extends AppCompatActivity {
         ingame = true;
         if(ifServer) {
             ServerSenderThread serverSenderThread = new ServerSenderThread(Boolean.toString(mode) + Boolean.toString(true));
-//                            Toast.makeText(LAN.this, x + " send to client", Toast.LENGTH_LONG).show();
             serverSenderThread.start();
         } else {
             clientThread.sendMsg(Boolean.toString(mode) + Boolean.toString(true));

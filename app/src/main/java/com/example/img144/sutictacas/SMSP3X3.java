@@ -1,6 +1,7 @@
 package com.example.img144.sutictacas;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -69,8 +70,13 @@ public class SMSP3X3 extends AppCompatActivity {
         t[0] = findViewById(R.id.t1);
         t[1] = findViewById(R.id.t2);
 
-        t[0].setText("Me");
-        t[1].setText("Bot");
+        if (my_turn) {
+            t[0].setText("Bot");
+            t[1].setText("Me");
+        } else {
+            t[0].setText("Me");
+            t[1].setText("Bot");
+        }
 
         for (i = 0; i < 9; i++) {
             setOnClick(b[i], i);
@@ -96,7 +102,15 @@ public class SMSP3X3 extends AppCompatActivity {
                     }
                     if (endgame(myuser)) {
                         turn = true;
-                        bot();
+                        onturn();
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                bot();
+                            }
+                        }, 700);
+                        onturn();
                     }
                 }
             }
@@ -117,10 +131,10 @@ public class SMSP3X3 extends AppCompatActivity {
             t[1].setTextColor(getResources().getColor(R.color.black));
         }
         else {
-            p[0].setImageResource(R.drawable.ic_profile_red);
-            p[1].setImageResource(R.drawable.ic_profile_grey);
-            t[0].setTextColor(getResources().getColor(R.color.play_online));
-            t[1].setTextColor(getResources().getColor(R.color.black));
+            p[0].setImageResource(R.drawable.ic_profile_grey);
+            p[1].setImageResource(R.drawable.ic_profile_red);
+            t[0].setTextColor(getResources().getColor(R.color.black));
+            t[1].setTextColor(getResources().getColor(R.color.play_online));
         }
     }
 
@@ -199,6 +213,7 @@ public class SMSP3X3 extends AppCompatActivity {
             }
 
             opponent.add(xy);
+
             if (my_turn) {
                 b[xy].setBackgroundColor(getResources().getColor(R.color.quick_play));
                 b[xy].setText("O");
@@ -280,18 +295,30 @@ public class SMSP3X3 extends AppCompatActivity {
     }
 
     public void undo(View view) {
-        try {
-            int x = myuser.get(myuser.size() - 1);
-            myuser.remove(myuser.size() - 1);
-            b[x].setText("");
-            b[x].setBackgroundColor(getResources().getColor(R.color.trans));
-            int y = opponent.get(opponent.size() - 1);
-            opponent.remove(opponent.size() - 1);
-            b[y].setText("");
-            b[y].setBackgroundColor(getResources().getColor(R.color.trans));;
-        } catch (Exception e) {
+        boolean a = turn;
+        turn = true;
+        if (myuser.size()==0 && opponent.size()==0){
             Toast.makeText(SMSP3X3.this, "can't undo", Toast.LENGTH_LONG).show();
+        } else {
+            if (myuser.size()>0) {
+                a = !a;
+                int x = myuser.get(myuser.size() - 1);
+                myuser.remove(myuser.size() - 1);
+                b[x].setText("");
+                b[x].setBackgroundColor(getResources().getColor(R.color.trans));
+            }
+            if (opponent.size()>0) {
+                a = !a;
+                int y = opponent.get(opponent.size() - 1);
+                opponent.remove(opponent.size() - 1);
+                b[y].setText("");
+                b[y].setBackgroundColor(getResources().getColor(R.color.trans));
+            }
         }
+        turn = a;
+        onturn();
+        bot();
+        onturn();
     }
 
     private static void getSubsets(List<Integer> superSet, int k, int idx, Set<Integer> current, List<Set<Integer>> solution) {
