@@ -1,10 +1,9 @@
-package com.example.img144.sutictacas;
+package com.world.img144.sutictacas;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,7 +23,7 @@ public class SMSP3X3 extends AppCompatActivity {
     RelativeLayout s[] = new RelativeLayout[8];
     ImageView p[] = new ImageView[2];
     TextView t[] = new TextView[2];
-    Boolean turn, my_turn, first_turn;
+    Boolean turn, my_turn, first_turn, over=false;
     int i;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
     List<Set<Integer>> win = new ArrayList<>();
@@ -91,28 +90,30 @@ public class SMSP3X3 extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btn.getText().toString().equals("") && !turn) {
-                    myuser.add(x);
-                    if(my_turn) {
-                        btn.setBackgroundColor(getResources().getColor(R.color.play_online));
-                        btn.setText("X");
-                    } else {
-                        btn.setBackgroundColor(getResources().getColor(R.color.quick_play));
-                        btn.setText("O");
-                    }
-                    if (endgame(myuser)) {
-                        turn = true;
-                        onturn();
-                        final Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                bot();
-                            }
-                        }, 700);
-                        onturn();
-                    }
+            if (btn.getText().toString().equals("") && !turn && !over) {
+                turn = true;
+                myuser.add(x);
+                if(my_turn) {
+                    btn.setBackgroundColor(getResources().getColor(R.color.play_online));
+                    btn.setText("X");
+                } else {
+                    btn.setBackgroundColor(getResources().getColor(R.color.quick_play));
+                    btn.setText("O");
                 }
+                if (endgame(myuser, true)) {
+                    onturn();
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            bot();
+                        }
+                    }, 700);
+                    onturn();
+                } else {
+                    over = true;
+                }
+            }
             }
         });
     }
@@ -138,17 +139,15 @@ public class SMSP3X3 extends AppCompatActivity {
         }
     }
 
-    private boolean endgame(List a) {
+    private boolean endgame(List a, boolean res) {
         if (result(a)){
-            if (!turn)
+            if (res)
                 Toast.makeText(SMSP3X3.this, "You Won!!", Toast.LENGTH_LONG).show();
             else
                 Toast.makeText(SMSP3X3.this, "You Lost!!", Toast.LENGTH_LONG).show();
-            restart(findViewById(R.id.reset));
             return false;
         } else if (myuser.size()+opponent.size()==9) {
             Toast.makeText(SMSP3X3.this, "Match Tie!!", Toast.LENGTH_LONG).show();
-            restart(findViewById(R.id.reset));
             return false;
         } else {
             return true;
@@ -166,14 +165,7 @@ public class SMSP3X3 extends AppCompatActivity {
     }
 
     public void Switch(View view) {
-        if (findViewById(R.id.layout1).getVisibility() != View.VISIBLE) {
-            findViewById(R.id.layout1).setVisibility(View.VISIBLE);
-            findViewById(R.id.layout2).setVisibility(View.GONE);
-        }
-        else {
-            findViewById(R.id.layout2).setVisibility(View.VISIBLE);
-            findViewById(R.id.layout1).setVisibility(View.GONE);
-        }
+        onBackPressed();
     }
 
     public void sound(View view) {
@@ -221,7 +213,7 @@ public class SMSP3X3 extends AppCompatActivity {
                 b[xy].setBackgroundColor(getResources().getColor(R.color.play_online));
                 b[xy].setText("X");
             }
-            if (endgame(opponent)) {
+            if (endgame(opponent, false)) {
                 turn = false;
                 onturn();
             }
@@ -279,10 +271,7 @@ public class SMSP3X3 extends AppCompatActivity {
     }
 
     public void home(View view) {
-        Intent main = new Intent(this, MainActivity.class);
-        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(main);
-        return;
+        finish();
     }
 
     public void restart(View view) {
@@ -295,30 +284,32 @@ public class SMSP3X3 extends AppCompatActivity {
     }
 
     public void undo(View view) {
-        boolean a = turn;
-        turn = true;
-        if (myuser.size()==0 && opponent.size()==0){
-            Toast.makeText(SMSP3X3.this, "can't undo", Toast.LENGTH_LONG).show();
-        } else {
-            if (myuser.size()>0) {
-                a = !a;
-                int x = myuser.get(myuser.size() - 1);
-                myuser.remove(myuser.size() - 1);
-                b[x].setText("");
-                b[x].setBackgroundColor(getResources().getColor(R.color.trans));
+        if (!over) {
+            boolean a = turn;
+            turn = true;
+            if (myuser.size() == 0 && opponent.size() == 0) {
+                Toast.makeText(SMSP3X3.this, "can't undo", Toast.LENGTH_LONG).show();
+            } else {
+                if (myuser.size() > 0) {
+                    a = !a;
+                    int x = myuser.get(myuser.size() - 1);
+                    myuser.remove(myuser.size() - 1);
+                    b[x].setText("");
+                    b[x].setBackgroundColor(getResources().getColor(R.color.trans));
+                }
+                if (opponent.size() > 0) {
+                    a = !a;
+                    int y = opponent.get(opponent.size() - 1);
+                    opponent.remove(opponent.size() - 1);
+                    b[y].setText("");
+                    b[y].setBackgroundColor(getResources().getColor(R.color.trans));
+                }
             }
-            if (opponent.size()>0) {
-                a = !a;
-                int y = opponent.get(opponent.size() - 1);
-                opponent.remove(opponent.size() - 1);
-                b[y].setText("");
-                b[y].setBackgroundColor(getResources().getColor(R.color.trans));
-            }
+            turn = a;
+            onturn();
+            bot();
+            onturn();
         }
-        turn = a;
-        onturn();
-        bot();
-        onturn();
     }
 
     private static void getSubsets(List<Integer> superSet, int k, int idx, Set<Integer> current, List<Set<Integer>> solution) {
@@ -350,5 +341,17 @@ public class SMSP3X3 extends AppCompatActivity {
             list.addAll(Arrays.asList(array));
         }
         return list;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (findViewById(R.id.layout1).getVisibility() != View.VISIBLE) {
+            findViewById(R.id.layout1).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout2).setVisibility(View.GONE);
+        }
+        else {
+            findViewById(R.id.layout2).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout1).setVisibility(View.GONE);
+        }
     }
 }

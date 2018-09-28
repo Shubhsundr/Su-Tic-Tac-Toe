@@ -1,4 +1,4 @@
-package com.example.img144.sutictacas;
+package com.world.img144.sutictacas;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +21,7 @@ public class SMDP3X3 extends AppCompatActivity {
     RelativeLayout s[] = new RelativeLayout[8];
     ImageView p[] = new ImageView[2];
     TextView t[] = new TextView[2];
-    Boolean turn, my_turn;
+    Boolean turn, my_turn, over = false;
     int i;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
     List<Set<Integer>> win = new ArrayList<>();
@@ -77,7 +77,7 @@ public class SMDP3X3 extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btn.getText().toString().equals("")) {
+                if (btn.getText().toString().equals("") && !over) {
                     if (turn) {
                         myuser.add(x);
                         turn = false;
@@ -108,14 +108,7 @@ public class SMDP3X3 extends AppCompatActivity {
     }
 
     public void sound(View view) {
-        if (findViewById(R.id.soundon).getVisibility() != View.VISIBLE) {
-            findViewById(R.id.soundon).setVisibility(View.VISIBLE);
-            findViewById(R.id.soundoff).setVisibility(View.GONE);
-        }
-        else {
-            findViewById(R.id.soundoff).setVisibility(View.VISIBLE);
-            findViewById(R.id.soundon).setVisibility(View.GONE);
-        }
+        onBackPressed();
     }
 
     private void onturn() {
@@ -148,27 +141,24 @@ public class SMDP3X3 extends AppCompatActivity {
                         if (turn) {
                             Toast.makeText(SMDP3X3.this, "Circle wins", Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(SMDP3X3.this, "Cross wins",Toast.LENGTH_LONG).show();
+                            Toast.makeText(SMDP3X3.this, "Cross wins", Toast.LENGTH_LONG).show();
                         }
-                        restart(findViewById(R.id.reset));
+                        over = true;
                         return;
                     }
                 }
             }
         }
         if (myuser.size()+opponent.size()==9) {
+            over = true;
             Toast.makeText(SMDP3X3.this, "Match Tie!!", Toast.LENGTH_LONG).show();
-            restart(findViewById(R.id.reset));
             return;
         }
         onturn();
     }
 
     public void home(View view) {
-        Intent main = new Intent(this, MainActivity.class);
-        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(main);
-        return;
+        finish();
     }
 
     public void restart(View view) {
@@ -180,22 +170,24 @@ public class SMDP3X3 extends AppCompatActivity {
     }
 
     public void undo(View view) {
-        try {
-            if (turn) {
-                int x = opponent.get(opponent.size() - 1);
-                opponent.remove(opponent.size() - 1);
-                b[x].setText("");
-                b[x].setBackgroundColor(getResources().getColor(R.color.trans));
-                turn = false;
-            } else {
-                int x = myuser.get(myuser.size() - 1);
-                myuser.remove(myuser.size() - 1);
-                b[x].setText("");
-                b[x].setBackgroundColor(getResources().getColor(R.color.trans));
-                turn = true;
+        if(!over) {
+            try {
+                if (turn) {
+                    int x = opponent.get(opponent.size() - 1);
+                    opponent.remove(opponent.size() - 1);
+                    b[x].setText("");
+                    b[x].setBackgroundColor(getResources().getColor(R.color.trans));
+                    turn = false;
+                } else {
+                    int x = myuser.get(myuser.size() - 1);
+                    myuser.remove(myuser.size() - 1);
+                    b[x].setText("");
+                    b[x].setBackgroundColor(getResources().getColor(R.color.trans));
+                    turn = true;
+                }
+            } catch (Exception e) {
+                Toast.makeText(SMDP3X3.this, "can't undo", Toast.LENGTH_LONG).show();
             }
-        } catch (Exception e) {
-            Toast.makeText(SMDP3X3.this, "can't undo", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -228,5 +220,17 @@ public class SMDP3X3 extends AppCompatActivity {
             list.addAll(Arrays.asList(array));
         }
         return list;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (findViewById(R.id.layout1).getVisibility() != View.VISIBLE) {
+            findViewById(R.id.layout1).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout2).setVisibility(View.GONE);
+        }
+        else {
+            findViewById(R.id.layout2).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout1).setVisibility(View.GONE);
+        }
     }
 }

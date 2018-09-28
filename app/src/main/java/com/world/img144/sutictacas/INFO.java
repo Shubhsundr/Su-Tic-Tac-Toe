@@ -1,4 +1,4 @@
-package com.example.img144.sutictacas;
+package com.world.img144.sutictacas;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,6 @@ public class INFO extends AppCompatActivity {
     }
 
     public void home(View view) {
-        Intent main = new Intent(this, MainActivity.class);
-        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(main);
-        return;
+        finish();
     }
 }

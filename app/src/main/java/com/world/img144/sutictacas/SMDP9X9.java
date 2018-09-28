@@ -1,4 +1,4 @@
-package com.example.img144.sutictacas;
+package com.world.img144.sutictacas;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +24,7 @@ public class SMDP9X9 extends AppCompatActivity {
     LinearLayout L[] = new LinearLayout[9];
     ImageView p[] = new ImageView[2];
     TextView t[] = new TextView[2];
-    Boolean turn, my_turn;
+    Boolean turn, my_turn, over=false;
     int i,j;
     int last=9;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
@@ -270,13 +270,13 @@ public class SMDP9X9 extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btn.getText().toString().equals("")) {
+                if (btn.getText().toString().equals("") && !over) {
                     if (turn) {
                         if(valid(x)) {
+                            turn = false;
                             last = y;
                             myuser.get(x).add(y);
                             proceeding.add(10*x+y);
-                            turn = false;
                             btn.setText("X");
                             btn.setTextColor(getResources().getColor(R.color.play_online));
                             int be = bendGame(x);
@@ -294,10 +294,10 @@ public class SMDP9X9 extends AppCompatActivity {
                         }
                     } else {
                         if(valid(x)) {
+                            turn = true;
                             last = y;
                             opponent.get(x).add(y);
                             proceeding.add(10*x+y);
-                            turn = true;
                             btn.setText("O");
                             btn.setTextColor(getResources().getColor(R.color.quick_play));
                             int be=bendGame(x);
@@ -388,14 +388,7 @@ public class SMDP9X9 extends AppCompatActivity {
     }
 
     public void Switch(View view) {
-        if (findViewById(R.id.layout1).getVisibility() != View.VISIBLE) {
-            findViewById(R.id.layout1).setVisibility(View.VISIBLE);
-            findViewById(R.id.layout2).setVisibility(View.GONE);
-        }
-        else {
-            findViewById(R.id.layout2).setVisibility(View.VISIBLE);
-            findViewById(R.id.layout1).setVisibility(View.GONE);
-        }
+        onBackPressed();
     }
 
     public void sound(View view) {
@@ -420,7 +413,7 @@ public class SMDP9X9 extends AppCompatActivity {
                         } else {
                             Toast.makeText(SMDP9X9.this, "Cross wins",Toast.LENGTH_LONG).show();
                         }
-                        restart(findViewById(R.id.reset));
+                        over = true;
                         return;
                     }
                 }
@@ -428,17 +421,13 @@ public class SMDP9X9 extends AppCompatActivity {
         }
         if ((myuser.get(9)).size()+(opponent.get(9)).size()+neutral.size()==9) {
             Toast.makeText(SMDP9X9.this, "Match Tie!!", Toast.LENGTH_LONG).show();
-            turn=!turn;
-            restart(findViewById(R.id.reset));
+            over = true;
             return;
         }
     }
 
     public void home(View view) {
-        Intent main = new Intent(this, MainActivity.class);
-        main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(main);
-        return;
+        finish();
     }
 
     public void restart(View view) {
@@ -450,55 +439,62 @@ public class SMDP9X9 extends AppCompatActivity {
     }
 
     public void undo(View view) {
-        try {
-            int prev = proceeding.get(proceeding.size()-1);
-            proceeding.remove(proceeding.size()-1);
-            if (turn) {
-                opponent.get(prev/10).remove(opponent.get(prev/10).size()-1);
-                b[prev/10][prev%10].setText("");
-                turn = false;
-                try {
-                    if (opponent.get(9).get(opponent.get(9).size() - 1) == prev / 10) {
-                        opponent.get(9).remove(opponent.get(9).size() - 1);
-                        b[9][prev / 10].setVisibility(View.GONE);
-                        L[prev / 10].setVisibility(View.VISIBLE);
+        if(!over) {
+            try {
+                int prev = proceeding.get(proceeding.size() - 1);
+                proceeding.remove(proceeding.size() - 1);
+                if (turn) {
+                    opponent.get(prev / 10).remove(opponent.get(prev / 10).size() - 1);
+                    b[prev / 10][prev % 10].setText("");
+                    turn = false;
+                    try {
+                        if (opponent.get(9).get(opponent.get(9).size() - 1) == prev / 10) {
+                            opponent.get(9).remove(opponent.get(9).size() - 1);
+                            b[9][prev / 10].setVisibility(View.GONE);
+                            L[prev / 10].setVisibility(View.VISIBLE);
+                        }
+                    } catch (Exception e) {
                     }
-                } catch (Exception e) {}
-                try {
-                    if (neutral.get(neutral.size()-1) == prev/10) {
-                        neutral.remove(neutral.size()-1);
-                        b[9][prev/10].setVisibility(View.GONE);
-                        L[prev/10].setVisibility(View.VISIBLE);
+                    try {
+                        if (neutral.get(neutral.size() - 1) == prev / 10) {
+                            neutral.remove(neutral.size() - 1);
+                            b[9][prev / 10].setVisibility(View.GONE);
+                            L[prev / 10].setVisibility(View.VISIBLE);
+                        }
+                    } catch (Exception e) {
                     }
-                } catch (Exception e) {}
-            } else {
-                myuser.get(prev/10).remove(myuser.get(prev/10).size()-1);
-                b[prev/10][prev%10].setText("");
-                turn = true;
-                try {
-                    if (myuser.get(9).get(myuser.get(9).size()-1) == prev/10) {
-                        myuser.get(9).remove(myuser.get(9).size()-1);
-                        b[9][prev/10].setVisibility(View.GONE);
-                        L[prev/10].setVisibility(View.VISIBLE);
+                } else {
+                    myuser.get(prev / 10).remove(myuser.get(prev / 10).size() - 1);
+                    b[prev / 10][prev % 10].setText("");
+                    turn = true;
+                    try {
+                        if (myuser.get(9).get(myuser.get(9).size() - 1) == prev / 10) {
+                            myuser.get(9).remove(myuser.get(9).size() - 1);
+                            b[9][prev / 10].setVisibility(View.GONE);
+                            L[prev / 10].setVisibility(View.VISIBLE);
+                        }
+                    } catch (Exception e) {
                     }
-                } catch (Exception e) {}
-                try {
-                    if (neutral.get(neutral.size()-1) == prev/10) {
-                        neutral.remove(neutral.size()-1);
-                        b[9][prev/10].setVisibility(View.GONE);
-                        L[prev/10].setVisibility(View.VISIBLE);
+                    try {
+                        if (neutral.get(neutral.size() - 1) == prev / 10) {
+                            neutral.remove(neutral.size() - 1);
+                            b[9][prev / 10].setVisibility(View.GONE);
+                            L[prev / 10].setVisibility(View.VISIBLE);
+                        }
+                    } catch (Exception e) {
                     }
-                } catch (Exception e) {}
+                }
+                if (proceeding.size() == 0)
+                    last = 9;
+                else {
+                    last = proceeding.get(proceeding.size() - 1) % 10;
+                }
+                onturn();
+            } catch (Exception e) {
+                if (proceeding.size() == 0)
+                    last = 9;
+                Toast.makeText(SMDP9X9.this, "can't undo", Toast.LENGTH_LONG).show();
             }
-            if (proceeding.size()==0)
-                last=9;
-            else
-                last = proceeding.get(proceeding.size()-1)%10;
-            onturn();
-        } catch (Exception e) {
-            if (proceeding.size()==0)
-                last=9;
-            Toast.makeText(SMDP9X9.this, "can't undo", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -531,5 +527,17 @@ public class SMDP9X9 extends AppCompatActivity {
             list.addAll(Arrays.asList(array));
         }
         return list;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (findViewById(R.id.layout1).getVisibility() != View.VISIBLE) {
+            findViewById(R.id.layout1).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout2).setVisibility(View.GONE);
+        }
+        else {
+            findViewById(R.id.layout2).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout1).setVisibility(View.GONE);
+        }
     }
 }

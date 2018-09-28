@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.img144.sutictacas.MainActivity">
+    tools:context="com.world.img144.sutictacas.com.world.img144.sutictacas.MainActivity">
 
     <LinearLayout
         android:id="@+id/main"
@@ -84,9 +84,8 @@
                 android:layout_height="20dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_gravity="right"
                 android:backgroundTint="@color/trans"
-                android:text="made with ❤"
+                android:text="With ❤ from IMG"
                 android:textSize="15dp" />
 
         </LinearLayout>
@@ -210,8 +209,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="gravity"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:text="Choose your side" />
+                android:gravity="center" />
 
             <Space
                 android:layout_weight="1"

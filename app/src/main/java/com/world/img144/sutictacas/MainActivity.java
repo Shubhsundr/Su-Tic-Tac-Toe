@@ -1,4 +1,4 @@
-package com.example.img144.sutictacas;
+package com.world.img144.sutictacas;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -54,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void single(View view) {
         player = true;
+        id_mode.setText("Choose your side");
         screen0.setVisibility(View.GONE);
         screen1.setVisibility(View.GONE);
         screen2.setVisibility(View.VISIBLE);
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         screen0.setVisibility(View.GONE);
         screen1.setVisibility(View.GONE);
         screen2.setVisibility(View.VISIBLE);
+        findViewById(R.id.taketurn).setVisibility(View.GONE);
     }
 
     public void quit(View view) {
@@ -131,10 +132,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (screen0.getVisibility() != View.VISIBLE) {
-            Intent main = new Intent(this, MainActivity.class);
-            main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(main);
+        if (screen2.getVisibility() == View.VISIBLE) {
+            screen0.setVisibility(View.GONE);
+            screen1.setVisibility(View.VISIBLE);
+            screen2.setVisibility(View.GONE);
+        } else if (screen1.getVisibility() == View.VISIBLE) {
+            screen0.setVisibility(View.VISIBLE);
+            screen1.setVisibility(View.GONE);
+            screen2.setVisibility(View.GONE);
         } else {
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(1);

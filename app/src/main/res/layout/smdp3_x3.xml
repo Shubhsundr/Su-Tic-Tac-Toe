@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.img144.sutictacas.SMDP3X3">
+    tools:context="com.world.img144.sutictacas.com.world.img144.sutictacas.SMDP3X3">
 
     <LinearLayout
         android:id="@+id/layout1"
@@ -28,9 +28,14 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/panel_layout"
-                android:layout_gravity="center"
+                android:layout_gravity="left"
                 app:srcCompat="@android:drawable/ic_media_pause"
                 android:onClick="Switch" />
+
+            <Space
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
 
             <Space
                 android:layout_weight="1"
@@ -46,7 +51,7 @@
                 android:layout_gravity="center"
                 app:srcCompat="@android:drawable/ic_lock_silent_mode_off"
                 android:onClick="sound"
-                android:visibility="gone"/>
+                android:visibility="invisible"/>
 
             <ImageButton
                 android:id="@+id/soundoff"
