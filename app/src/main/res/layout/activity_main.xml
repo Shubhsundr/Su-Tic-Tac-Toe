@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.world.img144.sutictacas.com.world.img144.sutictacas.MainActivity">
+    tools:context="com.world.img144.sutictacas.MainActivity">
 
     <LinearLayout
         android:id="@+id/main"
@@ -70,7 +70,7 @@
                 android:layout_marginVertical="10dp"
                 android:backgroundTint="@color/trans"
                 android:text="RULES"
-                android:textColor="@color/black"
+                android:textColor="@color/rules"
                 android:textSize="15dp"
                 android:onClick="info"/>
 
@@ -83,7 +83,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
                 android:backgroundTint="@color/trans"
                 android:text="With ❤ from IMG"
                 android:textSize="15dp" />

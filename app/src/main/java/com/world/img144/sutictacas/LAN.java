@@ -1,6 +1,5 @@
 package com.world.img144.sutictacas;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,7 +18,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -36,11 +34,7 @@ public class LAN extends AppCompatActivity {
     LinearLayout L[] = new LinearLayout[9];
     ImageView p[] = new ImageView[2];
     TextView t[] = new TextView[2];
-    Boolean turn = true;
-    Boolean ingame = false;
-    Boolean mode = false;
-    Boolean myturn = true;
-    Boolean ifServer = false;
+    Boolean turn = true, ingame = false, mode = false, myturn = true, ifServer = false;
     int i,j;
     int last=9;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
@@ -64,6 +58,7 @@ public class LAN extends AppCompatActivity {
     List<ChatClient> userList;
 
     public void onCreate(Bundle savedInstanceState) {
+        Bundle bundle = this.getIntent().getExtras();
 
         for (j = 0; j < 8; j++) {
             Set<Integer> abs = new HashSet<>();
@@ -304,7 +299,6 @@ public class LAN extends AppCompatActivity {
         t[1] = findViewById(R.id.t2);
 
         ArrayList<String> devices = new ArrayList<>();
-
         try {
             BufferedReader br = new BufferedReader(new FileReader("/proc/net/arp"));
             String a;
@@ -317,9 +311,7 @@ public class LAN extends AppCompatActivity {
             if(temp[3].equals("1")) {
                 isClient = true;
             }
-        } catch(Exception e){
-//            Log.d("Error in reading arp", e.toString());
-        }
+        } catch(Exception e){}
 
         //set the layout Client/Server
         if(isClient){
@@ -338,7 +330,6 @@ public class LAN extends AppCompatActivity {
         clientThread.start();
         wait_layout.setVisibility(View.GONE);
         create_server_layout.setVisibility(View.VISIBLE);
-
         ifServer=false;
     }
 
@@ -639,7 +630,7 @@ public class LAN extends AppCompatActivity {
                 if (ps.equals(ps1+1) && ps>0)
                     undo_a();
             } else if(msg.equals(1)) {
-                Toast.makeText(LAN.this, "your friend leave the game", Toast.LENGTH_LONG).show();
+                Toast.makeText(LAN.this, "connection lost!", Toast.LENGTH_LONG).show();
                 home_a();
             } else if(msg.equals(2)) {
                 restart_a();
@@ -970,7 +961,7 @@ public class LAN extends AppCompatActivity {
         if (ifServer) {
             ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(1));
             serverSenderThread.start();
-            } else {
+        } else {
             clientThread.sendMsg(Integer.toString(1));
         }
         home_a();

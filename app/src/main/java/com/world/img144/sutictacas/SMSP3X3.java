@@ -216,6 +216,8 @@ public class SMSP3X3 extends AppCompatActivity {
             if (endgame(opponent, false)) {
                 turn = false;
                 onturn();
+            } else {
+                over = true;
             }
         }
     }

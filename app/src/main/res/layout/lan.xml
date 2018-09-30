@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.world.img144.sutictacas.com.world.img144.sutictacas.LAN">
+    tools:context="com.world.img144.sutictacas.LAN">
 
     <LinearLayout
         android:id="@+id/create_server_layout"

@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         screen2.setVisibility(View.GONE);
     }
     public void lan(View view) {
-        Intent l = new Intent(this, LAN.class);
+        Intent l = new Intent(this, middle.class);
         startActivity(l);
     }
     public void single(View view) {

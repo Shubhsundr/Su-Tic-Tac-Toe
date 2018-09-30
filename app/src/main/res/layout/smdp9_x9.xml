@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.world.img144.sutictacas.com.world.img144.sutictacas.SMDP9X9">
+    tools:context="com.world.img144.sutictacas.SMDP9X9">
 
     <LinearLayout
         android:id="@+id/layout1"
