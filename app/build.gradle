@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     defaultConfig {
-        applicationId "com.world.img144.sutictacas"
+        applicationId "in.channeli.img.sutictactoe"
         minSdkVersion 23
         targetSdkVersion 26
-        versionCode 4
-        versionName "1.0"
+        versionCode 8
+        versionName "v1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -35,4 +35,6 @@ dependencies {
     compile 'com.android.support:design:26.+'
     testCompile 'junit:junit:4.12'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.+'
+    compile 'me.biubiubiu.justifytext:library:1.1'
+    compile 'com.microsoft.azure:azure-mobile-android:3.4.0'
 }

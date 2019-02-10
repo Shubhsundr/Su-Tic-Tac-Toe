@@ -1,4 +1,4 @@
-package com.world.img144.sutictacas;
+package in.channeli.img.sutictactoe;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.world.img144.sutictacas.R;
 
 
 public class MainActivity extends AppCompatActivity {

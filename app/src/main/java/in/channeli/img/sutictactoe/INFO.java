@@ -1,9 +1,10 @@
-package com.world.img144.sutictacas;
+package in.channeli.img.sutictactoe;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.world.img144.sutictacas.R;
 
 public class INFO extends AppCompatActivity {
 

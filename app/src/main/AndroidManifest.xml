@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme"
         android:installLocation="preferExternal">
         <activity
-            android:name="com.world.img144.sutictacas.MainActivity"
+            android:name="in.channeli.img.sutictactoe.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,36 +21,35 @@
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name="com.world.img144.sutictacas.INFO" />
+            android:name="in.channeli.img.sutictactoe.INFO" />
         <activity
             android:screenOrientation="portrait"
-            android:name="com.world.img144.sutictacas.SMSP3X3" />
+            android:name="in.channeli.img.sutictactoe.SMSP3X3" />
         <activity
             android:screenOrientation="portrait"
-            android:name="com.world.img144.sutictacas.SMSP9X9" />
+            android:name="in.channeli.img.sutictactoe.SMSP9X9" />
         <activity
             android:screenOrientation="portrait"
-            android:name="com.world.img144.sutictacas.SMDP3X3" />
+            android:name="in.channeli.img.sutictactoe.SMDP3X3" />
         <activity
             android:screenOrientation="portrait"
-            android:name="com.world.img144.sutictacas.SMDP9X9" />
+            android:name="in.channeli.img.sutictactoe.SMDP9X9" />
         <activity
             android:screenOrientation="portrait"
-            android:name="com.world.img144.sutictacas.LAN" />
+            android:name="in.channeli.img.sutictactoe.LAN" />
         <activity
             android:screenOrientation="portrait"
-            android:name="com.world.img144.sutictacas.middle" />
+            android:name="in.channeli.img.sutictactoe.middle" />
 
 
     </application>
-
-    <uses-sdk android:minSdkVersion="14" />
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.UPDATE_DEVICE_STATS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />

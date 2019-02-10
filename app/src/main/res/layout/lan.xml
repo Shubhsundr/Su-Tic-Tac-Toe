@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.world.img144.sutictacas.LAN">
+    tools:context="in.channeli.img.sutictactoe.LAN">
 
     <LinearLayout
         android:id="@+id/create_server_layout"
@@ -170,22 +170,21 @@
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
         android:id="@+id/wait_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:text="\n
-⚪ Start Hotspot.\n
-⚪ Ask friend to join Hotspot.\n
-⚪ Reopen this page.\n\n
-
-If step 1-3 followed:\n
-⚪ Ask friend to tap on 'Play on Lan' button.\n
-"
-        android:textSize="20dp"
-        android:layout_margin="10dp"
-        android:visibility="gone"/>
+        android:gravity="center"
+        android:visibility="visible"
+        android:layout_margin="100dp">
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/trans"
+            app:srcCompat="@drawable/ic_wifi"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/game_layout"
@@ -1784,6 +1783,7 @@ If step 1-3 followed:\n
             android:visibility="visible"/-->
 
         <Button
+            android:id="@+id/resume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -1814,7 +1814,6 @@ If step 1-3 followed:\n
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

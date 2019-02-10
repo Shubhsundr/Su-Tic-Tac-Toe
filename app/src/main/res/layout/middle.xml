@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.world.img144.sutictacas.middle"
+    tools:context="in.channeli.img.sutictactoe.middle"
     android:orientation="vertical"
     android:gravity="center">
 

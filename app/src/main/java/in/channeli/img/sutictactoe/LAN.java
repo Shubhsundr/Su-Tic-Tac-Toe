@@ -1,7 +1,10 @@
-package com.world.img144.sutictacas;
+package in.channeli.img.sutictactoe;
+
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -9,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.world.img144.sutictacas.R;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -34,7 +39,7 @@ public class LAN extends AppCompatActivity {
     LinearLayout L[] = new LinearLayout[9];
     ImageView p[] = new ImageView[2];
     TextView t[] = new TextView[2];
-    Boolean turn = true, ingame = false, mode = false, myturn = true, ifServer = false;
+    Boolean turn = true, ingame = false, mode = false, myturn = true, ifServer = false, mygame = false, over = false;
     int i,j;
     int last=9;
     Integer[][] my = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
@@ -49,16 +54,18 @@ public class LAN extends AppCompatActivity {
     public boolean isClient = false;
     public String connectedIP="";
     public String serverName = "Server";
-    public String clientName = "Client";
+    public String clientName = "User";
 
     Button startgame, but3, but9;
-    LinearLayout create_server_layout, game_layout, menu_layout, mode_layout;
-    TextView zero, cross, wait_layout;
+    LinearLayout create_server_layout, game_layout, menu_layout, mode_layout, wait_layout;
+    TextView zero, cross;
     ClientThread clientThread = null;
     List<ChatClient> userList;
 
     public void onCreate(Bundle savedInstanceState) {
+
         Bundle bundle = this.getIntent().getExtras();
+        isClient = bundle.getBoolean("isClient");
 
         for (j = 0; j < 8; j++) {
             Set<Integer> abs = new HashSet<>();
@@ -309,18 +316,17 @@ public class LAN extends AppCompatActivity {
             connectedIP = devices.get(1);
             String[] temp = connectedIP.split("\\.");
             if(temp[3].equals("1")) {
-                isClient = true;
             }
-        } catch(Exception e){}
+        } catch (Exception e){
+            Log.d("Error in reading arp", e.toString());
+        }
 
         //set the layout Client/Server
-        if(isClient){
-            wait_layout.setVisibility(View.VISIBLE);
+        wait_layout.setVisibility(View.VISIBLE);
+        if(isClient)
             startClientSequence();
-        } else{
-            wait_layout.setVisibility(View.VISIBLE);
+        else
             startServerSequence();
-        }
     }
 
     public void startClientSequence(){
@@ -328,8 +334,6 @@ public class LAN extends AppCompatActivity {
 
         clientThread = new ClientThread(client_name, connectedIP, port_number);
         clientThread.start();
-        wait_layout.setVisibility(View.GONE);
-        create_server_layout.setVisibility(View.VISIBLE);
         ifServer=false;
     }
 
@@ -396,7 +400,17 @@ public class LAN extends AppCompatActivity {
                         LAN.this.runOnUiThread(new Runnable(){
                             public void run(){
                                 try {
-                                    connmessage(msgLog);
+                                    if (msgLog.equals("Welcome") && !ingame) {
+                                        wait_layout.setVisibility(View.GONE);
+                                        create_server_layout.setVisibility(View.VISIBLE);
+                                        mygame = true;
+                                    } else if (mygame) {
+                                        connmessage(msgLog);
+                                    } else {
+                                        Toast.makeText(LAN.this, "The game has already started", Toast.LENGTH_LONG).show();
+                                        disconn();
+                                        finish();
+                                    }
                                 } catch (Exception e) {
                                 }
                             }
@@ -460,11 +474,12 @@ public class LAN extends AppCompatActivity {
 
             LAN.this.runOnUiThread(new Runnable() {
 
+
                 @Override
                 public void run() {
-                    Toast.makeText(LAN.this, "no game found!!!", Toast.LENGTH_LONG).show();
-                    home(findViewById(R.id.back));
                     disconn();
+                    Toast.makeText(LAN.this, "No host available", Toast.LENGTH_LONG).show();
+                    finish();
                 }
 
             });
@@ -487,7 +502,9 @@ public class LAN extends AppCompatActivity {
                 serverSocket = new ServerSocket(port_number);
                 LAN.this.runOnUiThread(new Runnable() {
                     @Override
-                    public void run() {}
+                    public void run() {
+                        Toast.makeText(LAN.this, "Waiting for user to connect", Toast.LENGTH_LONG).show();
+                    }
                 });
 
                 while (true) {
@@ -535,23 +552,24 @@ public class LAN extends AppCompatActivity {
                 dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 String n = dataInputStream.readUTF();
 
-                connectClient.name = n;
-                msgLog = connectClient.name + " connected@" +
-                        connectClient.socket.getInetAddress() +
-                        ":" + connectClient.socket.getPort() + "\n";
+                if (!mygame) {
+                    connectClient.name = n;
+                    msgLog = connectClient.name + " connected";
 
-                LAN.this.runOnUiThread(new Runnable() {
+                    LAN.this.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
                         Toast.makeText(LAN.this, msgLog, Toast.LENGTH_LONG).show();
                         wait_layout.setVisibility(View.GONE);
                         create_server_layout.setVisibility(View.VISIBLE);
-                    }
+                        }
                 });
 
-                dataOutputStream.writeUTF("Welcome");
-                dataOutputStream.flush();
+                    dataOutputStream.writeUTF("Welcome");
+                    dataOutputStream.flush();
+                    mygame = true;
+                }
 
 
                 while (true) {
@@ -564,9 +582,10 @@ public class LAN extends AppCompatActivity {
                             public void run() {
                                 try {
                                     connmessage(newMsg);
+
                                     broadcastMsg(newMsg);
                                 } catch (Exception e) {
-                                    Toast.makeText(LAN.this, newMsg, Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(LAN.this, newMsg, Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
@@ -597,7 +616,7 @@ public class LAN extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(LAN.this,
-                                connectClient.name + " removed.", Toast.LENGTH_LONG).show();
+                                connectClient.name + " disconnected.", Toast.LENGTH_LONG).show();
                         msgLog = "-- " + connectClient.name + " left\n";
                         LAN.this.runOnUiThread(new Runnable() {
                             @Override
@@ -620,7 +639,7 @@ public class LAN extends AppCompatActivity {
         }
     }
 
-    private void connmessage(String mess) {
+    public void connmessage(String mess) {
         if(ingame) {
             Integer msg = Integer.parseInt(mess);
             Integer ps1 = msg / 100 - 1;
@@ -630,10 +649,11 @@ public class LAN extends AppCompatActivity {
                 if (ps.equals(ps1+1) && ps>0)
                     undo_a();
             } else if(msg.equals(1)) {
-                Toast.makeText(LAN.this, "connection lost!", Toast.LENGTH_LONG).show();
                 home_a();
             } else if(msg.equals(2)) {
                 restart_a();
+                game_layout.setVisibility(View.GONE);
+                create_server_layout.setVisibility(View.VISIBLE);
             } else if (mode) {
                 if(b[9][ps2].getText().toString().equals("") && ps.equals(ps1)) {
                     opponent.get(9).add(ps2);
@@ -696,6 +716,8 @@ public class LAN extends AppCompatActivity {
             } else if (mess.equals("falsetrue")) {
                 mode = false;
                 ingame = true;
+                turn = true;
+                last = 9;
                 for (i = 0; i < 9; i++) {
                     for (j = 0 ; j<9; j++)
                     {
@@ -711,9 +733,11 @@ public class LAN extends AppCompatActivity {
                     L[i].setVisibility(View.VISIBLE);
                     b[9][i].setVisibility(View.GONE);
                 }
+                onturn();
             } else if (mess.equals("truetrue")) {
                 mode = true;
                 ingame = true;
+                turn = true;
                 for (j = 0; j < 9; j++) {
                     b[9][j].setText("");
                     b[9][j].setBackgroundColor(getResources().getColor(R.color.trans));
@@ -725,10 +749,12 @@ public class LAN extends AppCompatActivity {
                     L[i].setVisibility(View.GONE);
                     b[9][i].setVisibility(View.VISIBLE);
                 }
-            } else if (mess.equals('1')){
+                onturn();
+            } else if (mess.equals("1")){
                 home_a();
+            } else {
+                //Toast.makeText(LAN.this, mess, Toast.LENGTH_LONG).show();
             }
-            onturn();
         }
     }
 
@@ -736,44 +762,45 @@ public class LAN extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button sb = (Button) v;
-                if (sb.getText().toString().equals("") && turn && ingame && valid(x)) {
-                    turn = false;
-                    last = y;
-                    myuser.get(x).add(y);
-                    proceeding.add(10*x+y);
-                    if(myturn) {
-                        btn.setText("X");
-                        btn.setTextColor(getResources().getColor(R.color.play_online));
-                    } else {
-                        btn.setText("O");
-                        btn.setTextColor(getResources().getColor(R.color.quick_play));
-                    }
-                    Integer ps = proceeding.size();
-                    if (ifServer) {
-                        ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(100*ps+10*x+y));
-                        serverSenderThread.start();
-                    }
-                    else {
-                        clientThread.sendMsg(Integer.toString(100*ps+10*x+y));
-                    }
-                    onturn();
-                    int be=bendGame(myuser.get(x), x);
-                    if(be==1) {
-                        L[x].setVisibility(View.GONE);
-                        b[9][x].setVisibility(View.VISIBLE);
-                        if(myturn) {
-                            bt.setText("X");
-                            bt.setBackgroundColor(getResources().getColor(R.color.play_online));
+                if (ingame) {
+                    Button sb = (Button) v;
+                    if (sb.getText().toString().equals("") && turn && ingame && valid(x)) {
+                        turn = false;
+                        last = y;
+                        myuser.get(x).add(y);
+                        proceeding.add(10 * x + y);
+                        if (myturn) {
+                            btn.setText("X");
+                            btn.setTextColor(getResources().getColor(R.color.play_online));
                         } else {
-                            bt.setText("O");
-                            bt.setBackgroundColor(getResources().getColor(R.color.quick_play));
+                            btn.setText("O");
+                            btn.setTextColor(getResources().getColor(R.color.quick_play));
                         }
-                        myuser.get(9).add(x);
-                        endGame(myuser.get(9), true);
-                    } else if(be==2) {
-                        neutral.add(x);
-                        endGame(myuser.get(9), true);
+                        Integer ps = proceeding.size();
+                        if (ifServer) {
+                            ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(100 * ps + 10 * x + y));
+                            serverSenderThread.start();
+                        } else {
+                            clientThread.sendMsg(Integer.toString(100 * ps + 10 * x + y));
+                        }
+                        onturn();
+                        int be = bendGame(myuser.get(x), x);
+                        if (be == 1) {
+                            L[x].setVisibility(View.GONE);
+                            b[9][x].setVisibility(View.VISIBLE);
+                            if (myturn) {
+                                bt.setText("X");
+                                bt.setBackgroundColor(getResources().getColor(R.color.play_online));
+                            } else {
+                                bt.setText("O");
+                                bt.setBackgroundColor(getResources().getColor(R.color.quick_play));
+                            }
+                            myuser.get(9).add(x);
+                            endGame(myuser.get(9), true);
+                        } else if (be == 2) {
+                            neutral.add(x);
+                            endGame(myuser.get(9), true);
+                        }
                     }
                 }
             }
@@ -784,28 +811,29 @@ public class LAN extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button sb = (Button) v;
-                if (sb.getText().toString().equals("") && turn) {
-                    turn = false;
-                    myuser.get(9).add(x);
-                    proceeding.add(x);
-                    if(myturn) {
-                        sb.setText("X");
-                        sb.setBackgroundColor(getResources().getColor(R.color.play_online));
-                    } else {
-                        sb.setText("O");
-                        sb.setBackgroundColor(getResources().getColor(R.color.quick_play));
+                if (ingame) {
+                    Button sb = (Button) v;
+                    if (sb.getText().toString().equals("") && turn) {
+                        turn = false;
+                        myuser.get(9).add(x);
+                        proceeding.add(x);
+                        if (myturn) {
+                            sb.setText("X");
+                            sb.setBackgroundColor(getResources().getColor(R.color.play_online));
+                        } else {
+                            sb.setText("O");
+                            sb.setBackgroundColor(getResources().getColor(R.color.quick_play));
+                        }
+                        onturn();
+                        Integer ps = proceeding.size();
+                        if (ifServer) {
+                            LAN.ServerSenderThread serverSenderThread = new LAN.ServerSenderThread(Integer.toString(ps * 100 + x));
+                            serverSenderThread.start();
+                        } else {
+                            clientThread.sendMsg(Integer.toString(ps * 100 + x));
+                        }
+                        endGame(myuser.get(9), true);
                     }
-                    onturn();
-                    Integer ps = proceeding.size();
-                    if(ifServer) {
-                        LAN.ServerSenderThread serverSenderThread = new LAN.ServerSenderThread(Integer.toString(ps*100+x));
-                        serverSenderThread.start();
-                    }
-                    else {
-                        clientThread.sendMsg(Integer.toString(ps*100+x));
-                    }
-                    endGame(myuser.get(9), true);
                 }
             }
         });
@@ -940,10 +968,25 @@ public class LAN extends AppCompatActivity {
                 for (int j = 0; j < 8; j++) {
                     if ((win.get(j)).equals(x.get(i))) {
                         if (res) {
-                            Toast.makeText(LAN.this, "You Won!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LAN.this, "You Win!!", Toast.LENGTH_LONG).show();
+                            Button resu = findViewById(R.id.resume);
+                            resu.setText("You Win!!");
+                            ingame =false;
                         } else {
-                            Toast.makeText(LAN.this, "You Loss!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(LAN.this, "You Lose!!",Toast.LENGTH_LONG).show();
+                            Button resu = findViewById(R.id.resume);
+                            resu.setText("You Lose!!");
+                            ingame = false;
                         }
+                        over = true;
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                findViewById(R.id.game_layout).setVisibility(View.GONE);
+                                findViewById(R.id.menu_layout).setVisibility(View.VISIBLE);
+                            }
+                        }, 700);
                         return;
                     }
                 }
@@ -951,27 +994,37 @@ public class LAN extends AppCompatActivity {
         }
         if ((myuser.get(9)).size()+(opponent.get(9)).size()+neutral.size()==9) {
             Toast.makeText(LAN.this, "Match Tie!!", Toast.LENGTH_LONG).show();
+            Button resu = findViewById(R.id.resume);
+            resu.setText("Match Tie!!");
+            ingame = false;
+            over = true;
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    findViewById(R.id.game_layout).setVisibility(View.GONE);
+                    findViewById(R.id.menu_layout).setVisibility(View.VISIBLE);
+                }
+            }, 700);
             return;
         }
         onturn();
     }
 
     public void home(View view) {
-        ingame = false;
-        if (ifServer) {
-            ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(1));
-            serverSenderThread.start();
-        } else {
-            clientThread.sendMsg(Integer.toString(1));
+        if (mygame) {
+            if (ifServer) {
+                ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(1));
+                serverSenderThread.start();
+            } else {
+                clientThread.sendMsg(Integer.toString(1));
+            }
         }
         home_a();
     }
 
     private void home_a() {
-        if (wait_layout.getVisibility()!=View.VISIBLE)
-            restart_a();
-        else
-            finish();
+        finish();
     }
 
     public void restart(View view) {
@@ -982,6 +1035,7 @@ public class LAN extends AppCompatActivity {
             clientThread.sendMsg(Integer.toString(2));
         }
         restart_a();
+        create_server_layout.setVisibility(View.VISIBLE);
     }
 
     private void restart_a() {
@@ -996,9 +1050,9 @@ public class LAN extends AppCompatActivity {
         wait_layout.setVisibility(View.GONE);
         menu_layout.setVisibility(View.GONE);
         game_layout.setVisibility(View.GONE);
-        create_server_layout.setVisibility(View.VISIBLE);
+        create_server_layout.setVisibility(View.GONE);
         ingame=false;
-        turn=!turn;
+        turn = true;
         for (j = 0; j < 8; j++) {
             Set<Integer> abs = new HashSet<>();
             abs.addAll(Arrays.asList(my[j]));
@@ -1008,22 +1062,25 @@ public class LAN extends AppCompatActivity {
             myuser.add(new ArrayList<Integer>());
             opponent.add(new ArrayList<Integer>());
         }
-        connmessage(mode+"true");
+        Button resu = findViewById(R.id.resume);
+        resu.setText("Resume");
         return;
     }
 
     public void undo(View view) {
-        if (proceeding.size()==0) {
-            Toast.makeText(LAN.this, "can't undo", Toast.LENGTH_LONG).show();
-            return;
-        } else {
-            Integer ps = proceeding.size();
-            undo_a();
-            if (ifServer) {
-                ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(100 * ps + 99));
-                serverSenderThread.start();
+        if (ingame) {
+            if (proceeding.size() == 0) {
+                Toast.makeText(LAN.this, "Cannot undo", Toast.LENGTH_LONG).show();
+                return;
             } else {
-                clientThread.sendMsg(Integer.toString(100 * ps + 99));
+                Integer ps = proceeding.size();
+                undo_a();
+                if (ifServer) {
+                    ServerSenderThread serverSenderThread = new ServerSenderThread(Integer.toString(100 * ps + 99));
+                    serverSenderThread.start();
+                } else {
+                    clientThread.sendMsg(Integer.toString(100 * ps + 99));
+                }
             }
         }
     }
@@ -1088,8 +1145,10 @@ public class LAN extends AppCompatActivity {
                     }
                 } catch (Exception e) {}
                 turn = !a;
-                if (proceeding.size()==0)
-                    last=9;
+                if (proceeding.size()==0) {
+                    last = 9;
+                    turn = true;
+                }
                 else {
                     last = proceeding.get(proceeding.size() - 1) % 10;
                 }
@@ -1189,8 +1248,10 @@ public class LAN extends AppCompatActivity {
                 b[9][i].setVisibility(View.GONE);
             }
         }
+        turn = true;
         onturn();
         ingame = true;
+        over = false;
         if(ifServer) {
             ServerSenderThread serverSenderThread = new ServerSenderThread(Boolean.toString(mode) + Boolean.toString(true));
             serverSenderThread.start();
@@ -1201,6 +1262,9 @@ public class LAN extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if(over) {
+            return;
+        }
         if(ingame) {
             if (findViewById(R.id.menu_layout).getVisibility() != View.VISIBLE) {
                 findViewById(R.id.menu_layout).setVisibility(View.VISIBLE);

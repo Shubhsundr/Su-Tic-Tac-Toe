@@ -1,4 +1,4 @@
-package com.world.img144.sutictacas;
+package in.channeli.img.sutictactoe;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.world.img144.sutictacas.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -108,10 +110,8 @@ public class SMSP3X3 extends AppCompatActivity {
                         public void run() {
                             bot();
                         }
-                    }, 700);
+                    }, 300);
                     onturn();
-                } else {
-                    over = true;
                 }
             }
             }
@@ -141,13 +141,39 @@ public class SMSP3X3 extends AppCompatActivity {
 
     private boolean endgame(List a, boolean res) {
         if (result(a)){
-            if (res)
-                Toast.makeText(SMSP3X3.this, "You Won!!", Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(SMSP3X3.this, "You Lost!!", Toast.LENGTH_LONG).show();
+            if (res) {
+                Toast.makeText(SMSP3X3.this, "You Win!!", Toast.LENGTH_LONG).show();
+                Button resu = findViewById(R.id.resume);
+                resu.setText("You Win!!");
+            }
+            else {
+                Toast.makeText(SMSP3X3.this, "You Lose!!", Toast.LENGTH_LONG).show();
+                Button resu = findViewById(R.id.resume);
+                resu.setText("You Lose!!");
+            }
+            over = true;
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    findViewById(R.id.layout1).setVisibility(View.GONE);
+                    findViewById(R.id.layout2).setVisibility(View.VISIBLE);
+                }
+            }, 700);
             return false;
         } else if (myuser.size()+opponent.size()==9) {
             Toast.makeText(SMSP3X3.this, "Match Tie!!", Toast.LENGTH_LONG).show();
+            over = true;
+            Button resu = findViewById(R.id.resume);
+            resu.setText("Match Tie!!");
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    findViewById(R.id.layout1).setVisibility(View.GONE);
+                    findViewById(R.id.layout2).setVisibility(View.VISIBLE);
+                }
+            }, 700);
             return false;
         } else {
             return true;
@@ -273,16 +299,14 @@ public class SMSP3X3 extends AppCompatActivity {
     }
 
     public void home(View view) {
-        finish();
-    }
-
-    public void restart(View view) {
-        Intent main = new Intent(this, SMSP3X3.class);
-        main.putExtra("my_turn", my_turn);
-        main.putExtra("first_turn", !turn);
+        Intent main = new Intent(this, MainActivity.class);
         main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(main);
         return;
+    }
+
+    public void restart(View view) {
+        finish();
     }
 
     public void undo(View view) {
@@ -347,6 +371,9 @@ public class SMSP3X3 extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (over) {
+            return;
+        }
         if (findViewById(R.id.layout1).getVisibility() != View.VISIBLE) {
             findViewById(R.id.layout1).setVisibility(View.VISIBLE);
             findViewById(R.id.layout2).setVisibility(View.GONE);

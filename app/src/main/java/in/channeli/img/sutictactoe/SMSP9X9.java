@@ -1,4 +1,4 @@
-package com.world.img144.sutictacas;
+package in.channeli.img.sutictactoe;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.world.img144.sutictacas.R;
 
 import java.util.ArrayList;
 
@@ -320,7 +322,7 @@ public class SMSP9X9 extends AppCompatActivity {
                                 public void run() {
                                     bot();
                                 }
-                            }, 500);
+                            }, 300);
                         } else {
                             turn = true;
                         }
@@ -333,8 +335,15 @@ public class SMSP9X9 extends AppCompatActivity {
     public void bot() {
         if (!turn) {
             Random rand = new Random();
+
             int m = last;
+            if (last==9) {
+                m = rand.nextInt(9);
+            }
             int n = rand.nextInt(9);
+
+            while (!valid(m))
+                m = rand.nextInt(9);
 
             while (!b[m][n].getText().toString().equals(""))
                 n = rand.nextInt(9);
@@ -375,8 +384,6 @@ public class SMSP9X9 extends AppCompatActivity {
                         }
                     }
                 }
-            } else if (last == 9) {
-                m = rand.nextInt(9);
             } else {
                 int xy = 100, weight;
                 for (i = 0; i < 9; i++) {
@@ -493,13 +500,14 @@ public class SMSP9X9 extends AppCompatActivity {
     public boolean valid(Integer x) {
         if (myuser.get(9).contains(x) || opponent.get(9).contains(x) || neutral.contains(x)) {
             return false;
-        } else if (myuser.get(9).contains(last) || opponent.get(9).contains(last) || neutral.contains(last)) {
-            return true;
-        } else if (last == x || last == 9) {
-            return true;
-        } else {
-            return false;
         }
+        if (myuser.get(9).contains(last) || opponent.get(9).contains(last) || neutral.contains(last)) {
+            return true;
+        }
+        if (last == x || last == 9) {
+            return true;
+        }
+        return false;
     }
 
     public void Switch(View view) {
@@ -575,11 +583,23 @@ public class SMSP9X9 extends AppCompatActivity {
                 for (int j = 0; j < 8; j++) {
                     if ((win.get(j)).equals(x.get(i))) {
                         if (res) {
-                            Toast.makeText(SMSP9X9.this, "You Won!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SMSP9X9.this, "You Win!!", Toast.LENGTH_LONG).show();
+                            Button resu = findViewById(R.id.resume);
+                            resu.setText("You Win!!");
                         } else {
-                            Toast.makeText(SMSP9X9.this, "You Loss!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(SMSP9X9.this, "You Lose!!",Toast.LENGTH_LONG).show();
+                            Button resu = findViewById(R.id.resume);
+                            resu.setText("You Lose!!");
                         }
                         over = true;
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                findViewById(R.id.layout1).setVisibility(View.GONE);
+                                findViewById(R.id.layout2).setVisibility(View.VISIBLE);
+                            }
+                        }, 700);
                         return;
                     }
                 }
@@ -587,7 +607,17 @@ public class SMSP9X9 extends AppCompatActivity {
         }
         if ((myuser.get(9)).size()+(opponent.get(9)).size()+neutral.size()==9) {
             Toast.makeText(SMSP9X9.this, "Match Tie!!", Toast.LENGTH_LONG).show();
+            Button resu = findViewById(R.id.resume);
+            resu.setText("Match Tie!!");
             over = true;
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    findViewById(R.id.layout1).setVisibility(View.GONE);
+                    findViewById(R.id.layout2).setVisibility(View.VISIBLE);
+                }
+            }, 700);
             return;
         }
     }
@@ -603,85 +633,92 @@ public class SMSP9X9 extends AppCompatActivity {
     }
 
     public void home(View view) {
-        finish();
-    }
-
-    public void restart(View view) {
-        Intent main = new Intent(this, SMSP9X9.class);
-        main.putExtra("my_turn", myturn);
-        main.putExtra("first_turn", !turn);
+        Intent main = new Intent(this, MainActivity.class);
         main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(main);
         return;
     }
 
+    public void restart(View view) {
+        finish();
+    }
+
     public void undo(View view) {
-        if (proceeding.size() == 0) {
-            Toast.makeText(SMSP9X9.this, "can't undo", Toast.LENGTH_LONG).show();
-        } else if (proceeding.size() == 1) {
-            boolean a = turn;
-            turn = false;
-            int prev = proceeding.get(0);
-            proceeding.remove(proceeding.size()-1);
-            try {
-                myuser.get(prev / 10).remove(0);
-            } catch (Exception e) {
-                opponent.get(prev / 10).remove(0);
-            }
-            b[prev / 10][prev % 10].setText("");
-            turn = !a;
-            last = 9;
-            onturn();
-            bot();
-            onturn();
-        } else {
-            boolean a = turn;
-            turn = false;
-            for(int i = 0; i < 2; i++) {
-                int prev = proceeding.get(proceeding.size() - 1);
+        if (!over) {
+            if (proceeding.size() == 0) {
+                Toast.makeText(SMSP9X9.this, "can't undo", Toast.LENGTH_LONG).show();
+            } else if (proceeding.size() == 1) {
+                boolean a = turn;
+                turn = false;
+                int prev = proceeding.get(0);
                 proceeding.remove(proceeding.size() - 1);
+                try {
+                    myuser.get(prev / 10).remove(0);
+                } catch (Exception e) {
+                    opponent.get(prev / 10).remove(0);
+                }
                 b[prev / 10][prev % 10].setText("");
-                try {
-                    if (myuser.get(prev / 10).get(myuser.get(prev / 10).size() - 1) == prev%10) {
-                        myuser.get(prev / 10).remove(myuser.get(prev / 10).size() - 1);
-                        try {
-                            if (myuser.get(9).get(myuser.get(9).size() - 1) == prev / 10) {
-                                myuser.get(9).remove(myuser.get(9).size() - 1);
-                                b[9][prev / 10].setVisibility(View.GONE);
-                                L[prev / 10].setVisibility(View.VISIBLE);
-                            }
-                        } catch (Exception e1) {}
-                    }
-                } catch (Exception e) {}
-                try {
-                    if (opponent.get(prev / 10).get(opponent.get(prev / 10).size() - 1) == prev%10) {
-                        opponent.get(prev / 10).remove(opponent.get(prev / 10).size() - 1);
-                        try {
-                            if (opponent.get(9).get(opponent.get(9).size() - 1) == prev / 10) {
-                                opponent.get(9).remove(opponent.get(9).size() - 1);
-                                b[9][prev / 10].setVisibility(View.GONE);
-                                L[prev / 10].setVisibility(View.VISIBLE);
-                            }
-                        } catch (Exception e2) {}
-                    }
-                } catch (Exception e) {}
-                try {
-                    if (neutral.get(neutral.size() - 1) == prev / 10) {
-                        neutral.remove(neutral.size() - 1);
-                        b[9][prev / 10].setVisibility(View.GONE);
-                        L[prev / 10].setVisibility(View.VISIBLE);
-                    }
-                } catch (Exception e) {}
-            }
-            if (proceeding.size() > 0) {
-                last = proceeding.get(proceeding.size() - 1) % 10;
-            } else {
+                turn = !a;
                 last = 9;
+                onturn();
+                bot();
+                onturn();
+            } else {
+                boolean a = turn;
+                turn = false;
+                for (int i = 0; i < 2; i++) {
+                    int prev = proceeding.get(proceeding.size() - 1);
+                    proceeding.remove(proceeding.size() - 1);
+                    b[prev / 10][prev % 10].setText("");
+                    try {
+                        if (myuser.get(prev / 10).get(myuser.get(prev / 10).size() - 1) == prev % 10) {
+                            myuser.get(prev / 10).remove(myuser.get(prev / 10).size() - 1);
+                            a = !a;
+                            try {
+                                if (myuser.get(9).get(myuser.get(9).size() - 1) == prev / 10) {
+                                    myuser.get(9).remove(myuser.get(9).size() - 1);
+                                    b[9][prev / 10].setVisibility(View.GONE);
+                                    L[prev / 10].setVisibility(View.VISIBLE);
+                                }
+                            } catch (Exception e1) {
+                            }
+                        }
+                    } catch (Exception e) {
+                    }
+                    try {
+                        if (opponent.get(prev / 10).get(opponent.get(prev / 10).size() - 1) == prev % 10) {
+                            opponent.get(prev / 10).remove(opponent.get(prev / 10).size() - 1);
+                            a = !a;
+                            try {
+                                if (opponent.get(9).get(opponent.get(9).size() - 1) == prev / 10) {
+                                    opponent.get(9).remove(opponent.get(9).size() - 1);
+                                    b[9][prev / 10].setVisibility(View.GONE);
+                                    L[prev / 10].setVisibility(View.VISIBLE);
+                                }
+                            } catch (Exception e2) {
+                            }
+                        }
+                    } catch (Exception e) {
+                    }
+                    try {
+                        if (neutral.get(neutral.size() - 1) == prev / 10) {
+                            neutral.remove(neutral.size() - 1);
+                            b[9][prev / 10].setVisibility(View.GONE);
+                            L[prev / 10].setVisibility(View.VISIBLE);
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+                if (proceeding.size() > 0) {
+                    last = proceeding.get(proceeding.size() - 1) % 10;
+                } else {
+                    last = 9;
+                }
+                turn = a;
+                onturn();
+                bot();
+                onturn();
             }
-            turn = a;
-            onturn();
-            bot();
-            onturn();
         }
     }
 
@@ -718,6 +755,9 @@ public class SMSP9X9 extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (over) {
+            return;
+        }
         if (findViewById(R.id.layout1).getVisibility() != View.VISIBLE) {
             findViewById(R.id.layout1).setVisibility(View.VISIBLE);
             findViewById(R.id.layout2).setVisibility(View.GONE);

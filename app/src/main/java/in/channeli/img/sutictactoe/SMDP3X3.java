@@ -1,6 +1,7 @@
-package com.world.img144.sutictacas;
+package in.channeli.img.sutictactoe;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.world.img144.sutictacas.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,14 +100,7 @@ public class SMDP3X3 extends AppCompatActivity {
     }
 
     public void Switch(View view) {
-        if (findViewById(R.id.layout1).getVisibility() != View.VISIBLE) {
-            findViewById(R.id.layout1).setVisibility(View.VISIBLE);
-            findViewById(R.id.layout2).setVisibility(View.GONE);
-        }
-        else {
-            findViewById(R.id.layout2).setVisibility(View.VISIBLE);
-            findViewById(R.id.layout1).setVisibility(View.GONE);
-        }
+        onBackPressed();
     }
 
     public void sound(View view) {
@@ -139,11 +135,23 @@ public class SMDP3X3 extends AppCompatActivity {
                 for (int j = 0; j < 8; j++) {
                     if ((win.get(j)).equals(x.get(i))) {
                         if (turn) {
-                            Toast.makeText(SMDP3X3.this, "Circle wins", Toast.LENGTH_LONG).show();
+                            Button resu = findViewById(R.id.resume);
+                            resu.setText("Circle Wins!!");
+                            Toast.makeText(SMDP3X3.this, "Circle Wins!!", Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(SMDP3X3.this, "Cross wins", Toast.LENGTH_LONG).show();
+                            Button resu = findViewById(R.id.resume);
+                            resu.setText("Cross Wins!!");
+                            Toast.makeText(SMDP3X3.this, "Cross Wins!!", Toast.LENGTH_LONG).show();
                         }
                         over = true;
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                findViewById(R.id.layout1).setVisibility(View.GONE);
+                                findViewById(R.id.layout2).setVisibility(View.VISIBLE);
+                            }
+                        }, 700);
                         return;
                     }
                 }
@@ -152,21 +160,30 @@ public class SMDP3X3 extends AppCompatActivity {
         if (myuser.size()+opponent.size()==9) {
             over = true;
             Toast.makeText(SMDP3X3.this, "Match Tie!!", Toast.LENGTH_LONG).show();
+            Button resu = findViewById(R.id.resume);
+            resu.setText("Match Tie!!");
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    findViewById(R.id.layout1).setVisibility(View.GONE);
+                    findViewById(R.id.layout2).setVisibility(View.VISIBLE);
+                }
+            }, 700);
             return;
         }
         onturn();
     }
 
     public void home(View view) {
-        finish();
-    }
-
-    public void restart(View view) {
-        Intent main = new Intent(this, SMDP3X3.class);
-        main.putExtra("my_turn", !turn);
+        Intent main = new Intent(this, MainActivity.class);
         main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(main);
         return;
+    }
+
+    public void restart(View view) {
+        finish();
     }
 
     public void undo(View view) {
@@ -224,6 +241,9 @@ public class SMDP3X3 extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (over) {
+            return;
+        }
         if (findViewById(R.id.layout1).getVisibility() != View.VISIBLE) {
             findViewById(R.id.layout1).setVisibility(View.VISIBLE);
             findViewById(R.id.layout2).setVisibility(View.GONE);

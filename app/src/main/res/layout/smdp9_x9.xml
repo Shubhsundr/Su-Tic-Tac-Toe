@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.world.img144.sutictacas.SMDP9X9">
+    tools:context="in.channeli.img.sutictactoe.SMDP9X9">
 
     <LinearLayout
         android:id="@+id/layout1"
@@ -1603,6 +1603,7 @@
             android:visibility="visible"/-->
 
         <Button
+            android:id="@+id/resume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

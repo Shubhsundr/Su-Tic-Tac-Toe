@@ -1,4 +1,4 @@
-package com.world.img144.sutictacas;
+package in.channeli.img.sutictactoe;
 
 import org.junit.Test;
 

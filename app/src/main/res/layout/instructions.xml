@@ -42,14 +42,47 @@
             android:layout_width="wrap_content" />
 
 
-        <pl.droidsonroids.gif.GifImageView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:src="@drawable/instruction"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true" />
+            android:layout_height="400dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
+
+                <me.biubiubiu.justifytext.library.JustifyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="\n
+    ⚪ Each small 3-by-3 tic-tac-toe board is referred to as a local board, and the larger 3-by-3 board is referred to as the global board.\n\n
+    ⚪ The game starts with X playing wherever they want in any of the 81 empty spots. This move 'sends' their opponent to its relative location. For example:
+    "
+                    android:textSize="17dp" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:src="@drawable/instruction"
+                    android:background="@color/trans"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true" />
+
+                <me.biubiubiu.justifytext.library.JustifyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="\n
+    ⚪ If a move is played so that it is to win a local board by the rules of normal tic-tac-toe, then it wins that local board.\n\n
+    ⚪ Once the outcome of a local board is decided (win or draw), no more moves may be played in that board. If a player is sent to such a board, then that player may play in any other board.\n\n
+    ⚪ Game play ends when either a player wins the global board, or there are no legal moves remaining.\n\n
+    "
+                    android:textSize="17dp" />
+
+            </LinearLayout>
+
+        </ScrollView>
         <Space
             android:layout_weight="1"
             android:layout_height="wrap_content"
